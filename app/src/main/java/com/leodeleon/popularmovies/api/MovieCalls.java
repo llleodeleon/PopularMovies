@@ -2,8 +2,9 @@ package com.leodeleon.popularmovies.api;
 
 import com.leodeleon.popularmovies.R;
 import com.leodeleon.popularmovies.interfaces.MovieCallback;
-import com.leodeleon.popularmovies.interfaces.MoviesCallback;
+import com.leodeleon.popularmovies.interfaces.MovieResultsCallback;
 import com.leodeleon.popularmovies.model.Movie;
+import com.leodeleon.popularmovies.model.MovieResults;
 import com.leodeleon.popularmovies.util.Constants;
 
 import java.util.Arrays;
@@ -50,37 +51,37 @@ public class MovieCalls {
   }
 
 
-  public void getPopularMovies(final MoviesCallback moviesCallback) {
+  public void getPopularMovies(final MovieResultsCallback movieResultsCallback) {
 
-    Call<List<Movie>> call = movieEndpoints.getPopularMovies();
+    Call<MovieResults> call = movieEndpoints.getPopularMovies();
 
-    call.enqueue(new Callback<List<Movie>>() {
+    call.enqueue(new Callback<MovieResults>() {
       @Override
-      public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+      public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
-          moviesCallback.callback(response.body());
+          movieResultsCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<List<Movie>> call, Throwable t) {
+      public void onFailure(Call<MovieResults> call, Throwable t) {
         System.out.println(Arrays.toString(t.getStackTrace()));
       }
     });
   }
 
-  public void getTopRatedMovies(final MoviesCallback moviesCallback) {
+  public void getTopRatedMovies(final MovieResultsCallback movieResultsCallback) {
 
-    Call<List<Movie>> call = movieEndpoints.getTopRatedMovies();
+    Call<MovieResults> call = movieEndpoints.getTopRatedMovies();
 
-    call.enqueue(new Callback<List<Movie>>() {
+    call.enqueue(new Callback<MovieResults>() {
       @Override
-      public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+      public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
-          moviesCallback.callback(response.body());
+          movieResultsCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<List<Movie>> call, Throwable t) {
+      public void onFailure(Call<MovieResults> call, Throwable t) {
         System.out.println(Arrays.toString(t.getStackTrace()));
       }
     });

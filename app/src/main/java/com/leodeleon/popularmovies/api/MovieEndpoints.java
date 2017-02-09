@@ -1,6 +1,7 @@
 package com.leodeleon.popularmovies.api;
 
 import com.leodeleon.popularmovies.model.Movie;
+import com.leodeleon.popularmovies.model.MovieResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,10 @@ import retrofit2.http.Query;
 
 public interface MovieEndpoints {
   @GET("movie/popular")
-  Call<List<Movie>> getPopularMovies();
+  Call<MovieResults> getPopularMovies();
 
   @GET("movie/top_rated")
-  Call<List<Movie>> getTopRatedMovies();
+  Call<MovieResults> getTopRatedMovies();
 
   @GET("movie/{movieId}")
   Call<Movie> getMovie(@Path("movieId") int movieId);

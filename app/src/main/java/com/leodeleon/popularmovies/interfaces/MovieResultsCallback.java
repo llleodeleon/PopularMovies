@@ -1,6 +1,7 @@
 package com.leodeleon.popularmovies.interfaces;
 
 import com.leodeleon.popularmovies.model.Movie;
+import com.leodeleon.popularmovies.model.MovieResults;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 
 public interface MovieResultsCallback {
-  void callback(List<Movie> movies);
+  void callback(MovieResults movies);
 }

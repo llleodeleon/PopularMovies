@@ -63,7 +63,7 @@ public class API {
     instance.retrofit = new Retrofit
       .Builder()
       .baseUrl(Constants.BASE_URL)
-      .addConverterFactory(GsonConverterFactory.create(gson))
+      .addConverterFactory(GsonConverterFactory.create())
       .client(instance.okHttpClient)
       .build();
     return instance;
