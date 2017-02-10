@@ -1,44 +1,60 @@
 package com.leodeleon.popularmovies.ui;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.leodeleon.popularmovies.R;
 import com.leodeleon.popularmovies.adapters.MovieAdapter;
 import com.leodeleon.popularmovies.api.MovieCalls;
-import com.leodeleon.popularmovies.interfaces.MovieResultsCallback;
-import com.leodeleon.popularmovies.model.MovieResults;
+import com.leodeleon.popularmovies.interfaces.MoviesResultCallback;
+import com.leodeleon.popularmovies.model.Movie;
+import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popularmovies.model.Result;
 import com.leodeleon.popularmovies.util.Constants;
 import com.leodeleon.popularmovies.util.SharedPreferencesUtil;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivity";
 
-  private RecyclerView mRecyclerView;
-  private MovieAdapter adapter;
+  @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+  @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+
+  private Result popularResult;
+  private Result topRatedResult;
+  private MovieAdapter popularMoviesAdapter;
+  private MovieAdapter topRatedMoviesAdapter;
+  private ArrayList<Movie> popularMovies = new ArrayList<>();
+  private ArrayList<Movie> topRatedMovies = new ArrayList<>();
+  private boolean sortByPopular;
+  private boolean sortByTopRated;
+  private Unbinder unbinder;
 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    unbinder = ButterKnife.bind(this);
     final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    findViews();
+    sortByPopular = SharedPreferencesUtil.getInstance().getBoolean(Constants.SORT_BY_POPULARITY);
+    sortByTopRated = SharedPreferencesUtil.getInstance().getBoolean(Constants.SORT_BY_TOP_RATED);
+    getMovies();
 
 //    mCardView.setOnClickListener(new View.OnClickListener() {
 //      @Override
@@ -51,49 +67,84 @@ public class MainActivity extends AppCompatActivity {
 //    });
 //
 //
-//    MovieCalls.getInstance().getTopRatedMovies(new MovieResultsCallback() {
+//    MovieCalls.getInstance().getTopRatedMovies(new MoviesResultCallback() {
 //      @Override
-//      public void callback(MovieResults movies) {
-//        mTextView.setText(movies.getResults().get(0).getTitle());
+//      public void callback(Result movies) {
+//        mTextView.setText(movies.getMovies().get(0).getTitle());
 //
 //      }
 //    });
 
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    unbinder.unbind();
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main_menu, menu);
     MenuItem item1 = menu.findItem(R.id.sort_popular);
-    item1.setChecked(SharedPreferencesUtil.getInstance().getBoolean(Constants.SORT_BY_POPULARITY));
-    MenuItem item2 = menu.findItem(R.id.sort_popular);
-    item2.setChecked(SharedPreferencesUtil.getInstance().getBoolean(Constants.SORT_BY_POPULARITY));
+    item1.setChecked(sortByPopular);
+    MenuItem item2 = menu.findItem(R.id.sort_rated);
+    item2.setChecked(sortByTopRated);
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    item.setChecked(!item.isChecked());
+    sortByPopular = !sortByPopular;
+    sortByTopRated = !sortByTopRated;
+
+    mRecyclerView.swapAdapter(sortByPopular? popularMoviesAdapter : topRatedMoviesAdapter, false);
+    SharedPreferencesUtil.getInstance().putBoolean(Constants.SORT_BY_POPULARITY, sortByPopular);
+    SharedPreferencesUtil.getInstance().putBoolean(Constants.SORT_BY_TOP_RATED, sortByTopRated);
+
     switch (item.getItemId()) {
       case R.id.sort_popular:
-        SharedPreferencesUtil.getInstance().putBoolean(Constants.SORT_BY_POPULARITY, item.isChecked());
-        break;
+        item.setChecked(sortByPopular);
+        return true;
       case R.id.sort_rated:
-        SharedPreferencesUtil.getInstance().putBoolean(Constants.SORT_BY_TOP_RATED, item.isChecked());
-      break;
+        item.setChecked(sortByTopRated);
+        return true;
     }
+
     return super.onOptionsItemSelected(item);
   }
 
-  private void findViews() {
-//    mTextView = (TextView) findViewById(R.id.textview);
-//    mFab = (FloatingActionButton) findViewById(R.id.button);
-//    mCardView = (CardView) findViewById(R.id.cardview);
-      mRecyclerView = (RecyclerView) findViewById(R.id.cardview);
+  private void getMovies() {
+
+
+    MovieCalls.getInstance().getTopRatedMovies(new MoviesResultCallback() {
+      @Override
+      public void callback(Result result) {
+        mProgressBar.setVisibility(View.GONE);
+        topRatedResult = result;
+        topRatedMovies = topRatedResult.getMovies();
+        topRatedMoviesAdapter = new MovieAdapter(MainActivity.this, topRatedMovies);
+        topRatedMoviesAdapter.setHasStableIds(true);
+      }
+    });
+
+    MovieCalls.getInstance().getPopularMovies(new MoviesResultCallback() {
+      @Override
+      public void callback(Result result) {
+        popularResult = result;
+        popularMovies = popularResult.getMovies();
+        popularMoviesAdapter = new MovieAdapter(MainActivity.this, popularMovies);
+        popularMoviesAdapter.setHasStableIds(true);
+        setRecyclerView();
+      }
+    });
+
+    setRecyclerView();
+
   }
 
   private void setRecyclerView() {
-
+    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    mRecyclerView.setAdapter(popularMoviesAdapter);
   }
 }

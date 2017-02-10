@@ -10,7 +10,7 @@ import java.util.List;
  * Created by leodeleon on 09/02/2017.
  */
 
-public class MovieResults {
+public class Result {
   @SerializedName("page")
   @Expose
   private Integer page;
@@ -32,12 +32,12 @@ public class MovieResults {
     this.page = page;
   }
 
-  public List<Movie> getResults() {
-    return results;
+  public ArrayList<Movie> getMovies() {
+    return new ArrayList<>(results);
   }
 
-  public void setResults(List<Movie> results) {
-    this.results = results;
+  public void setMovies(ArrayList<Movie> movies) {
+    this.results = movies;
   }
 
   public Integer getTotalResults() {

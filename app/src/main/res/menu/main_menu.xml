@@ -4,7 +4,8 @@
 
   <group
     android:id="@+id/sort_group"
-    android:checkableBehavior="single">
+    android:checkableBehavior="single"
+    >
     <item
       android:id="@+id/sort_rated"
       android:title="@string/sort_popular"

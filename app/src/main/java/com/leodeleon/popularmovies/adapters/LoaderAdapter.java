@@ -19,7 +19,7 @@ public abstract class LoaderAdapter<T> extends RecyclerView.Adapter<RecyclerView
   public static final int NORMAL_ITEM_VIEW = 1;
   public static final int LOADER_VIEW = 2;
   private boolean isLoading = false;
-  protected ArrayList<T> content;
+  protected ArrayList<T> content = new ArrayList<>();
   protected Context context;
 
   public LoaderAdapter(Context context, ArrayList<T> content) {

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.leodeleon.popularmovies.R;
 import com.leodeleon.popularmovies.model.Movie;
+import com.leodeleon.popularmovies.model.MovieDetail;
 
 /**
  * Created by leodeleon on 09/02/2017.

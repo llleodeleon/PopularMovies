@@ -1,15 +1,11 @@
 package com.leodeleon.popularmovies.api;
 
-import com.leodeleon.popularmovies.model.Movie;
-import com.leodeleon.popularmovies.model.MovieResults;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popularmovies.model.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by leodeleon on 08/02/2017.
@@ -17,11 +13,11 @@ import retrofit2.http.Query;
 
 public interface MovieEndpoints {
   @GET("movie/popular")
-  Call<MovieResults> getPopularMovies();
+  Call<Result> getPopularMovies();
 
   @GET("movie/top_rated")
-  Call<MovieResults> getTopRatedMovies();
+  Call<Result> getTopRatedMovies();
 
   @GET("movie/{movieId}")
-  Call<Movie> getMovie(@Path("movieId") int movieId);
+  Call<MovieDetail> getMovie(@Path("movieId") int movieId);
 }

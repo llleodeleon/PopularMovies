@@ -1,14 +1,12 @@
 package com.leodeleon.popularmovies.api;
 
-import com.leodeleon.popularmovies.R;
 import com.leodeleon.popularmovies.interfaces.MovieCallback;
-import com.leodeleon.popularmovies.interfaces.MovieResultsCallback;
-import com.leodeleon.popularmovies.model.Movie;
-import com.leodeleon.popularmovies.model.MovieResults;
+import com.leodeleon.popularmovies.interfaces.MoviesResultCallback;
+import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popularmovies.model.Result;
 import com.leodeleon.popularmovies.util.Constants;
 
 import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,17 +31,17 @@ public class MovieCalls {
 
   public void getMovie(int movieId, final MovieCallback movieCallback) {
 
-    Call<Movie> call = movieEndpoints.getMovie(movieId);
+    Call<MovieDetail> call = movieEndpoints.getMovie(movieId);
 
-    call.enqueue(new Callback<Movie>() {
+    call.enqueue(new Callback<MovieDetail>() {
       @Override
-      public void onResponse(Call<Movie> call, Response<Movie> response) {
+      public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
           movieCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<Movie> call, Throwable t) {
+      public void onFailure(Call<MovieDetail> call, Throwable t) {
         System.out.println(Arrays.toString(t.getStackTrace()));
       }
     });
@@ -51,37 +49,37 @@ public class MovieCalls {
   }
 
 
-  public void getPopularMovies(final MovieResultsCallback movieResultsCallback) {
+  public void getPopularMovies(final MoviesResultCallback moviesResultCallback) {
 
-    Call<MovieResults> call = movieEndpoints.getPopularMovies();
+    Call<Result> call = movieEndpoints.getPopularMovies();
 
-    call.enqueue(new Callback<MovieResults>() {
+    call.enqueue(new Callback<Result>() {
       @Override
-      public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+      public void onResponse(Call<Result> call, Response<Result> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
-          movieResultsCallback.callback(response.body());
+          moviesResultCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<MovieResults> call, Throwable t) {
+      public void onFailure(Call<Result> call, Throwable t) {
         System.out.println(Arrays.toString(t.getStackTrace()));
       }
     });
   }
 
-  public void getTopRatedMovies(final MovieResultsCallback movieResultsCallback) {
+  public void getTopRatedMovies(final MoviesResultCallback moviesResultCallback) {
 
-    Call<MovieResults> call = movieEndpoints.getTopRatedMovies();
+    Call<Result> call = movieEndpoints.getTopRatedMovies();
 
-    call.enqueue(new Callback<MovieResults>() {
+    call.enqueue(new Callback<Result>() {
       @Override
-      public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+      public void onResponse(Call<Result> call, Response<Result> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
-          movieResultsCallback.callback(response.body());
+          moviesResultCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<MovieResults> call, Throwable t) {
+      public void onFailure(Call<Result> call, Throwable t) {
         System.out.println(Arrays.toString(t.getStackTrace()));
       }
     });
