@@ -1,5 +1,6 @@
 package com.leodeleon.popmovies.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,13 +24,16 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivity";
 
-  @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
-  @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+  @BindView(R.id.recycler_view)
+  RecyclerView mRecyclerView;
+  @BindView(R.id.progress_bar)
+  ProgressBar mProgressBar;
 
   private Result popularResult;
   private Result topRatedResult;
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     sortByPopular = !sortByPopular;
     sortByTopRated = !sortByTopRated;
 
-    mRecyclerView.swapAdapter(sortByPopular? popularMoviesAdapter : topRatedMoviesAdapter, false);
+    mRecyclerView.swapAdapter(sortByPopular ? popularMoviesAdapter : topRatedMoviesAdapter, false);
     SharedPreferencesUtil.getInstance().putBoolean(Constants.SORT_BY_POPULARITY, sortByPopular);
     SharedPreferencesUtil.getInstance().putBoolean(Constants.SORT_BY_TOP_RATED, sortByTopRated);
 
