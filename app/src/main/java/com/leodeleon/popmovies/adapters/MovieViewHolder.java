@@ -1,13 +1,12 @@
-package com.leodeleon.popularmovies.adapters;
+package com.leodeleon.popmovies.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.leodeleon.popularmovies.R;
-import com.leodeleon.popularmovies.model.Movie;
-import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.model.Movie;
 
 /**
  * Created by leodeleon on 09/02/2017.

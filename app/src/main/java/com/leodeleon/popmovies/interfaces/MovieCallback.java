@@ -1,6 +1,6 @@
-package com.leodeleon.popularmovies.interfaces;
+package com.leodeleon.popmovies.interfaces;
 
-import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popmovies.model.MovieDetail;
 
 /**
  * Created by leodeleon on 08/02/2017.

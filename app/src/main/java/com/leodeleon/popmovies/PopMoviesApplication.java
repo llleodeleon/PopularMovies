@@ -1,11 +1,10 @@
-package com.leodeleon.popularmovies;
+package com.leodeleon.popmovies;
 
 
 import android.app.Application;
-import android.content.Context;
 
-import com.leodeleon.popularmovies.api.API;
-import com.leodeleon.popularmovies.util.SharedPreferencesUtil;
+import com.leodeleon.popmovies.api.API;
+import com.leodeleon.popmovies.util.SharedPreferencesUtil;
 
 /**
  * Created by leodeleon on 08/02/2017.

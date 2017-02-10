@@ -1,10 +1,10 @@
-package com.leodeleon.popularmovies.api;
+package com.leodeleon.popmovies.api;
 
-import com.leodeleon.popularmovies.interfaces.MovieCallback;
-import com.leodeleon.popularmovies.interfaces.MoviesResultCallback;
-import com.leodeleon.popularmovies.model.MovieDetail;
-import com.leodeleon.popularmovies.model.Result;
-import com.leodeleon.popularmovies.util.Constants;
+import com.leodeleon.popmovies.interfaces.MovieCallback;
+import com.leodeleon.popmovies.interfaces.MoviesResultCallback;
+import com.leodeleon.popmovies.model.MovieDetail;
+import com.leodeleon.popmovies.model.Result;
+import com.leodeleon.popmovies.util.Constants;
 
 import java.util.Arrays;
 

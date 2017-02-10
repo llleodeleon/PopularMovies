@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies.ui;
+package com.leodeleon.popmovies.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.leodeleon.popularmovies.R;
-import com.leodeleon.popularmovies.adapters.MovieAdapter;
-import com.leodeleon.popularmovies.api.MovieCalls;
-import com.leodeleon.popularmovies.interfaces.MoviesResultCallback;
-import com.leodeleon.popularmovies.model.Movie;
-import com.leodeleon.popularmovies.model.MovieDetail;
-import com.leodeleon.popularmovies.model.Result;
-import com.leodeleon.popularmovies.util.Constants;
-import com.leodeleon.popularmovies.util.SharedPreferencesUtil;
+import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.adapters.MovieAdapter;
+import com.leodeleon.popmovies.api.MovieCalls;
+import com.leodeleon.popmovies.interfaces.MoviesResultCallback;
+import com.leodeleon.popmovies.model.Movie;
+import com.leodeleon.popmovies.model.Result;
+import com.leodeleon.popmovies.util.Constants;
+import com.leodeleon.popmovies.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 

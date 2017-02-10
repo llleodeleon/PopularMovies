@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies.model;
+package com.leodeleon.popmovies.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

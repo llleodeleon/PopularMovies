@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies;
+package com.leodeleon.popmovies;
 
 import org.junit.Test;
 

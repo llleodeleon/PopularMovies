@@ -1,7 +1,7 @@
-package com.leodeleon.popularmovies.api;
+package com.leodeleon.popmovies.api;
 
-import com.leodeleon.popularmovies.model.MovieDetail;
-import com.leodeleon.popularmovies.model.Result;
+import com.leodeleon.popmovies.model.MovieDetail;
+import com.leodeleon.popmovies.model.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,10 +1,10 @@
-package com.leodeleon.popularmovies.adapters;
+package com.leodeleon.popmovies.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.leodeleon.popularmovies.R;
+import com.leodeleon.popmovies.R;
 
 /**
  * Created by leodeleon on 09/02/2017.

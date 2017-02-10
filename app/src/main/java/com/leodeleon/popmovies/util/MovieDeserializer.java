@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies.util;
+package com.leodeleon.popmovies.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
@@ -6,7 +6,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popmovies.model.MovieDetail;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

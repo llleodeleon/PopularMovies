@@ -1,13 +1,12 @@
-package com.leodeleon.popularmovies.adapters;
+package com.leodeleon.popmovies.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.leodeleon.popularmovies.R;
-import com.leodeleon.popularmovies.model.Movie;
-import com.leodeleon.popularmovies.model.MovieDetail;
+import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.model.Movie;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,6 @@
-package com.leodeleon.popularmovies.util;
+package com.leodeleon.popmovies.util;
 
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 /**

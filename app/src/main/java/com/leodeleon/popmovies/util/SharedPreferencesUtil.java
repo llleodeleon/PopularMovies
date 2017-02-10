@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies.util;
+package com.leodeleon.popmovies.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

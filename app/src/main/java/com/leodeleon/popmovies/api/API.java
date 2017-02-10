@@ -1,13 +1,13 @@
-package com.leodeleon.popularmovies.api;
+package com.leodeleon.popmovies.api;
 
 
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.leodeleon.popularmovies.BuildConfig;
-import com.leodeleon.popularmovies.util.Constants;
-import com.leodeleon.popularmovies.util.MovieDeserializer;
+import com.leodeleon.popmovies.BuildConfig;
+import com.leodeleon.popmovies.util.Constants;
+import com.leodeleon.popmovies.util.MovieDeserializer;
 
 import java.io.IOException;
 import java.util.List;

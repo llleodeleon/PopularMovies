@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies;
+package com.leodeleon.popmovies;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

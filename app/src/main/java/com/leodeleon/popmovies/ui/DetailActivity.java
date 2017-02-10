@@ -1,11 +1,11 @@
-package com.leodeleon.popularmovies.ui;
+package com.leodeleon.popmovies.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.leodeleon.popularmovies.R;
+import com.leodeleon.popmovies.R;
 
 public class DetailActivity extends AppCompatActivity {
 

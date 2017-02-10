@@ -1,4 +1,4 @@
-package com.leodeleon.popularmovies.util;
+package com.leodeleon.popmovies.util;
 
 /**
  * Created by leodeleon on 08/02/2017.
