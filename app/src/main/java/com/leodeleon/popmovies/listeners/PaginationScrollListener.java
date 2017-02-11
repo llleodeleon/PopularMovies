@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
 
   GridLayoutManager layoutManager;
+  private int previousTotal = 0;
+  private int visibleThreshold = 2;
+  private boolean loading = true;
 
   public PaginationScrollListener(RecyclerView recyclerView) {
     this.layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
@@ -21,22 +24,26 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
 
     int visibleItemCount = layoutManager.getChildCount();
     int totalItemCount = layoutManager.getItemCount();
-    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+    int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-    if (!isLastPage()) {
-      if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-        && firstVisibleItemPosition >= 0
-        && totalItemCount >= getTotalPageCount()) {
-        loadMoreItems();
+    if (loading) {
+      if (totalItemCount > previousTotal) {
+        loading = false;
+        previousTotal = totalItemCount;
       }
+    }
+
+    if (!loading &&
+      !isLastPage() &&
+      (totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold)
+      ) {
+      loadMoreItems();
+      loading = true;
     }
 
   }
 
   protected abstract void loadMoreItems();
-
-  public abstract int getTotalPageCount();
-
   public abstract boolean isLastPage();
 
 

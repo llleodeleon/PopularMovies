@@ -14,12 +14,14 @@
     <activity android:name="com.leodeleon.popmovies.ui.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name="com.leodeleon.popmovies.ui.DetailsActivity">
-    </activity>
+    <activity android:name="com.leodeleon.popmovies.ui.DetailsActivity"/>
+    <activity
+      android:name="com.leodeleon.popmovies.ui.YoutubeActivity"
+      android:theme="@style/AppTheme.Translucent"
+      />
   </application>
 
 </manifest>

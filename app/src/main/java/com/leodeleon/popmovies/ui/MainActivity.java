@@ -3,6 +3,7 @@ package com.leodeleon.popmovies.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.adapters.LoaderAdapter;
 import com.leodeleon.popmovies.adapters.MovieAdapter;
 import com.leodeleon.popmovies.api.MovieCalls;
 import com.leodeleon.popmovies.interfaces.MoviesResultCallback;
@@ -133,32 +135,41 @@ public class MainActivity extends AppCompatActivity {
     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     mRecyclerView.setAdapter(popularMoviesAdapter);
     mRecyclerView.addOnScrollListener(new PaginationScrollListener(mRecyclerView) {
+      boolean sortByPopular = SharedPreferencesUtil.getInstance().getBoolean(Constants.SORT_BY_POPULARITY);
       @Override
       protected void loadMoreItems() {
-        if (SharedPreferencesUtil.getInstance().getBoolean(Constants.SORT_BY_POPULARITY)) {
+        if (sortByPopular) {
           popularPage += 1;
           popularMoviesAdapter.startLoading();
           MovieCalls.getInstance().getPopularMovies(popularPage, new MoviesResultCallback() {
             @Override
             public void callback(MoviesResult moviesResult) {
               popularMovies.addAll(moviesResult.getMovies());
-              popularMoviesAdapter.notifyDataSetChanged();
               popularMoviesAdapter.stopLoading();
+              popularMoviesAdapter.notifyDataSetChanged();
             }
           });
         } else {
-
+          ratedPage += 1;
+          topRatedMoviesAdapter.startLoading();
+          MovieCalls.getInstance().getPopularMovies(ratedPage, new MoviesResultCallback() {
+            @Override
+            public void callback(MoviesResult moviesResult) {
+              topRatedMovies.addAll(moviesResult.getMovies());
+              topRatedMoviesAdapter.stopLoading();
+              topRatedMoviesAdapter.notifyDataSetChanged();
+            }
+          });
         }
       }
 
       @Override
-      public int getTotalPageCount() {
-        return 5;
-      }
-
-      @Override
       public boolean isLastPage() {
-        return false;
+        if (sortByPopular) {
+          return popularPage == popularMoviesResult.getTotalPages();
+        } else {
+          return ratedPage == topRatedMoviesResult.getTotalPages();
+        }
       }
     });
   }

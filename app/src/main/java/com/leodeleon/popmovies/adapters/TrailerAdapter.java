@@ -5,19 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.leodeleon.popmovies.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by leodeleon on 10/02/2017.
  */
 
-public class TrailerAdapter extends RecyclerView.Adapter<TrailerViewHolder>{
+public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
   private Context context;
   private ArrayList<String> videoKeys = new ArrayList<>();
+  private HashMap<YouTubeThumbnailView,YouTubeThumbnailLoader> loaderMap = new HashMap<>();
 
   public TrailerAdapter(Context context, ArrayList<String> videoKeys) {
     this.context = context;
@@ -30,8 +33,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerViewHolder>{
   }
 
   @Override
-  public void onBindViewHolder(TrailerViewHolder holder, int position) {
-    holder.bindView(videoKeys.get(position));
+  public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    ((TrailerViewHolder)holder).bindView(videoKeys.get(position));
   }
 
   @Override
