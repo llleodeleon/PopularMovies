@@ -8,7 +8,6 @@ This app allow users to discover the most popular movies playing.
 ![Screenshot 2](screenshot-2.png)
 ![Screenshot 3](screenshot-3.png)
 
-
 ##This app does:
 
 * Present the user with a grid arrangement of movie posters upon launch.
