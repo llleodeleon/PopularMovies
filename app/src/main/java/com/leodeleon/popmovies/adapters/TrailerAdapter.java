@@ -4,13 +4,8 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
-import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.leodeleon.popmovies.R;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by leodeleon on 10/02/2017.
@@ -20,7 +15,6 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
   private Context context;
   private ArrayList<String> videoKeys = new ArrayList<>();
-  private HashMap<YouTubeThumbnailView,YouTubeThumbnailLoader> loaderMap = new HashMap<>();
 
   public TrailerAdapter(Context context, ArrayList<String> videoKeys) {
     this.context = context;

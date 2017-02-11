@@ -1,6 +1,7 @@
 package com.leodeleon.popmovies.listeners;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 /**
@@ -9,22 +10,27 @@ import android.support.v7.widget.RecyclerView;
 
 public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
 
-  GridLayoutManager layoutManager;
   private int previousTotal = 0;
   private int visibleThreshold = 2;
   private boolean loading = true;
-
-  public PaginationScrollListener(RecyclerView recyclerView) {
-    this.layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
-  }
+  private int firstVisibleItem, totalItemCount;
 
   @Override
   public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
     super.onScrolled(recyclerView, dx, dy);
 
-    int visibleItemCount = layoutManager.getChildCount();
-    int totalItemCount = layoutManager.getItemCount();
-    int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+    RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+
+    int visibleItemCount = recyclerView.getChildCount();
+    if (manager instanceof GridLayoutManager) {
+      GridLayoutManager gridLayoutManager = (GridLayoutManager)manager;
+      firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+      totalItemCount = gridLayoutManager.getItemCount();
+    } else if (manager instanceof LinearLayoutManager) {
+      LinearLayoutManager linearLayoutManager = (LinearLayoutManager)manager;
+      firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+      totalItemCount = linearLayoutManager.getItemCount();
+    }
 
     if (loading) {
       if (totalItemCount > previousTotal) {
@@ -34,7 +40,6 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
     }
 
     if (!loading &&
-      !isLastPage() &&
       (totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold)
       ) {
       loadMoreItems();
@@ -44,7 +49,5 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
   }
 
   protected abstract void loadMoreItems();
-  public abstract boolean isLastPage();
-
 
 }
