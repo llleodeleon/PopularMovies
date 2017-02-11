@@ -4,7 +4,9 @@
 Most of us can relate to kicking back on the couch and enjoying a movie with friends and family.  
 This app allow users to discover the most popular movies playing. 
 
-
+![Screenshot 1](screenshot-1.png) 
+![Screenshot 2](screenshot-2.png)
+![Screenshot 3](screenshot-3.png)
 
 ##This app does:
 
