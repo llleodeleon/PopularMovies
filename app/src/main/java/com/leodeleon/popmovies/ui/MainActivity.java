@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.custom.LockableViewPager;
-import com.leodeleon.popmovies.util.Constants;
-import com.leodeleon.popmovies.util.SharedPreferencesUtil;
 
 import butterknife.BindString;
 import butterknife.BindView;

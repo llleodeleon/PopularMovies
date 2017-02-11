@@ -3,14 +3,10 @@ package com.leodeleon.popmovies.api;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.leodeleon.popmovies.BuildConfig;
 import com.leodeleon.popmovies.util.Constants;
-import com.leodeleon.popmovies.util.VideosDeserializer;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -54,11 +50,6 @@ public class API {
         return chain.proceed(request);
       }
     }).build();
-
-    Gson gson = new GsonBuilder()
-      .disableHtmlEscaping()
-      .registerTypeAdapter(List.class, new VideosDeserializer())
-      .create();
 
     instance.retrofit = new Retrofit
       .Builder()
