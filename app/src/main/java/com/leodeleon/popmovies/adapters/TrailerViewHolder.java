@@ -14,10 +14,11 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
+import com.google.firebase.crash.FirebaseCrash;
 import com.leodeleon.popmovies.BuildConfig;
 import com.leodeleon.popmovies.R;
-import com.leodeleon.popmovies.ui.DetailActivity;
-import com.leodeleon.popmovies.ui.MainActivity;
+import com.leodeleon.popmovies.ui.DetailsActivity;
+import com.leodeleon.popmovies.util.GlideHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,13 +64,12 @@ public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.O
         youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
           @Override
           public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String loadedVideoId) {
-
             youTubeThumbnailView.setVisibility(View.VISIBLE);
           }
 
           @Override
           public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader.ErrorReason errorReason) {
-
+            FirebaseCrash.log(errorReason.toString());
           }
         });
 
@@ -80,6 +80,7 @@ public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.O
       @Override
       public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
         mThumbnailView.setTag(R.id.initialize, UNINITIALIZED);
+        FirebaseCrash.log(youTubeInitializationResult.toString());
       }
     });
 
@@ -96,19 +97,19 @@ public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.O
       YouTubeThumbnailLoader loader = (YouTubeThumbnailLoader) mThumbnailView.getTag(R.id.thumbnailloader);
       loader.setVideo(videoId);
     }
+    GlideHelper.loadThumbnail(context, videoId, mThumbnailView);
   }
 
   @Override
   public void onClick(View v) {
     if(YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(context).equals(YouTubeInitializationResult.SUCCESS)){
-      Intent intent = YouTubeStandalonePlayer.createVideoIntent((DetailActivity)context, apiKey, videoId, 0, false, true);
-      context.startActivity(intent);
+      ((DetailsActivity)context).startVideo(videoId);
     }else{
       CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-      builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorAccent));
+      builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
       builder.addDefaultShareMenuItem();
       CustomTabsIntent customTabsIntent = builder.build();
-      customTabsIntent.launchUrl(context, Uri.parse(YOUTUBE_BASE_URL + videoId));
+      customTabsIntent.launchUrl(context, Uri.parse(String.format(YOUTUBE_BASE_URL, videoId)));
     }
 
   }

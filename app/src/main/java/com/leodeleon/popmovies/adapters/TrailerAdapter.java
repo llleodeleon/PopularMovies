@@ -17,10 +17,11 @@ import java.util.Arrays;
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerViewHolder>{
 
   private Context context;
-  ArrayList<String> videoKeys = new ArrayList<>(Arrays.asList("P3mAtvs5Elc", "nCgQDjiotG0", "P3mAtvs5Elc"));
+  private ArrayList<String> videoKeys = new ArrayList<>();
 
-  public TrailerAdapter(Context context) {
+  public TrailerAdapter(Context context, ArrayList<String> videoKeys) {
     this.context = context;
+    this.videoKeys = videoKeys;
   }
 
   @Override

@@ -18,15 +18,9 @@ public class MovieDetail extends Movie {
   @SerializedName("homepage")
   @Expose
   private String homepage;
-  @SerializedName("id")
-  @Expose
-  private Integer id;
   @SerializedName("imdb_id")
   @Expose
   private String imdbId;
-  @SerializedName("popularity")
-  @Expose
-  private Double popularity;
   @SerializedName("revenue")
   @Expose
   private Integer revenue;
@@ -64,28 +58,12 @@ public Object getBelongsToCollection() {
     this.homepage = homepage;
   }
 
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
   public String getImdbId() {
     return imdbId;
   }
 
   public void setImdbId(String imdbId) {
     this.imdbId = imdbId;
-  }
-
-  public Double getPopularity() {
-    return popularity;
-  }
-
-  public void setPopularity(Double popularity) {
-    this.popularity = popularity;
   }
 
   public Integer getRevenue() {

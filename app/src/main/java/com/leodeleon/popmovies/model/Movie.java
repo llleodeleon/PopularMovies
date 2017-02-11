@@ -1,9 +1,18 @@
 package com.leodeleon.popmovies.model;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by leodeleon on 10/02/2017.
@@ -79,7 +88,16 @@ public class Movie {
   }
 
   public String getReleaseDate() {
-    return releaseDate;
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    Date date;
+    Calendar calendar = Calendar.getInstance();
+    try {
+      date = format.parse(releaseDate);
+      calendar.setTime(date);
+    } catch (ParseException e) {
+      FirebaseCrash.report(e);
+    }
+    return String.valueOf( calendar.get(Calendar.YEAR));
   }
 
   public void setReleaseDate(String releaseDate) {

@@ -1,11 +1,18 @@
 package com.leodeleon.popmovies.api;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.leodeleon.popmovies.interfaces.MovieCallback;
+import com.leodeleon.popmovies.interfaces.MovieDetailCallback;
 import com.leodeleon.popmovies.interfaces.MoviesResultCallback;
+import com.leodeleon.popmovies.interfaces.StringsCallback;
+import com.leodeleon.popmovies.interfaces.VideosCallback;
 import com.leodeleon.popmovies.model.MovieDetail;
-import com.leodeleon.popmovies.model.Result;
+import com.leodeleon.popmovies.model.MoviesResult;
+import com.leodeleon.popmovies.model.Video;
+import com.leodeleon.popmovies.model.VideosResult;
 import com.leodeleon.popmovies.util.Constants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import retrofit2.Call;
@@ -29,7 +36,7 @@ public class MovieCalls {
     return instance;
   }
 
-  public void getMovie(int movieId, final MovieCallback movieCallback) {
+  public void getMovieDetail(int movieId, final MovieDetailCallback movieCallback) {
 
     Call<MovieDetail> call = movieEndpoints.getMovie(movieId);
 
@@ -42,45 +49,67 @@ public class MovieCalls {
 
       @Override
       public void onFailure(Call<MovieDetail> call, Throwable t) {
-        System.out.println(Arrays.toString(t.getStackTrace()));
+        FirebaseCrash.report(t);
       }
     });
 
   }
 
+  public void getVideos(int movieId, final StringsCallback videosCallback) {
+    Call<VideosResult> call = movieEndpoints.getVideos(movieId);
 
-  public void getPopularMovies(final MoviesResultCallback moviesResultCallback) {
-
-    Call<Result> call = movieEndpoints.getPopularMovies();
-
-    call.enqueue(new Callback<Result>() {
+    call.enqueue(new Callback<VideosResult>() {
       @Override
-      public void onResponse(Call<Result> call, Response<Result> response) {
-        if (response.code() == Constants.HTTP_RESPONSE_OK)
-          moviesResultCallback.callback(response.body());
+      public void onResponse(Call<VideosResult> call, Response<VideosResult> response) {
+        if (response.code() == Constants.HTTP_RESPONSE_OK) {
+          ArrayList<String> videoIds = new ArrayList<>();
+          for (Video video : response.body().getVideos()) {
+            videoIds.add(video.getKey());
+          }
+          videosCallback.callback(videoIds);
+        }
+
       }
 
       @Override
-      public void onFailure(Call<Result> call, Throwable t) {
-        System.out.println(Arrays.toString(t.getStackTrace()));
+      public void onFailure(Call<VideosResult> call, Throwable t) {
+        FirebaseCrash.report(t);
       }
     });
   }
 
-  public void getTopRatedMovies(final MoviesResultCallback moviesResultCallback) {
+  public void getPopularMovies(int page, final MoviesResultCallback moviesResultCallback) {
 
-    Call<Result> call = movieEndpoints.getTopRatedMovies();
+    Call<MoviesResult> call = movieEndpoints.getPopularMovies(page);
 
-    call.enqueue(new Callback<Result>() {
+    call.enqueue(new Callback<MoviesResult>() {
       @Override
-      public void onResponse(Call<Result> call, Response<Result> response) {
+      public void onResponse(Call<MoviesResult> call, Response<MoviesResult> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
           moviesResultCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<Result> call, Throwable t) {
-        System.out.println(Arrays.toString(t.getStackTrace()));
+      public void onFailure(Call<MoviesResult> call, Throwable t) {
+        FirebaseCrash.report(t);
+      }
+    });
+  }
+
+  public void getTopRatedMovies(int page, final MoviesResultCallback moviesResultCallback) {
+
+    Call<MoviesResult> call = movieEndpoints.getTopRatedMovies(page);
+
+    call.enqueue(new Callback<MoviesResult>() {
+      @Override
+      public void onResponse(Call<MoviesResult> call, Response<MoviesResult> response) {
+        if (response.code() == Constants.HTTP_RESPONSE_OK)
+          moviesResultCallback.callback(response.body());
+      }
+
+      @Override
+      public void onFailure(Call<MoviesResult> call, Throwable t) {
+        FirebaseCrash.report(t);
       }
     });
   }

@@ -1,16 +1,20 @@
 package com.leodeleon.popmovies.adapters;
 
-import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.model.Movie;
-import com.leodeleon.popmovies.ui.DetailActivity;
+import com.leodeleon.popmovies.ui.DetailsActivity;
 import com.leodeleon.popmovies.ui.MainActivity;
+import com.leodeleon.popmovies.util.GlideHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,29 +25,29 @@ import butterknife.ButterKnife;
 
 public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
   Movie movie;
-  @BindView(R.id.movie_title)
-  TextView mTitleText;
-  @BindView(R.id.movie_year)
-  TextView mYearText;
   @BindView(R.id.cardview)
   CardView mCardView;
-  Context context;
+  @BindView(R.id.poster)
+  ImageView mPosterImage;
+  MainActivity activity;
 
   public MovieViewHolder(View view) {
     super(view);
     ButterKnife.bind(this, view);
     mCardView.setOnClickListener(this);
-    context = itemView.getContext();
+    activity = (MainActivity) itemView.getContext();
   }
 
   public void bindView(Movie movie) {
     this.movie = movie;
-    mTitleText.setText(movie.getTitle());
+    GlideHelper.loadPoster(activity, movie.getPosterPath(), mPosterImage);
   }
 
   @Override
   public void onClick(View v) {
-    Intent intent = new Intent(context, DetailActivity.class);
-    context.startActivity(intent);
+    Intent intent = new Intent(activity, DetailsActivity.class);
+    intent.putExtra(DetailsActivity.MOVIE, new Gson().toJson(movie));
+    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, mCardView, "cardview");
+    activity.startActivity(intent, options.toBundle());
   }
 }

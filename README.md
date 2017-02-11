@@ -16,3 +16,19 @@ This app allow users to discover the most popular movies playing.
 	* A plot synopsis (called overview in the api)
 	* user rating (called vote_average in the api)
 	* release date
+
+##How to build
+This app utilises the following API's: 
+
+* [The Movie DB] (https://developers.themoviedb.org/3/getting-started)
+* [Youtube Data v3](https://developers.google.com/youtube/v3/)
+
+Create the API keys in both services and put them in you local **gradle.properties** file:
+
+Windows: C:\Users\\**YOUR-USERNAME**\\.gradle\gradle.properties
+
+Mac: Users/**YOUR-USERNAME**/.gradle/gradle.properties
+
+	...
+	MovieDBApiKey="YOUR-KEY-HERE"
+	DeveloperConsoleApiKey="YOUR-KEY-HERE"

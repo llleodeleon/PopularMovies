@@ -11,8 +11,8 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
 
   GridLayoutManager layoutManager;
 
-  public PaginationScrollListener(GridLayoutManager layoutManager) {
-    this.layoutManager = layoutManager;
+  public PaginationScrollListener(RecyclerView recyclerView) {
+    this.layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
   }
 
   @Override
@@ -23,7 +23,7 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
     int totalItemCount = layoutManager.getItemCount();
     int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-    if (!isLoading() && !isLastPage()) {
+    if (!isLastPage()) {
       if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
         && firstVisibleItemPosition >= 0
         && totalItemCount >= getTotalPageCount()) {
@@ -39,6 +39,5 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
 
   public abstract boolean isLastPage();
 
-  public abstract boolean isLoading();
 
 }

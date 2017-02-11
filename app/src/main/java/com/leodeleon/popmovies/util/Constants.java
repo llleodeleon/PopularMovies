@@ -6,7 +6,9 @@ package com.leodeleon.popmovies.util;
 
 public class Constants {
   public static final String BASE_URL = "https://api.themoviedb.org/3/";
-  public static final String YOUTUBE_BASE_URL = "https://m.youtube.com/watch?v=";
+  public static final String YOUTUBE_BASE_URL = "https://m.youtube.com/watch?v=%s";
+  public static final String YOUTUBE_IMG_URL = "https://img.youtube.com/vi/%s/hqdefault.jpg";
+  public static final String MOVIES_IMG_URL = "https://image.tmdb.org/t/p/%s/%s";
   public static final int HTTP_RESPONSE_OK = 200;
   public static final String SORT_BY_POPULARITY = "sortByPopularity";
   public static final String SORT_BY_TOP_RATED = "sortByTopRated";

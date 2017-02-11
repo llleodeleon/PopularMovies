@@ -1,5 +1,6 @@
 package com.leodeleon.popmovies.interfaces;
 
+import com.leodeleon.popmovies.model.Movie;
 import com.leodeleon.popmovies.model.MovieDetail;
 
 /**
@@ -7,5 +8,5 @@ import com.leodeleon.popmovies.model.MovieDetail;
  */
 
 public interface MovieCallback {
-  void callback(MovieDetail movie);
+  void callback(Movie movie);
 }

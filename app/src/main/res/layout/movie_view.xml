@@ -17,42 +17,17 @@
     android:clipToPadding="true"
     android:orientation="vertical"
     android:clickable="true"
+    android:transitionName="cardview"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    >
 
-    <LinearLayout
+    <ImageView
+      android:id="@+id/poster"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      android:alpha="0.3"
-      android:background="@color/white"
-      android:padding="8dp"
-      tools:visibility="visible"
-      android:orientation="vertical"
-      tools:alpha="1"
-      >
-
-      <TextView
-        android:id="@+id/movie_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
-        tools:text="Movie Title"
-        android:lines="1"
-        />
-
-      <TextView
-        android:id="@+id/movie_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
-        android:textSize="12sp"
-        tools:text="2015"
-        />
-
-    </LinearLayout>
+      android:layout_height="match_parent"
+      />
 
   </android.support.v7.widget.CardView>
 

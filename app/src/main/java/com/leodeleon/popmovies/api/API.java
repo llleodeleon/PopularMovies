@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.leodeleon.popmovies.BuildConfig;
 import com.leodeleon.popmovies.util.Constants;
-import com.leodeleon.popmovies.util.MovieDeserializer;
+import com.leodeleon.popmovies.util.VideosDeserializer;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,7 +57,7 @@ public class API {
 
     Gson gson = new GsonBuilder()
       .disableHtmlEscaping()
-      .registerTypeAdapter(List.class, new MovieDeserializer())
+      .registerTypeAdapter(List.class, new VideosDeserializer())
       .create();
 
     instance.retrofit = new Retrofit

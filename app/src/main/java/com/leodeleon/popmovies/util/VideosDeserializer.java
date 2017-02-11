@@ -18,11 +18,11 @@ import java.util.List;
 
 
 
-public class MovieDeserializer implements JsonDeserializer<List<MovieDetail>> {
+public class VideosDeserializer implements JsonDeserializer<ArrayList<String>> {
   @Override
-  public List<MovieDetail> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public ArrayList<String> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     Gson gson = new Gson();
-    List<MovieDetail> result = new ArrayList<>();
+    ArrayList<MovieDetail> result = new ArrayList<>();
 
     JsonObject object = json.getAsJsonObject();
     return gson.fromJson(object.get("results"), typeOfT);
