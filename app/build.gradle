@@ -12,8 +12,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+    signingConfigs {
+        release
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -61,3 +65,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply from: 'https://raw.github.com/trikita/gradle-android-signing/master/gradle-android-signing.gradle'

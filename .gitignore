@@ -68,3 +68,11 @@ google-services.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+buck-out
+.buckd
+.okbuck
+.buckconfig.local
+**/BUCK
+
+buildSrc/bintray.properties
