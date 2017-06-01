@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.ui;
+package com.leodeleon.popmovies.feature;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

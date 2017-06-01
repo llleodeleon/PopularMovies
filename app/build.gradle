@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
     defaultConfig {
         applicationId "com.leodeleon.popmovies"
-        minSdkVersion 21
-        targetSdkVersion 25
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,36 +27,67 @@ android {
             it.buildConfigField 'String', 'GOOGLE_APIS_KEY', DeveloperConsoleApiKey
         }
     }
+  configurations.all {
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+  }
 }
 
-ext.buildToolsVersion = '25.1.1'
-ext.googlePlayVersion = '10.0.1'
+
 
 dependencies {
+    Map<String, String> dependencies = rootProject.ext.dependencies;
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     //support
-    compile "com.android.support:appcompat-v7:$buildToolsVersion"
-    compile "com.android.support:design:$buildToolsVersion"
-    compile "com.android.support:cardview-v7:$buildToolsVersion"
-    compile "com.android.support:customtabs:$buildToolsVersion"
+    compile dependencies.appcompat
+    compile dependencies.support
+    compile dependencies.design
+    compile dependencies.recyclerview
+    compile dependencies.cardview
+    compile dependencies.customTabs
 
     //firebase
-    compile "com.google.firebase:firebase-crash:$googlePlayVersion"
+    compile dependencies.firebaseCrash
 
     //networking
-    compile 'com.squareup:otto:1.3.8'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
-    //helpers
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile dependencies.gson
+    compile dependencies.retrofit
+    compile dependencies.retrofitGson
+    compile dependencies.retrofitRxJava
+    compile dependencies.rxjava
+    compile dependencies.rxandroid
+    compile dependencies.okhttp
+
+    //DI
+    compile dependencies.butterknife
+    annotationProcessor dependencies.butterknifeCompiler
+
+    compile dependencies.dagger
+    compile dependencies.daggerAndroid
+    compile dependencies.daggerAndroidSupport
+    annotationProcessor dependencies.daggerCompiler
+    annotationProcessor dependencies.daggerAndroidProcessor
+
+    compile dependencies.lifecycle
+    annotationProcessor dependencies.lifecycleCompiler
+
+    compile dependencies.room
+    compile dependencies.roomRxJava
+    annotationProcessor dependencies.roomCompiler
+
+    debugCompile dependencies.chuck
+    releaseCompile dependencies.chuckNoOp
+
+    compile dependencies.rxBindings
+    compile dependencies.rxBindingsSupport
+    compile dependencies.rxBindingsDesign
+    compile dependencies.rxBindingsAppCompat
+    compile dependencies.rxBindingsRecycler
 
     //custom views
     compile 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
@@ -65,4 +97,3 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-apply from: 'https://raw.github.com/trikita/gradle-android-signing/master/gradle-android-signing.gradle'

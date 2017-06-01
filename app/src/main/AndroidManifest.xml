@@ -11,15 +11,15 @@
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name="com.leodeleon.popmovies.ui.MainActivity">
+    <activity android:name="com.leodeleon.popmovies.feature.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name="com.leodeleon.popmovies.ui.DetailsActivity"/>
+    <activity android:name="com.leodeleon.popmovies.feature.DetailsActivity"/>
     <activity
-      android:name="com.leodeleon.popmovies.ui.YoutubeActivity"
+      android:name="com.leodeleon.popmovies.feature.YoutubeActivity"
       android:theme="@style/AppTheme.Translucent"
       />
   </application>

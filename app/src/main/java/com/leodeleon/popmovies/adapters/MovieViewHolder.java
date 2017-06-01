@@ -2,18 +2,15 @@ package com.leodeleon.popmovies.adapters;
 
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.model.Movie;
-import com.leodeleon.popmovies.ui.DetailsActivity;
-import com.leodeleon.popmovies.ui.MainActivity;
+import com.leodeleon.popmovies.feature.DetailsActivity;
+import com.leodeleon.popmovies.feature.MainActivity;
 import com.leodeleon.popmovies.util.GlideHelper;
 
 import butterknife.BindView;

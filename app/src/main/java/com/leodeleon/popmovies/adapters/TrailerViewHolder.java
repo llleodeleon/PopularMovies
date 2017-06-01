@@ -1,10 +1,8 @@
 package com.leodeleon.popmovies.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,7 +13,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.leodeleon.popmovies.BuildConfig;
 import com.leodeleon.popmovies.R;
-import com.leodeleon.popmovies.ui.DetailsActivity;
+import com.leodeleon.popmovies.feature.DetailsActivity;
 import com.leodeleon.popmovies.util.GlideHelper;
 
 import butterknife.BindView;

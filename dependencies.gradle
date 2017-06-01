@@ -1,0 +1,56 @@
+ext {
+  support = '25.3.1'
+  playservices = '10.2.6'
+  butterknife = '8.5.1'
+  chuck = '1.0.4'
+  arch = '1.0.0-alpha1'
+  glide = '3.7.0'
+  gson = '2.8.0'
+  okhttp = '3.7.0'
+  retrofit = '2.2.0'
+  stetho = '1.5.0'
+  dagger = '2.11-rc2'
+  rxandroid = '2.0.1'
+  rxbinding = '2.0.0'
+  rxjava = '2.1.0'
+
+
+  dependencies = [
+      appcompat          : "com.android.support:appcompat-v7:$support",
+      support            : "com.android.support:support-v4:$support",
+      design             : "com.android.support:design:$support",
+      customTabs         : "com.android.support:customtabs:$support",
+      recyclerview       : "com.android.support:recyclerview-v7:$support",
+      cardview           : "com.android.support:cardview-v7:$support",
+      firebase      : "com.google.firebase:firebase-core:$playservices",
+      firebaseCrash : "com.google.firebase:firebase-crash:$playservices",
+      gson          : "com.google.code.gson:gson:$gson",
+      retrofit      : "com.squareup.retrofit2:retrofit:$retrofit",
+      retrofitGson  : "com.squareup.retrofit2:converter-gson:$retrofit",
+      retrofitRxJava: "com.squareup.retrofit2:adapter-rxjava2:$retrofit",
+      rxjava        : "io.reactivex.rxjava2:rxjava:$rxjava",
+      rxandroid     : "io.reactivex.rxjava2:rxandroid:$rxandroid",
+      okhttp        : "com.squareup.okhttp3:okhttp:$okhttp",
+      glide         : "com.github.bumptech.glide:glide:$glide",
+      stetho             : "com.facebook.stetho:stetho:$stetho",
+      butterknife        : "com.jakewharton:butterknife:$butterknife",
+      butterknifeCompiler: "com.jakewharton:butterknife-compiler:$butterknife",
+      chuck                 : "com.readystatesoftware.chuck:library:$chuck",
+      chuckNoOp             : "com.readystatesoftware.chuck:library-no-op:$chuck",
+      daggerCompiler        : "com.google.dagger:dagger-compiler:$dagger",
+      dagger                : "com.google.dagger:dagger:$dagger",
+      daggerAndroid         : "com.google.dagger:dagger-android:$dagger",
+      daggerAndroidSupport  : "com.google.dagger:dagger-android-support:$dagger",
+      daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$dagger",
+      lifecycle             : "android.arch.lifecycle:extensions:$arch",
+      lifecycleCompiler     : "android.arch.lifecycle:compiler:$arch",
+      room                  : "android.arch.persistence.room:runtime:$arch",
+      roomRxJava            : "android.arch.persistence.room:rxjava2:$arch",
+      roomCompiler          : "android.arch.persistence.room:compiler:$arch",
+      rxBindings            : "com.jakewharton.rxbinding2:rxbinding:$rxbinding",
+      rxBindingsSupport     : "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding",
+      rxBindingsAppCompat   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding",
+      rxBindingsDesign      : "com.jakewharton.rxbinding2:rxbinding-design:$rxbinding",
+      rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding"
+  ]
+}

@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.ui;
+package com.leodeleon.popmovies.feature;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,8 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.leodeleon.popmovies.ui.MoviesFragment.POSITION_POPULAR;
-import static com.leodeleon.popmovies.ui.MoviesFragment.POSITION_RATED;
+import static com.leodeleon.popmovies.feature.MoviesFragment.POSITION_POPULAR;
+import static com.leodeleon.popmovies.feature.MoviesFragment.POSITION_RATED;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivity";
