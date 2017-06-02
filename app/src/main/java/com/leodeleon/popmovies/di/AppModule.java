@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import com.leodeleon.popmovies.BuildConfig;
-import com.leodeleon.popmovies.data.MovieDb;
+import com.leodeleon.popmovies.data.PopMoviesDB;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;
@@ -77,8 +77,8 @@ public class AppModule {
   }
 
   @Singleton
-  @Provides MovieDb provideDb() {
-    return Room.databaseBuilder(application, MovieDb.class, "movie.db").build();
+  @Provides PopMoviesDB provideDb() {
+    return Room.databaseBuilder(application, PopMoviesDB.class, "movie.db").build();
   }
 
   @Singleton
