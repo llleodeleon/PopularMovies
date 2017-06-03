@@ -1,20 +1,16 @@
 package com.leodeleon.popmovies.api;
 
 import com.google.firebase.crash.FirebaseCrash;
-import com.leodeleon.popmovies.interfaces.MovieCallback;
 import com.leodeleon.popmovies.interfaces.MovieDetailCallback;
 import com.leodeleon.popmovies.interfaces.MoviesResultCallback;
 import com.leodeleon.popmovies.interfaces.StringsCallback;
-import com.leodeleon.popmovies.interfaces.VideosCallback;
 import com.leodeleon.popmovies.model.MovieDetail;
-import com.leodeleon.popmovies.model.MoviesResult;
+import com.leodeleon.popmovies.model.MovieResponse;
 import com.leodeleon.popmovies.model.Video;
-import com.leodeleon.popmovies.model.VideosResult;
+import com.leodeleon.popmovies.model.VideoResponse;
 import com.leodeleon.popmovies.util.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,11 +52,11 @@ public class MovieCalls {
   }
 
   public void getVideos(int movieId, final StringsCallback videosCallback) {
-    Call<VideosResult> call = movieEndpoints.getVideos(movieId);
+    Call<VideoResponse> call = movieEndpoints.getVideos(movieId);
 
-    call.enqueue(new Callback<VideosResult>() {
+    call.enqueue(new Callback<VideoResponse>() {
       @Override
-      public void onResponse(Call<VideosResult> call, Response<VideosResult> response) {
+      public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK) {
           ArrayList<String> videoIds = new ArrayList<>();
           for (Video video : response.body().getVideos()) {
@@ -72,7 +68,7 @@ public class MovieCalls {
       }
 
       @Override
-      public void onFailure(Call<VideosResult> call, Throwable t) {
+      public void onFailure(Call<VideoResponse> call, Throwable t) {
         FirebaseCrash.report(t);
       }
     });
@@ -80,17 +76,17 @@ public class MovieCalls {
 
   public void getPopularMovies(int page, final MoviesResultCallback moviesResultCallback) {
 
-    Call<MoviesResult> call = movieEndpoints.getPopularMovies(page);
+    Call<MovieResponse> call = movieEndpoints.getPopularMovies(page);
 
-    call.enqueue(new Callback<MoviesResult>() {
+    call.enqueue(new Callback<MovieResponse>() {
       @Override
-      public void onResponse(Call<MoviesResult> call, Response<MoviesResult> response) {
+      public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
           moviesResultCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<MoviesResult> call, Throwable t) {
+      public void onFailure(Call<MovieResponse> call, Throwable t) {
         FirebaseCrash.report(t);
       }
     });
@@ -98,17 +94,17 @@ public class MovieCalls {
 
   public void getTopRatedMovies(int page, final MoviesResultCallback moviesResultCallback) {
 
-    Call<MoviesResult> call = movieEndpoints.getTopRatedMovies(page);
+    Call<MovieResponse> call = movieEndpoints.getTopRatedMovies(page);
 
-    call.enqueue(new Callback<MoviesResult>() {
+    call.enqueue(new Callback<MovieResponse>() {
       @Override
-      public void onResponse(Call<MoviesResult> call, Response<MoviesResult> response) {
+      public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
         if (response.code() == Constants.HTTP_RESPONSE_OK)
           moviesResultCallback.callback(response.body());
       }
 
       @Override
-      public void onFailure(Call<MoviesResult> call, Throwable t) {
+      public void onFailure(Call<MovieResponse> call, Throwable t) {
         FirebaseCrash.report(t);
       }
     });

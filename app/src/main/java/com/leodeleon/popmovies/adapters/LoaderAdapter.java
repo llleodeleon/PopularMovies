@@ -60,7 +60,7 @@ public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewH
     return getContentItemCount() > 0 && position < getContentItemCount();
   }
 
-  private int getFooterItemCount(){
+  public int getFooterItemCount(){
     return FOOTER_COUNT;
   }
 

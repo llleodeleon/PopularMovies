@@ -1,188 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/main_content"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-  <android.support.design.widget.AppBarLayout
-    android:id="@+id/appbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="256dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:transitionName="toolbar"
+    android:layout_height="match_parent"
     >
-
-    <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
-      android:id="@+id/collapsing_toolbar"
+  <android.support.design.widget.AppBarLayout
+      android:id="@+id/appbar"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      app:expandedTitleGravity="bottom"
-      app:layout_scrollFlags="scroll|exitUntilCollapsed"
-      app:maxLines="3"
+      android:layout_height="256dp"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+      android:transitionName="toolbar"
       >
-
-      <ImageView
-        android:id="@+id/backdrop"
+    <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-
-      <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/selectableItemBackground"
-        app:layout_collapseMode="pin"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        />
-
-    </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
-
-  </android.support.design.widget.AppBarLayout>
-
-  <android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="16dp"
-    android:layout_marginRight="16dp"
-    app:fabSize="normal"
-    android:src="@drawable/selector_favorite"
-    app:layout_anchor="@id/appbar"
-    app:layout_anchorGravity="bottom|right|end"
-    app:rippleColor="@color/colorPrimary"
-    />
-
-  <android.support.v4.widget.NestedScrollView
-    android:id="@+id/scroll_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    >
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:focusableInTouchMode="true"
-      android:orientation="vertical"
-      android:paddingBottom="24dp"
-      android:paddingTop="24dp"
-      >
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        app:expandedTitleGravity="bottom"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:maxLines="3"
         >
-
-        <android.support.v7.widget.CardView
-          android:id="@+id/cardview"
-          android:layout_width="160dp"
-          android:layout_height="240dp"
-          android:transitionName="cardview"
-          app:cardPreventCornerOverlap="false"
-          app:cardUseCompatPadding="true"
-          >
-          <ImageView
-            android:id="@+id/poster"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-        </android.support.v7.widget.CardView>
-
-        <Space
-          android:layout_width="16dp"
-          android:layout_height="match_parent"/>
-
-        <RelativeLayout
-          android:layout_width="0dp"
+      <ImageView
+          android:id="@+id/backdrop"
+          android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:layout_weight="1"
-          android:orientation="vertical"
+          />
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:background="?attr/selectableItemBackground"
+          app:layout_collapseMode="pin"
+          app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+          />
+    </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+  </android.support.design.widget.AppBarLayout>
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="16dp"
+      android:layout_marginRight="16dp"
+      android:src="@drawable/selector_favorite"
+      app:fabSize="normal"
+      app:layout_anchor="@id/appbar"
+      app:layout_anchorGravity="bottom|right|end"
+      app:rippleColor="@color/colorPrimary"
+      />
+  <android.support.v4.widget.NestedScrollView
+      android:id="@+id/scroll_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        >
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
           >
-
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="160dp"
+            android:layout_height="240dp"
+            android:layout_marginRight="16dp"
+            android:transitionName="cardview"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            >
+          <ImageView
+              android:id="@+id/poster"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              />
+        </android.support.v7.widget.CardView>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
           <TextView
-            android:id="@+id/vote_average"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="9.8/10"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
-            />
-
+              android:id="@+id/vote_average"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
+              tools:text="9.8/10"
+              />
           <TextView
-            android:id="@+id/release_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:text="2015"
-            />
-
+              android:id="@+id/release_date"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+              tools:text="2015"
+              />
           <TextView
-            android:id="@+id/runtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/release_date"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:text="120min"
-            android:layout_marginBottom="4dp"
-            />
-
+              android:id="@+id/runtime"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_above="@id/release_date"
+              android:layout_marginBottom="4dp"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+              tools:text="120min"
+              />
         </RelativeLayout>
-
       </LinearLayout>
-
-
       <TextView
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/overview"
-        />
-
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:gravity="center_vertical"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
+          android:text="@string/overview"
+          style="@style/Base.TextAppearance.AppCompat.Widget.Button"
+          />
       <TextView
-        android:id="@+id/overview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/lorem_ipsum"
-        />
-
+          android:id="@+id/overview"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
+          android:text="@string/lorem_ipsum"
+          />
       <TextView
-        android:id="@+id/videos"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/videos"
-        />
-
+          android:id="@+id/videos"
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:gravity="center_vertical"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
+          android:text="@string/videos"
+          style="@style/Base.TextAppearance.AppCompat.Widget.Button"
+          />
       <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:listitem="@layout/trailer_view"
-        />
-
+          android:id="@+id/recycler_view"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:clipToPadding="false"
+          android:focusable="false"
+          android:focusableInTouchMode="false"
+          android:orientation="horizontal"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
+          app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+          tools:listitem="@layout/trailer_view"
+          />
+      <Space
+          android:layout_width="match_parent"
+          android:layout_height="56dp"
+          />
     </LinearLayout>
-
   </android.support.v4.widget.NestedScrollView>
-
-
 </android.support.design.widget.CoordinatorLayout>

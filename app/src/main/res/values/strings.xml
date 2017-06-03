@@ -2,6 +2,8 @@
   <string name="app_name">Pop Movies</string>
   <string name="sort_rated">Top rated</string>
   <string name="sort_popular">Most popular</string>
+  <string name="popular">Popular</string>
+  <string name="favorites">Favorites</string>
   <string name="videos">Videos</string>
   <string name="overview">Overview</string>
   <string name="voting_label">%1$.1f/10</string>

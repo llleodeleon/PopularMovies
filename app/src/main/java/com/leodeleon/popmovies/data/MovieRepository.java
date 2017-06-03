@@ -1,6 +1,6 @@
 package com.leodeleon.popmovies.data;
 
-import com.leodeleon.popmovies.model.MoviesResult;
+import com.leodeleon.popmovies.model.MovieResponse;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -18,8 +18,15 @@ public class MovieRepository {
   }
 
 
-  public Single<MoviesResult> getPopularMovies(int page) {
+  public Single<MovieResponse> getPopularMovies(int page) {
     return movieAPI.getPopularMovies(page)
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
+  }
+
+  public Single<MovieResponse> getTopRatedMovies(int page) {
+    return movieAPI.getTopRatedMovies(page)
         .subscribeOn(Schedulers.io())
         .unsubscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());

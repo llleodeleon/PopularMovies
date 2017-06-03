@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,13 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
   ProgressBar mProgressBar;
 
   @Inject ViewModelProvider.Factory viewModelFactory;
+  private static final String TAG = "MoviesFragment";
 
   public static final String POSITION = "position";
   private static final String LAYOUT_MANAGER_STATE = "state";
   public static final int POSITION_POPULAR = 0;
   public static final int POSITION_RATED = 1;
+  public static final int POSITION_FAVORITE = 2;
   private MovieAdapter adapter;
   private List<Movie> movies = new ArrayList<>();
   private Unbinder unbinder;
@@ -74,6 +77,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     View view = inflater.inflate(R.layout.fragment_movies, container, false);
     unbinder = ButterKnife.bind(this, view);
     this.position = getArguments().getInt(POSITION, 0);
+
     setRecyclerView();
     return view;
   }
@@ -83,6 +87,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
     observeLiveData();
     subscribe();
+    //paginator.onNext(pageNumber);
   }
 
   @Override
@@ -97,26 +102,31 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     super.onViewStateRestored(savedInstanceState);
     if (savedInstanceState != null) {
       Parcelable state = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
-      mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
+      layoutManager.onRestoreInstanceState(state);
     }
   }
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
-    outState.putParcelable(LAYOUT_MANAGER_STATE, mRecyclerView.getLayoutManager().onSaveInstanceState());
+    outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManager.onSaveInstanceState());
     super.onSaveInstanceState(outState);
   }
 
   private void observeLiveData() {
-    viewModel.getMoviesLiveData().observe(this, movies1 ->  adapter.setMovies(movies1));
+    viewModel.getMoviesLiveData().observe(this, movies1 -> {
+      adapter.setMovies(movies1);
+      mProgressBar.setVisibility(View.GONE);
+    });
   }
 
   private void subscribe() {
     Disposable d1 = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(recyclerViewScrollEvent -> {
-      totalItemCount = layoutManager.getItemCount();
+      totalItemCount = layoutManager.getItemCount() - adapter.getFooterItemCount();
       lastVisibleItem = layoutManager.findLastVisibleItemPosition();
       if (!adapter.isLoading() && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
+        Log.i(TAG, "subscribe: " + totalItemCount + "  " + lastVisibleItem + VISIBLE_THRESHOLD );
         pageNumber++;
+        adapter.startLoading();
         paginator.onNext(pageNumber);
       }
     });
@@ -124,11 +134,12 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> {
       if (position == POSITION_POPULAR) {
         viewModel.loadPopularMovies(page);
-        adapter.startLoading();
+      } else if (position == POSITION_RATED) {
+        viewModel.loadTopRatedMovies(page);
+      } else if (position == POSITION_FAVORITE) {
+        viewModel.loadFavoriteMovies();
       }
     });
-
-    paginator.onNext(pageNumber);
 
     disposables.add(d1);
     disposables.add(d2);

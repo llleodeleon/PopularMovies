@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by leodeleon on 10/02/2017.
  */
 
-public class VideosResult {
+public class VideoResponse {
   @SerializedName("id")
   @Expose
   private Integer id;

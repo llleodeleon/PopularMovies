@@ -25,6 +25,16 @@ public class MoviesViewModel extends ViewModel {
     disposable.add(d1);
   }
 
+  public void loadTopRatedMovies(int page) {
+    Disposable d2 = movieRepository.getTopRatedMovies(page).subscribe(
+        moviesResult -> moviesLiveData.postValue(moviesResult.getMovies()));
+    disposable.add(d2);
+  }
+
+  public void loadFavoriteMovies() {
+
+  }
+
 
   public MutableLiveData<List<Movie>> getMoviesLiveData() {
     return moviesLiveData;
