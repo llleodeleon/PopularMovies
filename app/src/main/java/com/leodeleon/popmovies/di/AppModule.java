@@ -9,17 +9,16 @@ import com.leodeleon.popmovies.data.PopMoviesDB;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.leodeleon.popmovies.util.Constants.BASE_URL;
 
 @Module(subcomponents = ViewModelSubComponent.class)
 public class AppModule {
@@ -43,23 +42,20 @@ public class AppModule {
 
   @Singleton
   @Provides Retrofit provideRetrofit(Context context) {
-    String BASE_URL = "https://www.speaky.com";
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
-        .addInterceptor(new Interceptor() {
-          @Override public Response intercept(Chain chain) throws IOException {
-            Request original = chain.request();
-            HttpUrl originalHttpUrl = original.url();
+        .addInterceptor(chain -> {
+          Request original = chain.request();
+          HttpUrl originalHttpUrl = original.url();
 
-            HttpUrl url = originalHttpUrl.newBuilder()
-                .addQueryParameter("api_key", BuildConfig.MOVIE_DB_API_KEY)
-                .build();
+          HttpUrl url = originalHttpUrl.newBuilder()
+              .addQueryParameter("api_key", BuildConfig.MOVIE_DB_API_KEY)
+              .build();
 
-            Request.Builder requestBuilder = original.newBuilder().url(url);
+          Request.Builder requestBuilder = original.newBuilder().url(url);
 
-            Request request = requestBuilder.build();
-            return chain.proceed(request);
-          }
+          Request request = requestBuilder.build();
+          return chain.proceed(request);
         })
         .addInterceptor(new ChuckInterceptor(context))
         .connectTimeout(40, TimeUnit.SECONDS)

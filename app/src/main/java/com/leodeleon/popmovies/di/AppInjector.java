@@ -16,8 +16,12 @@ public class AppInjector {
   private AppInjector() {
   }
 
-  public static void init(PopMoviesApplication application, AppComponent component) {
-    component.inject(application);
+  public static void init(PopMoviesApplication application) {
+    DaggerAppComponent.builder()
+        .application(application)
+        .appModule(new AppModule(application))
+        .build()
+        .inject(application);
 
     application
         .registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {

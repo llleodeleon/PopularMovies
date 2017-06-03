@@ -11,27 +11,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
-import com.leodeleon.popmovies.R;
-import com.leodeleon.popmovies.adapters.TrailerAdapter;
-import com.leodeleon.popmovies.api.MovieCalls;
-import com.leodeleon.popmovies.interfaces.MovieDetailCallback;
-import com.leodeleon.popmovies.interfaces.StringsCallback;
-import com.leodeleon.popmovies.model.Movie;
-import com.leodeleon.popmovies.model.MovieDetail;
-import com.leodeleon.popmovies.util.GlideHelper;
-
-import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
-
-import java.util.ArrayList;
-
 import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import com.google.gson.Gson;
+import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.adapters.TrailerAdapter;
+import com.leodeleon.popmovies.api.MovieCalls;
+import com.leodeleon.popmovies.model.Movie;
+import com.leodeleon.popmovies.model.MovieDetail;
+import com.leodeleon.popmovies.util.GlideHelper;
+import java.util.ArrayList;
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -123,22 +117,16 @@ public class DetailsActivity extends AppCompatActivity {
   }
 
   private void getDetails() {
-    MovieCalls.getInstance().getMovieDetail(movie.getId(), new MovieDetailCallback() {
-      @Override
-      public void callback(MovieDetail movie) {
-        movieDetail = movie;
-        mRuntimeText.setText(String.format(runtime, movie.getRuntime()));
-      }
+    MovieCalls.getInstance().getMovieDetail(movie.getId(), movie1 -> {
+      movieDetail = movie1;
+      mRuntimeText.setText(String.format(runtime, movie1.getRuntime()));
     });
   }
 
   private void getVideos() {
-    MovieCalls.getInstance().getVideos(movie.getId(), new StringsCallback() {
-      @Override
-      public void callback(ArrayList<String> videos) {
-        videoIds = videos;
-        setRecyclerView();
-      }
+    MovieCalls.getInstance().getVideos(movie.getId(), videos -> {
+      videoIds = videos;
+      setRecyclerView();
     });
   }
 

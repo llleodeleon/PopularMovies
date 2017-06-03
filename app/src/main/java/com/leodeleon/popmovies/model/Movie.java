@@ -1,13 +1,12 @@
 package com.leodeleon.popmovies.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,8 +17,13 @@ import java.util.Locale;
  * Created by leodeleon on 10/02/2017.
  */
 
+@Entity
 public class Movie {
 
+  @SerializedName("id")
+  @Expose
+  @PrimaryKey
+  private Integer id;
   @SerializedName("poster_path")
   @Expose
   private String posterPath;
@@ -34,10 +38,8 @@ public class Movie {
   private String releaseDate;
   @SerializedName("genre_ids")
   @Expose
+  @Ignore
   private List<Integer> genreIds = null;
-  @SerializedName("id")
-  @Expose
-  private Integer id;
   @SerializedName("original_title")
   @Expose
   private String originalTitle;

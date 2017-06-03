@@ -4,12 +4,14 @@ import com.leodeleon.popmovies.model.MoviesResult;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import javax.inject.Inject;
 
 public class MovieRepository {
 
   private MovieAPI movieAPI;
   private MovieDB movieDB;
 
+  @Inject
   public MovieRepository(RepositoryFactory factory) {
     movieAPI = factory.createMovieAPI();
     movieDB = factory.createMovieDB();

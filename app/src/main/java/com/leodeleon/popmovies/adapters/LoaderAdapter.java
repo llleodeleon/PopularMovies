@@ -1,77 +1,78 @@
 package com.leodeleon.popmovies.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.leodeleon.popmovies.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by leodeleon on 09/02/2017.
  */
 
-public abstract class LoaderAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewHolder, FooterViewHolder extends RecyclerView.ViewHolder>
+    extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+  public static final int VIEW_TYPE_FOOTER = 3;
+  public static final int VIEW_TYPE_ITEM = 2;
+  private static final int ID_FOOTER = -3;
+  private static final int FOOTER_COUNT = 1;
+  private boolean isLoading;
 
-  public static final int NORMAL_ITEM_VIEW = 1;
-  public static final int LOADER_VIEW = 2;
-  private boolean isLoading = false;
-  protected ArrayList<T> content = new ArrayList<>();
-  protected Context context;
-
-  public LoaderAdapter(Context context, ArrayList<T> content) {
-    this.context = context;
-    this.content = content;
-  }
-
-  @Override
-  public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
-    if (viewType == LOADER_VIEW) {
-      return getLoadingView(viewGroup);
-    } else if (viewType == NORMAL_ITEM_VIEW) {
-      return getViewHolder(viewGroup);
+  @Override public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    if (viewType == VIEW_TYPE_FOOTER) {
+      return onCreateFooterItemViewHolder(parent);
+    } else if (viewType == VIEW_TYPE_ITEM) {
+      return onCreateContentItemViewHolder(parent, viewType);
+    } else {
+      throw new IllegalStateException();
     }
-    throw new IllegalArgumentException("Invalid ViewType: " + viewType);
   }
 
-  @Override
-  public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    if (holder instanceof LoaderViewHolder) {
-      ((LoaderViewHolder) holder).itemView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-      return;
+  @Override public final void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    if (isAtContentPosition(position)) {
+      onBindContentItemViewHolder(viewHolder, position);
+    } else {
+      onBindFooterItemViewHolder((FooterViewHolder) viewHolder);
     }
-    bindView(holder, position);
   }
 
+  @Override public final int getItemCount() {
+    return getContentItemCount() + getFooterItemCount();
+  }
 
-  @Override
-  public int getItemViewType(int position) {
-    if (position != 0 && position == getItemCount() - 1) {
-      return LOADER_VIEW;
+  @Override public final int getItemViewType(int position) {
+    if (isAtContentPosition(position)) {
+      return VIEW_TYPE_ITEM;
+    } else {
+      return VIEW_TYPE_FOOTER;
     }
-    return NORMAL_ITEM_VIEW;
   }
 
-  @Override
-  public int getItemCount() {
-    if (content == null || content.size() == 0) {
-      return 0;
+  @Override public long getItemId(int position) {
+    if (isAtContentPosition(position)) {
+      return getContentItemId(position);
+    } else {
+      return ID_FOOTER;
     }
-    return content.size() + 1;
   }
 
-  @Override
-  public long getItemId(int position) {
-    if (position != 0 && position == getItemCount() - 1) {
-      return -1;
-    }
-    return getContentItemId(position);
+  private boolean isAtContentPosition(int position) {
+    return getContentItemCount() > 0 && position < getContentItemCount();
   }
 
+  private int getFooterItemCount(){
+    return FOOTER_COUNT;
+  }
+
+  private RecyclerView.ViewHolder onCreateFooterItemViewHolder(ViewGroup parent){
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loader_view, parent, false);
+    return new LoaderViewHolder(view);
+  }
+
+
+  private void onBindFooterItemViewHolder(FooterViewHolder footerViewHolder){
+    footerViewHolder.itemView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+  }
 
   public void startLoading() {
     isLoading = true;
@@ -81,14 +82,22 @@ public abstract class LoaderAdapter<T> extends RecyclerView.Adapter<RecyclerView
     isLoading = false;
   }
 
-  public RecyclerView.ViewHolder getLoadingView(ViewGroup view) {
-    return new LoaderViewHolder(LayoutInflater.from(context).inflate(R.layout.loader_view, view, false));
+  public boolean isLoading() {
+    return isLoading;
   }
 
-  protected abstract long getContentItemId(int position);
+  private class LoaderViewHolder extends RecyclerView.ViewHolder {
+    public LoaderViewHolder(View itemView) {
+      super(itemView);
+    }
+  }
 
-  protected abstract RecyclerView.ViewHolder getViewHolder(ViewGroup viewGroup);
+  protected abstract ContentViewHolder onCreateContentItemViewHolder(ViewGroup parent, int contentViewType);
 
-  protected abstract void bindView(RecyclerView.ViewHolder holder, int position);
+  protected abstract void onBindContentItemViewHolder(RecyclerView.ViewHolder contentViewHolder, int position);
+
+  protected abstract int getContentItemId(int position);
+
+  protected abstract int getContentItemCount();
 
 }

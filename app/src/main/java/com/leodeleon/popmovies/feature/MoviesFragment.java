@@ -1,10 +1,11 @@
 package com.leodeleon.popmovies.feature;
 
-import android.content.Context;
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,49 +13,52 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import com.leodeleon.popmovies.R;
-import com.leodeleon.popmovies.adapters.LoaderAdapter;
-import com.leodeleon.popmovies.adapters.MovieAdapter;
-import com.leodeleon.popmovies.api.MovieCalls;
-import com.leodeleon.popmovies.interfaces.MoviesResultCallback;
-import com.leodeleon.popmovies.listeners.PaginationScrollListener;
-import com.leodeleon.popmovies.model.Movie;
-import com.leodeleon.popmovies.model.MoviesResult;
-
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
+import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.adapters.LoaderAdapter;
+import com.leodeleon.popmovies.adapters.MovieAdapter;
+import com.leodeleon.popmovies.di.Injectable;
+import com.leodeleon.popmovies.model.Movie;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.processors.PublishProcessor;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Created by leodeleon on 11/02/2017.
  */
 
-public class MoviesFragment extends Fragment {
+public class MoviesFragment extends LifecycleFragment implements Injectable {
 
   @BindView(R.id.recycler_view)
   RecyclerView mRecyclerView;
   @BindView(R.id.progress_bar)
   ProgressBar mProgressBar;
 
+  @Inject ViewModelProvider.Factory viewModelFactory;
+
   public static final String POSITION = "position";
   private static final String LAYOUT_MANAGER_STATE = "state";
   public static final int POSITION_POPULAR = 0;
   public static final int POSITION_RATED = 1;
-  private MoviesResult popularMoviesResult;
-  private MoviesResult topRatedMoviesResult;
   private MovieAdapter adapter;
-  private ArrayList<Movie> popularMovies = new ArrayList<>();
-  private ArrayList<Movie> topRatedMovies = new ArrayList<>();
-  private int popularPages = 1;
-  private int ratedPages = 1;
+  private List<Movie> movies = new ArrayList<>();
   private Unbinder unbinder;
+  CompositeDisposable disposables = new CompositeDisposable();
+  private MoviesViewModel viewModel;
+  private GridLayoutManager layoutManager;
 
+  private PublishProcessor<Integer> paginator = PublishProcessor.create();
+  private int pageNumber = 1;
+  private int lastVisibleItem, totalItemCount;
+  private final int VISIBLE_THRESHOLD = 1;
 
   int position;
-  Context context;
 
   public static MoviesFragment newInstance(int position) {
     MoviesFragment fragment = new MoviesFragment();
@@ -64,23 +68,28 @@ public class MoviesFragment extends Fragment {
     return fragment;
   }
 
-
-
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_movies, container, false);
     unbinder = ButterKnife.bind(this, view);
-    this.context = getContext();
     this.position = getArguments().getInt(POSITION, 0);
-    getMovies();
+    setRecyclerView();
     return view;
+  }
+
+  @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
+    observeLiveData();
+    subscribe();
   }
 
   @Override
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+    disposables.clear();
   }
 
   @Override
@@ -98,71 +107,47 @@ public class MoviesFragment extends Fragment {
     super.onSaveInstanceState(outState);
   }
 
-  private void getMovies() {
-    if (position == POSITION_POPULAR) {
-      MovieCalls.getInstance().getPopularMovies(popularPages, new MoviesResultCallback() {
-        @Override
-        public void callback(MoviesResult moviesResult) {
-          popularMoviesResult = moviesResult;
-          popularMovies = popularMoviesResult.getMovies();
-          setRecyclerView(popularMovies);
-          mProgressBar.setVisibility(View.GONE);
-        }
-      });
-    } else {
-      MovieCalls.getInstance().getTopRatedMovies(ratedPages, new MoviesResultCallback() {
-        @Override
-        public void callback(MoviesResult moviesResult) {
-          mProgressBar.setVisibility(View.GONE);
-          topRatedMoviesResult = moviesResult;
-          topRatedMovies = topRatedMoviesResult.getMovies();
-          setRecyclerView(topRatedMovies);
-          mProgressBar.setVisibility(View.GONE);
-        }
-      });
-    }
+  private void observeLiveData() {
+    viewModel.getMoviesLiveData().observe(this, movies1 ->  adapter.setMovies(movies1));
   }
 
-  private void setRecyclerView(ArrayList<Movie> movies) {
-    final MovieAdapter adapter = new MovieAdapter(context, movies);
+  private void subscribe() {
+    Disposable d1 = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(recyclerViewScrollEvent -> {
+      totalItemCount = layoutManager.getItemCount();
+      lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+      if (!adapter.isLoading() && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
+        pageNumber++;
+        paginator.onNext(pageNumber);
+      }
+    });
+
+    Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> {
+      if (position == POSITION_POPULAR) {
+        viewModel.loadPopularMovies(page);
+        adapter.startLoading();
+      }
+    });
+
+    paginator.onNext(pageNumber);
+
+    disposables.add(d1);
+    disposables.add(d2);
+  }
+
+  private void setRecyclerView() {
+    adapter = new MovieAdapter();
+    layoutManager = (GridLayoutManager) mRecyclerView.getLayoutManager();
     adapter.setHasStableIds(true);
-    GridLayoutManager layoutManager = (GridLayoutManager) mRecyclerView.getLayoutManager();
+    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    mRecyclerView.setAdapter(adapter);
     layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
       @Override
       public int getSpanSize(int position) {
-          return adapter.getItemViewType(position) == LoaderAdapter.LOADER_VIEW? 2 :1;
+          return adapter.getItemViewType(position) == LoaderAdapter.VIEW_TYPE_FOOTER ? 2 : 1;
       }
     });
 
-    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    mRecyclerView.setAdapter(adapter);
-    mRecyclerView.addOnScrollListener(new PaginationScrollListener() {
-      @Override
-      protected void loadMoreItems() {
-        if (position == POSITION_POPULAR) {
-          popularPages += 1;
-          adapter.startLoading();
-          MovieCalls.getInstance().getPopularMovies(popularPages, new MoviesResultCallback() {
-            @Override
-            public void callback(MoviesResult moviesResult) {
-              popularMovies.addAll(moviesResult.getMovies());
-              adapter.stopLoading();
-              adapter.notifyDataSetChanged();
-            }
-          });
-        } else {
-          ratedPages += 1;
-          adapter.startLoading();
-          MovieCalls.getInstance().getTopRatedMovies(ratedPages, new MoviesResultCallback() {
-            @Override
-            public void callback(MoviesResult moviesResult) {
-              topRatedMovies.addAll(moviesResult.getMovies());
-              adapter.stopLoading();
-              adapter.notifyDataSetChanged();
-            }
-          });
-        }
-      }
-    });
+
   }
+
 }
