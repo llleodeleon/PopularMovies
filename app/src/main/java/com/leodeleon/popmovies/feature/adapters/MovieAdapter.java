@@ -24,6 +24,7 @@ import java.util.List;
  */
 
 public class MovieAdapter extends LoaderAdapter {
+  public static final String TRANSITION_MOVIE = "cardview";
 
   private List<Movie> movies = new ArrayList<>();
   private CompositeDisposable disposables = new CompositeDisposable();
@@ -75,7 +76,7 @@ public class MovieAdapter extends LoaderAdapter {
 
     private void goToDetailActivity() {
       MainActivity activity = (MainActivity) itemView.getContext();
-      activity.addFragment(DetailFragment.newInstance(movie));
+      activity.addFragment(DetailFragment.newInstance(movie), mCardView, TRANSITION_MOVIE);
     }
   }
 }

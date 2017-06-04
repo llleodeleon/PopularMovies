@@ -1,11 +1,16 @@
 package com.leodeleon.popmovies.feature;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.AutoTransition;
+import android.transition.Fade;
 import android.view.MenuItem;
+import android.view.View;
 import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.feature.view.MoviePagerFragment;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -15,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
   @Inject DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
   private FragmentManager manager = getSupportFragmentManager();
+
+  MoviePagerFragment mainFragment;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +53,29 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
   }
 
 
+  public void addFragment(Fragment fragment, View sharedElement, String transitionName) {
+    mainFragment = (MoviePagerFragment) manager.findFragmentById(R.id.fragment_pager);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      mainFragment.setSharedElementEnterTransition(new AutoTransition());
+      mainFragment.setSharedElementReturnTransition(new AutoTransition());
+      fragment.setEnterTransition(new Fade());
+      fragment.setExitTransition(new Fade());
+      fragment.setSharedElementEnterTransition(new AutoTransition());
+      fragment.setSharedElementReturnTransition(new AutoTransition());
+    }
 
-  public void addFragment(Fragment fragment) {
-    manager.beginTransaction().add(R.id.container, fragment).addToBackStack(fragment.toString()).commit();
+    manager.beginTransaction()
+        .addSharedElement(sharedElement, transitionName)
+        .add(R.id.container, fragment)
+        .addToBackStack(fragment.toString())
+        .commit();
   }
 
+  public void addFragment(Fragment fragment) {
+    manager.beginTransaction()
+        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out,R.anim.fade_in, R.anim.fade_out)
+        .add(R.id.container, fragment)
+        .addToBackStack(fragment.toString())
+        .commit();
+  }
 }

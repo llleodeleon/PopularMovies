@@ -104,7 +104,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentBottom="true"
-              android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat"
               tools:text="2015"
               />
           <TextView
@@ -112,8 +112,8 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_above="@id/release_date"
-              android:layout_marginBottom="4dp"
-              android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+              android:textSize="16sp"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
               tools:text="120min"
               />
         </RelativeLayout>

@@ -84,7 +84,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
     observeLiveData();
     subscribe();
-    //paginator.onNext(pageNumber);
+    paginator.onNext(pageNumber);
   }
 
   @Override
@@ -120,8 +120,8 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     Disposable d1 = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(recyclerViewScrollEvent -> {
       totalItemCount = layoutManager.getItemCount() - adapter.getFooterItemCount();
       lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-      if (!adapter.isLoading() && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
-        Log.i(TAG, "subscribe: " + totalItemCount + "  " + lastVisibleItem );
+      if (!adapter.isLoading() && totalItemCount > 0 && lastVisibleItem == totalItemCount) {
+        Log.i(TAG, "totalCount " + totalItemCount + "\nLastVisible " + lastVisibleItem + "\nSum " + (lastVisibleItem + VISIBLE_THRESHOLD));
         pageNumber++;
         adapter.startLoading();
         paginator.onNext(pageNumber);
