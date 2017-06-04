@@ -6,7 +6,8 @@
   <string name="favorites">Favorites</string>
   <string name="videos">Videos</string>
   <string name="overview">Overview</string>
-  <string name="voting_label">%1$.1f/10</string>
-  <string name="runtime_label">%dmin</string>
+  <string name="movie_added">Movie added to the favorites</string>
+  <string name="movie_removed">Movie removed from the favorites</string>
+  <string name="no_favorites">You don\'t have any favorites</string>
   <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>

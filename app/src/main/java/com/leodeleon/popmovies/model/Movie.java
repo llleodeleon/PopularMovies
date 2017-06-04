@@ -1,5 +1,8 @@
 package com.leodeleon.popmovies.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.firebase.crash.FirebaseCrash;
@@ -15,9 +18,13 @@ import java.util.Locale;
 /**
  * Created by leodeleon on 10/02/2017.
  */
-
+@Entity(tableName = "movies")
 public class Movie implements Parcelable
 {
+  @SerializedName("id")
+  @Expose
+  @PrimaryKey
+  private int id;
   @SerializedName("poster_path")
   @Expose
   private String posterPath;
@@ -32,10 +39,9 @@ public class Movie implements Parcelable
   private String releaseDate;
   @SerializedName("genre_ids")
   @Expose
+  @Ignore
   private List<Integer> genreIds = null;
-  @SerializedName("id")
-  @Expose
-  private int id;
+
   @SerializedName("original_title")
   @Expose
   private String originalTitle;
@@ -60,37 +66,20 @@ public class Movie implements Parcelable
   @SerializedName("vote_average")
   @Expose
   private double voteAverage;
-  public final static Parcelable.Creator<Movie> CREATOR = new Creator<Movie>() {
 
+  private int isFavorite;
 
-    @SuppressWarnings({
-        "unchecked"
-    })
-    public Movie createFromParcel(Parcel in) {
-      Movie instance = new Movie();
-      instance.posterPath = ((String) in.readValue((String.class.getClassLoader())));
-      instance.adult = ((boolean) in.readValue((boolean.class.getClassLoader())));
-      instance.overview = ((String) in.readValue((String.class.getClassLoader())));
-      instance.releaseDate = ((String) in.readValue((String.class.getClassLoader())));
-      in.readList(instance.genreIds, (java.lang.Integer.class.getClassLoader()));
-      instance.id = ((int) in.readValue((int.class.getClassLoader())));
-      instance.originalTitle = ((String) in.readValue((String.class.getClassLoader())));
-      instance.originalLanguage = ((String) in.readValue((String.class.getClassLoader())));
-      instance.title = ((String) in.readValue((String.class.getClassLoader())));
-      instance.backdropPath = ((String) in.readValue((String.class.getClassLoader())));
-      instance.popularity = ((double) in.readValue((double.class.getClassLoader())));
-      instance.voteCount = ((int) in.readValue((int.class.getClassLoader())));
-      instance.video = ((boolean) in.readValue((boolean.class.getClassLoader())));
-      instance.voteAverage = ((double) in.readValue((double.class.getClassLoader())));
-      return instance;
-    }
-
-    public Movie[] newArray(int size) {
-      return (new Movie[size]);
-    }
-
+  public int getIsFavorite() {
+    return isFavorite;
   }
-      ;
+
+  public void setIsFavorite(int favorite) {
+    isFavorite = favorite;
+  }
+
+  public boolean isFavorite() {
+    return isFavorite == 1;
+  }
 
   public String getPosterPath() {
     return posterPath;
@@ -233,5 +222,36 @@ public class Movie implements Parcelable
   public int describeContents() {
     return 0;
   }
+
+  public final static Parcelable.Creator<Movie> CREATOR = new Creator<Movie>() {
+
+
+    @SuppressWarnings({
+        "unchecked"
+    })
+    public Movie createFromParcel(Parcel in) {
+      Movie instance = new Movie();
+      instance.posterPath = ((String) in.readValue((String.class.getClassLoader())));
+      instance.adult = ((boolean) in.readValue((boolean.class.getClassLoader())));
+      instance.overview = ((String) in.readValue((String.class.getClassLoader())));
+      instance.releaseDate = ((String) in.readValue((String.class.getClassLoader())));
+      in.readList(instance.genreIds, (java.lang.Integer.class.getClassLoader()));
+      instance.id = ((int) in.readValue((int.class.getClassLoader())));
+      instance.originalTitle = ((String) in.readValue((String.class.getClassLoader())));
+      instance.originalLanguage = ((String) in.readValue((String.class.getClassLoader())));
+      instance.title = ((String) in.readValue((String.class.getClassLoader())));
+      instance.backdropPath = ((String) in.readValue((String.class.getClassLoader())));
+      instance.popularity = ((double) in.readValue((double.class.getClassLoader())));
+      instance.voteCount = ((int) in.readValue((int.class.getClassLoader())));
+      instance.video = ((boolean) in.readValue((boolean.class.getClassLoader())));
+      instance.voteAverage = ((double) in.readValue((double.class.getClassLoader())));
+      return instance;
+    }
+
+    public Movie[] newArray(int size) {
+      return (new Movie[size]);
+    }
+
+  };
 
 }

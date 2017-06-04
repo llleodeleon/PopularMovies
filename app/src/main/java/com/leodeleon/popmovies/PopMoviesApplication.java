@@ -3,6 +3,7 @@ package com.leodeleon.popmovies;
 import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
+import com.facebook.stetho.Stetho;
 import com.google.firebase.crash.FirebaseCrash;
 import com.leodeleon.popmovies.di.AppInjector;
 import dagger.android.AndroidInjector;
@@ -15,8 +16,6 @@ import timber.log.Timber;
  * Created by leodeleon on 08/02/2017.
  */
 
-
-
 public class PopMoviesApplication extends Application implements HasActivityInjector {
 
   @Inject DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
@@ -27,6 +26,7 @@ public class PopMoviesApplication extends Application implements HasActivityInje
     AppInjector.init(this);
 
     if (BuildConfig.DEBUG) {
+      Stetho.initializeWithDefaults(this);
       Timber.plant(new Timber.DebugTree());
     } else {
       Timber.plant(new CrashReportingTree());

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +32,7 @@ import com.leodeleon.popmovies.model.MovieDetail;
 import com.leodeleon.popmovies.util.GlideHelper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import java.util.Locale;
 import javax.inject.Inject;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
@@ -47,10 +49,13 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   @BindView(R.id.overview) TextView mOverviewText;
   @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
   @BindView(R.id.toolbar) Toolbar mToolbar;
-  @BindString(R.string.runtime_label) String runtime;
-  @BindString(R.string.voting_label) String voting;
   @BindDrawable(R.drawable.toolbar_gradient) Drawable gradientToolbar;
   @BindDrawable(R.drawable.bg_gradient) Drawable gradientBackground;
+  @BindString(R.string.movie_added) String added;
+  @BindString(R.string.movie_removed) String removed;
+
+  String runtime = "%dmin";
+  String voting ="%1$.1f/10";
   Unbinder unbinder;
   TrailerAdapter adapter;
   MovieDetailsViewModel viewModel;
@@ -84,6 +89,7 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel.class);
     viewModel.loadDetails(movie.getId());
     observeLiveData();
+    subscribe();
   }
 
   @Override public void onDestroyView() {
@@ -115,6 +121,23 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
     });
   }
 
+  private void subscribe() {
+    Disposable d1 = RxView.clicks(mFloatingButton).subscribe(o ->{
+      boolean isSelected = !mFloatingButton.isSelected();
+      mFloatingButton.setSelected(isSelected);
+      if (isSelected) {
+        viewModel.addFavorite(movie);
+      } else {
+        viewModel.removeFavorite(movie);
+      }
+    });
+
+    Disposable d2 = viewModel.getMovieSubject().subscribe(movie1 -> Snackbar.make(mRecyclerView, movie1.isFavorite()? added : removed, Snackbar.LENGTH_SHORT).show());
+
+    disposable.add(d1);
+    disposable.add(d2);
+  }
+
   private void setRecyclerView() {
     adapter = new TrailerAdapter();
     mRecyclerView.setAdapter(adapter);
@@ -124,14 +147,13 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
     GlideHelper.loadBackdrop(getContext(), movie.getBackdropPath(), mBackdropView);
     GlideHelper.loadPoster(getContext(), movie.getPosterPath(), mPosterView);
     mCollapsingToolbar.setTitle(movie.getTitle());
-    mVoteAvgText.setText(String.format(voting, movie.getVoteAverage()));
+    mVoteAvgText.setText(String.format(Locale.getDefault(), voting, movie.getVoteAverage()));
     mYearText.setText(movie.getReleaseDate());
     mOverviewText.setText(movie.getOverview());
-    Disposable d1 = RxView.clicks(mFloatingButton).subscribe(o -> mFloatingButton.setSelected(!mFloatingButton.isSelected()));
-    disposable.add(d1);
+    mFloatingButton.setSelected(movie.isFavorite());
   }
 
   private void bindDetails() {
-    mRuntimeText.setText(String.format(runtime, movieDetail.getRuntime()));
+    mRuntimeText.setText(String.format(Locale.getDefault(), runtime, movieDetail.getRuntime()));
   }
 }

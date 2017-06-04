@@ -1,6 +1,5 @@
 package com.leodeleon.popmovies.model;
 
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
@@ -13,9 +12,7 @@ import java.util.List;
  * Created by leodeleon on 08/02/2017.
  */
 
-@Entity(tableName = "movies")
-public class MovieDetail implements Parcelable
-{
+public class MovieDetail implements Parcelable {
   @SerializedName("id")
   @Expose
   @PrimaryKey
@@ -97,46 +94,6 @@ public class MovieDetail implements Parcelable
   @SerializedName("vote_count")
   @Expose
   private int voteCount;
-  public final static Parcelable.Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
-
-    @SuppressWarnings({
-        "unchecked"
-    })
-    public MovieDetail createFromParcel(Parcel in) {
-      MovieDetail instance = new MovieDetail();
-      instance.adult = ((boolean) in.readValue((boolean.class.getClassLoader())));
-      instance.backdropPath = ((String) in.readValue((String.class.getClassLoader())));
-      instance.belongsToCollection = ((BelongsToCollection) in.readValue((BelongsToCollection.class.getClassLoader())));
-      instance.budget = ((int) in.readValue((int.class.getClassLoader())));
-      in.readList(instance.genres, (Genre.class.getClassLoader()));
-      instance.homepage = ((String) in.readValue((String.class.getClassLoader())));
-      instance.id = ((int) in.readValue((int.class.getClassLoader())));
-      instance.imdbId = ((String) in.readValue((String.class.getClassLoader())));
-      instance.originalLanguage = ((String) in.readValue((String.class.getClassLoader())));
-      instance.originalTitle = ((String) in.readValue((String.class.getClassLoader())));
-      instance.overview = ((String) in.readValue((String.class.getClassLoader())));
-      instance.popularity = ((double) in.readValue((double.class.getClassLoader())));
-      instance.posterPath = ((String) in.readValue((String.class.getClassLoader())));
-      in.readList(instance.productionCompanies, (ProductionCompany.class.getClassLoader()));
-      in.readList(instance.productionCountries, (ProductionCountry.class.getClassLoader()));
-      instance.releaseDate = ((String) in.readValue((String.class.getClassLoader())));
-      instance.revenue = ((int) in.readValue((int.class.getClassLoader())));
-      instance.runtime = ((int) in.readValue((int.class.getClassLoader())));
-      in.readList(instance.spokenLanguages, (SpokenLanguage.class.getClassLoader()));
-      instance.status = ((String) in.readValue((String.class.getClassLoader())));
-      instance.tagline = ((String) in.readValue((String.class.getClassLoader())));
-      instance.title = ((String) in.readValue((String.class.getClassLoader())));
-      instance.video = ((boolean) in.readValue((boolean.class.getClassLoader())));
-      instance.voteAverage = ((double) in.readValue((double.class.getClassLoader())));
-      instance.voteCount = ((int) in.readValue((int.class.getClassLoader())));
-      return instance;
-    }
-
-    public MovieDetail[] newArray(int size) {
-      return (new MovieDetail[size]);
-    }
-
-  };
 
   public boolean isAdult() {
     return adult;
@@ -337,6 +294,47 @@ public class MovieDetail implements Parcelable
   public void setVoteCount(int voteCount) {
     this.voteCount = voteCount;
   }
+
+  public final static Parcelable.Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
+
+    @SuppressWarnings({
+        "unchecked"
+    })
+    public MovieDetail createFromParcel(Parcel in) {
+      MovieDetail instance = new MovieDetail();
+      instance.adult = ((boolean) in.readValue((boolean.class.getClassLoader())));
+      instance.backdropPath = ((String) in.readValue((String.class.getClassLoader())));
+      instance.belongsToCollection = ((BelongsToCollection) in.readValue((BelongsToCollection.class.getClassLoader())));
+      instance.budget = ((int) in.readValue((int.class.getClassLoader())));
+      in.readList(instance.genres, (Genre.class.getClassLoader()));
+      instance.homepage = ((String) in.readValue((String.class.getClassLoader())));
+      instance.id = ((int) in.readValue((int.class.getClassLoader())));
+      instance.imdbId = ((String) in.readValue((String.class.getClassLoader())));
+      instance.originalLanguage = ((String) in.readValue((String.class.getClassLoader())));
+      instance.originalTitle = ((String) in.readValue((String.class.getClassLoader())));
+      instance.overview = ((String) in.readValue((String.class.getClassLoader())));
+      instance.popularity = ((double) in.readValue((double.class.getClassLoader())));
+      instance.posterPath = ((String) in.readValue((String.class.getClassLoader())));
+      in.readList(instance.productionCompanies, (ProductionCompany.class.getClassLoader()));
+      in.readList(instance.productionCountries, (ProductionCountry.class.getClassLoader()));
+      instance.releaseDate = ((String) in.readValue((String.class.getClassLoader())));
+      instance.revenue = ((int) in.readValue((int.class.getClassLoader())));
+      instance.runtime = ((int) in.readValue((int.class.getClassLoader())));
+      in.readList(instance.spokenLanguages, (SpokenLanguage.class.getClassLoader()));
+      instance.status = ((String) in.readValue((String.class.getClassLoader())));
+      instance.tagline = ((String) in.readValue((String.class.getClassLoader())));
+      instance.title = ((String) in.readValue((String.class.getClassLoader())));
+      instance.video = ((boolean) in.readValue((boolean.class.getClassLoader())));
+      instance.voteAverage = ((double) in.readValue((double.class.getClassLoader())));
+      instance.voteCount = ((int) in.readValue((int.class.getClassLoader())));
+      return instance;
+    }
+
+    public MovieDetail[] newArray(int size) {
+      return (new MovieDetail[size]);
+    }
+
+  };
 
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeValue(adult);

@@ -14,14 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 import com.leodeleon.popmovies.R;
+import com.leodeleon.popmovies.di.Injectable;
 import com.leodeleon.popmovies.feature.adapters.LoaderAdapter;
 import com.leodeleon.popmovies.feature.adapters.MovieAdapter;
-import com.leodeleon.popmovies.di.Injectable;
 import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -34,10 +35,10 @@ import javax.inject.Inject;
 
 public class MoviesFragment extends LifecycleFragment implements Injectable {
 
-  @BindView(R.id.recycler_view)
-  RecyclerView mRecyclerView;
-  @BindView(R.id.progress_bar)
-  ProgressBar mProgressBar;
+  @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+  @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+  @BindView(R.id.no_favorites) TextView mPlaceholderText;
+
 
   @Inject ViewModelProvider.Factory viewModelFactory;
   private static final String TAG = "MoviesFragment";
@@ -111,7 +112,17 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
 
   private void observeLiveData() {
     viewModel.getMoviesLiveData().observe(this, movies1 -> {
-      adapter.setMovies(movies1);
+      if (position == POSITION_FAVORITE) {
+        adapter.setMovies(movies1);
+      } else {
+        adapter.addMovies(movies1);
+      }
+
+      if (movies1 == null || movies1.size() == 0) {
+        mPlaceholderText.setVisibility(View.VISIBLE);
+      } else {
+        mPlaceholderText.setVisibility(View.GONE);
+      }
       mProgressBar.setVisibility(View.GONE);
     });
   }
@@ -120,7 +131,12 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     Disposable d1 = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(recyclerViewScrollEvent -> {
       totalItemCount = layoutManager.getItemCount() - adapter.getFooterItemCount();
       lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-      if (!adapter.isLoading() && totalItemCount > 0 && lastVisibleItem == totalItemCount) {
+      boolean shouldLoadMore = !adapter.isLoading() &&
+              totalItemCount > 0 &&
+              lastVisibleItem == totalItemCount &&
+              position != POSITION_FAVORITE;
+
+      if (shouldLoadMore) {
         Log.i(TAG, "totalCount " + totalItemCount + "\nLastVisible " + lastVisibleItem + "\nSum " + (lastVisibleItem + VISIBLE_THRESHOLD));
         pageNumber++;
         adapter.startLoading();

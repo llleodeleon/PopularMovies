@@ -45,6 +45,7 @@
       android:layout_marginEnd="16dp"
       android:layout_marginRight="16dp"
       android:src="@drawable/selector_favorite"
+      app:backgroundTint="@color/white"
       app:fabSize="normal"
       app:layout_anchor="@id/appbar"
       app:layout_anchorGravity="bottom|right|end"
@@ -97,6 +98,7 @@
               android:layout_height="wrap_content"
               android:layout_centerInParent="true"
               android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
+              android:textColor="@color/white"
               tools:text="9.8/10"
               />
           <TextView
@@ -104,7 +106,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentBottom="true"
-              android:textAppearance="@style/Base.TextAppearance.AppCompat"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
               tools:text="2015"
               />
           <TextView
@@ -112,8 +114,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_above="@id/release_date"
-              android:textSize="16sp"
-              android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+              android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
               tools:text="120min"
               />
         </RelativeLayout>

@@ -51,10 +51,17 @@ public class MovieAdapter extends LoaderAdapter {
     disposables.clear();
   }
 
-  public void setMovies(List<Movie> newMovies) {
+  public void addMovies(List<Movie> newMovies) {
     movies.addAll(newMovies);
     stopLoading();
     notifyItemRangeChanged(movies.size(), newMovies.size(), newMovies);
+  }
+
+  public void setMovies(List<Movie> newMovies) {
+    movies.clear();
+    movies.addAll(newMovies);
+    stopLoading();
+    notifyDataSetChanged();
   }
 
   class MovieViewHolder extends RecyclerView.ViewHolder {

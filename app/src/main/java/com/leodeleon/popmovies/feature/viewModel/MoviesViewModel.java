@@ -10,28 +10,27 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class MoviesViewModel extends ViewModel {
-  private MutableLiveData<List<Movie>> moviesLiveData = new MutableLiveData<>();
-  private CompositeDisposable disposable = new CompositeDisposable();
-  private MovieRepository movieRepository;
+  private final MutableLiveData<List<Movie>> moviesLiveData = new MutableLiveData<>();
+  private final CompositeDisposable disposable = new CompositeDisposable();
+  private final MovieRepository movieRepository;
 
-  @Inject
-  public MoviesViewModel(MovieRepository repository) {
+  @Inject public MoviesViewModel(MovieRepository repository) {
     movieRepository = repository;
   }
 
   public void loadPopularMovies(int page) {
-    Disposable d1 = movieRepository.getPopMovies(page).subscribe(popMovies -> moviesLiveData.postValue(popMovies));
+    Disposable d1 = movieRepository.getPopMovies(page).subscribe(moviesLiveData::postValue);
     disposable.add(d1);
   }
 
   public void loadTopRatedMovies(int page) {
-    Disposable d2 = movieRepository.getTopMovies(page).subscribe(
-        topMovies -> moviesLiveData.postValue(topMovies));
+    Disposable d2 = movieRepository.getTopMovies(page).subscribe(moviesLiveData::postValue);
     disposable.add(d2);
   }
 
   public void loadFavoriteMovies() {
-
+    Disposable d3 = movieRepository.getFavMovies().subscribe(moviesLiveData::postValue);
+    disposable.add(d3);
   }
 
   public MutableLiveData<List<Movie>> getMoviesLiveData() {
@@ -42,4 +41,6 @@ public class MoviesViewModel extends ViewModel {
     super.onCleared();
     disposable.clear();
   }
+
+
 }

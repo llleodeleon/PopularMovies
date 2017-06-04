@@ -35,6 +35,27 @@ public class MovieRepository {
     return getMovies(movieAPI.getTopRatedMovies(page));
   }
 
+  public Single<List<Movie>> getFavMovies() {
+    return movieDB.getFavMovies()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(Schedulers.io());
+  }
+
+  public Completable saveMovie(Movie movie) {
+    return movieDB.saveMovie(movie)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(Schedulers.io());
+  }
+
+  public Completable deleteMovie(Movie movie) {
+    return movieDB.deleteMovie(movie)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(Schedulers.io());
+  }
+
   public Single<MovieDetail> getMovieDetail(int id) {
     return movieAPI.getMovieDetail(id)
         .subscribeOn(Schedulers.io())
@@ -63,12 +84,5 @@ public class MovieRepository {
         return Single.just(movieResponse.getMovies());
       }
     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
-  }
-
-  public Completable saveMovie(MovieDetail movieDetail) {
-    return movieDB.saveMovie(movieDetail)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .unsubscribeOn(Schedulers.io());
   }
 }

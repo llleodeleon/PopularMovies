@@ -3,28 +3,40 @@ package com.leodeleon.popmovies.feature.viewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.leodeleon.popmovies.data.MovieRepository;
+import com.leodeleon.popmovies.model.Movie;
 import com.leodeleon.popmovies.model.MovieDetail;
+import io.reactivex.CompletableObserver;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 import java.util.List;
 import javax.inject.Inject;
+import timber.log.Timber;
 
 public class MovieDetailsViewModel extends ViewModel {
 
 
-  private MutableLiveData<MovieDetail> detailLiveData = new MutableLiveData<>();
-  private MutableLiveData<List<String>> videoLiveData = new MutableLiveData<>();
-  private MovieRepository movieRepository;
-  private CompositeDisposable disposable = new CompositeDisposable();
+  private final MutableLiveData<MovieDetail> detailLiveData = new MutableLiveData<>();
+  private final MutableLiveData<List<String>> videoLiveData = new MutableLiveData<>();
+  private final MovieRepository movieRepository;
+  private final CompositeDisposable disposable = new CompositeDisposable();
+  private final PublishSubject<Movie> movieSubject = PublishSubject.create();
+
 
   @Inject
   public MovieDetailsViewModel(MovieRepository repository) {
     movieRepository = repository;
   }
 
+  @Override protected void onCleared() {
+    super.onCleared();
+    disposable.clear();
+  }
+
   public void loadDetails(int id) {
-    Disposable d1 = movieRepository.getMovieDetail(id).subscribe(movieDetail -> detailLiveData.postValue(movieDetail));
-    Disposable d2 = movieRepository.getVideoKeys(id).subscribe(keys -> videoLiveData.postValue(keys));
+    Disposable d1 = movieRepository.getMovieDetail(id).subscribe(detailLiveData::postValue);
+    Disposable d2 = movieRepository.getVideoKeys(id).subscribe(videoLiveData::postValue);
     disposable.add(d1);
     disposable.add(d2);
   }
@@ -37,8 +49,36 @@ public class MovieDetailsViewModel extends ViewModel {
     return videoLiveData;
   }
 
-  @Override protected void onCleared() {
-    super.onCleared();
-    disposable.clear();
+  public void addFavorite(Movie movie) {
+    movie.setIsFavorite(1);
+    movieRepository.saveMovie(movie).subscribe(new MovieCompletableObserver(movie));
+  }
+
+  public void removeFavorite(Movie movie) {
+    movie.setIsFavorite(0);
+    movieRepository.saveMovie(movie).subscribe(new MovieCompletableObserver(movie));
+  }
+  public PublishSubject<Movie> getMovieSubject() {
+    return movieSubject;
+  }
+
+  private class MovieCompletableObserver implements CompletableObserver {
+    private Movie movie;
+
+    MovieCompletableObserver(Movie movie) {
+      this.movie = movie;
+    }
+
+    @Override public void onSubscribe(@NonNull Disposable d) {
+      disposable.add(d);
+    }
+
+    @Override public void onComplete() {
+      movieSubject.onNext(movie);
+    }
+
+    @Override public void onError(@NonNull Throwable e) {
+      Timber.e(e);
+    }
   }
 }

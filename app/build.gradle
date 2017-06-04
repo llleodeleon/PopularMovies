@@ -67,7 +67,7 @@ dependencies {
   compile dependencies.rxandroid
   compile dependencies.okhttp
   compile dependencies.okhttpLogging
-
+  compile dependencies.stetho
   compile dependencies.glide
   //DI
   compile dependencies.timber
