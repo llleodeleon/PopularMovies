@@ -7,5 +7,5 @@ import com.leodeleon.popmovies.model.MovieDetail;
  */
 
 public interface MovieDetailCallback {
-  void callback(MovieDetail movieDetail);
+  void callback(MovieDetail movieDetailDetail);
 }

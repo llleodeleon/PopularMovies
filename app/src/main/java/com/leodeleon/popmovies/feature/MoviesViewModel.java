@@ -20,15 +20,14 @@ public class MoviesViewModel extends ViewModel {
   }
 
   public void loadPopularMovies(int page) {
-    Disposable d1 = movieRepository.getPopularMovies(page).subscribe(
-        moviesResult -> moviesLiveData.postValue(moviesResult.getMovies()));
+    Disposable d1 = movieRepository.getPopMovies(page).subscribe(popMovies -> moviesLiveData.postValue(popMovies));
     disposable.add(d1);
   }
 
   public void loadTopRatedMovies(int page) {
-    Disposable d2 = movieRepository.getTopRatedMovies(page).subscribe(
-        moviesResult -> moviesLiveData.postValue(moviesResult.getMovies()));
-    disposable.add(d2);
+    //Disposable d2 = movieRepository.getTopRatedMovies(page).subscribe(
+    //    moviesResult -> moviesLiveData.postValue(moviesResult.getMovies()));
+    //disposable.add(d2);
   }
 
   public void loadFavoriteMovies() {

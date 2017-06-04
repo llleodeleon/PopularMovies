@@ -12,16 +12,16 @@ import java.util.ArrayList;
 public class VideoResponse {
   @SerializedName("id")
   @Expose
-  private Integer id;
+  private int id;
   @SerializedName("results")
   @Expose
   private ArrayList<Video> results = null;
 
-  public Integer getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(int id) {
     this.id = id;
   }
 

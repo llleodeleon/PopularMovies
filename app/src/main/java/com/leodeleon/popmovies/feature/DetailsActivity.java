@@ -17,11 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import com.google.gson.Gson;
 import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.adapters.TrailerAdapter;
 import com.leodeleon.popmovies.api.MovieCalls;
-import com.leodeleon.popmovies.model.Movie;
 import com.leodeleon.popmovies.model.MovieDetail;
 import com.leodeleon.popmovies.util.GlideHelper;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 public class DetailsActivity extends AppCompatActivity {
 
-  public final static String MOVIE = "movie";
+  public final static String MOVIE = "movieDetail";
 
   @BindView(R.id.scroll_view)
   NestedScrollView mScrollView;
@@ -55,9 +53,6 @@ public class DetailsActivity extends AppCompatActivity {
   RecyclerView mRecyclerView;
   @BindView(R.id.toolbar)
   Toolbar mToolbar;
-
-  @BindString(R.string.lorem_ipsum)
-  String title;
   @BindString(R.string.runtime_label)
   String runtime;
   @BindString(R.string.voting_label)
@@ -68,7 +63,6 @@ public class DetailsActivity extends AppCompatActivity {
   Drawable gradientBackground;
 
   MovieDetail movieDetail;
-  Movie movie;
   ArrayList<String> videoIds;
 
   Unbinder unbinder;
@@ -83,8 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
     setSupportActionBar(mToolbar);
     mToolbar.setBackground(gradientToolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    String movieJson = getIntent().getStringExtra(MOVIE);
-    movie = new Gson().fromJson(movieJson, Movie.class);
+    movieDetail = getIntent().getParcelableExtra(MOVIE);
     bindViews();
     getDetails();
     getVideos();
@@ -117,26 +110,26 @@ public class DetailsActivity extends AppCompatActivity {
   }
 
   private void getDetails() {
-    MovieCalls.getInstance().getMovieDetail(movie.getId(), movie1 -> {
+    MovieCalls.getInstance().getMovieDetail(movieDetail.getId(), movie1 -> {
       movieDetail = movie1;
       mRuntimeText.setText(String.format(runtime, movie1.getRuntime()));
     });
   }
 
   private void getVideos() {
-    MovieCalls.getInstance().getVideos(movie.getId(), videos -> {
+    MovieCalls.getInstance().getVideos(movieDetail.getId(), videos -> {
       videoIds = videos;
       setRecyclerView();
     });
   }
 
   private void bindViews() {
-    GlideHelper.loadBackdrop(this, movie.getBackdropPath(), mBackdropView);
-    GlideHelper.loadPoster(this, movie.getPosterPath(), mPosterView);
-    mCollapsingToolbar.setTitle(movie.getTitle());
-    mVoteAvgText.setText(String.format(voting, movie.getVoteAverage()));
-    mYearText.setText(movie.getReleaseDate());
-    mOverviewText.setText(movie.getOverview());
+    GlideHelper.loadBackdrop(this, movieDetail.getBackdropPath(), mBackdropView);
+    GlideHelper.loadPoster(this, movieDetail.getPosterPath(), mPosterView);
+    mCollapsingToolbar.setTitle(movieDetail.getTitle());
+    mVoteAvgText.setText(String.format(voting, movieDetail.getVoteAverage()));
+    mYearText.setText(movieDetail.getReleaseDate());
+    mOverviewText.setText(movieDetail.getOverview());
   }
 
   @OnClick({R.id.fab})

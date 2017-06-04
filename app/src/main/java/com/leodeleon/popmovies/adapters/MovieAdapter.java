@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.feature.DetailsActivity;
@@ -71,7 +70,7 @@ public class MovieAdapter extends LoaderAdapter {
 
     public void bindView(Movie movie) {
       this.movie = movie;
-      GlideHelper.loadPoster(itemView.getContext(), movie.getPosterPath(), mPosterImage);
+      GlideHelper.loadPoster(itemView.getContext(), this.movie.getPosterPath(), mPosterImage);
       Disposable d1 = RxView.clicks(mCardView).subscribe(o -> goToDetailActivity());
       disposables.add(d1);
     }
@@ -79,7 +78,7 @@ public class MovieAdapter extends LoaderAdapter {
     private void goToDetailActivity() {
       MainActivity activity = (MainActivity) itemView.getContext();
       Intent intent = new Intent(activity, DetailsActivity.class);
-      intent.putExtra(DetailsActivity.MOVIE, new Gson().toJson(movie));
+      intent.putExtra(DetailsActivity.MOVIE, movie);
       ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, mCardView, "cardview");
       activity.startActivity(intent, options.toBundle());
     }

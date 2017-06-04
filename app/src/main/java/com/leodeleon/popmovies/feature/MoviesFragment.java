@@ -22,12 +22,9 @@ import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.adapters.LoaderAdapter;
 import com.leodeleon.popmovies.adapters.MovieAdapter;
 import com.leodeleon.popmovies.di.Injectable;
-import com.leodeleon.popmovies.model.Movie;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
-import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -50,7 +47,6 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
   public static final int POSITION_RATED = 1;
   public static final int POSITION_FAVORITE = 2;
   private MovieAdapter adapter;
-  private List<Movie> movies = new ArrayList<>();
   private Unbinder unbinder;
   CompositeDisposable disposables = new CompositeDisposable();
   private MoviesViewModel viewModel;
@@ -124,7 +120,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
       totalItemCount = layoutManager.getItemCount() - adapter.getFooterItemCount();
       lastVisibleItem = layoutManager.findLastVisibleItemPosition();
       if (!adapter.isLoading() && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
-        Log.i(TAG, "subscribe: " + totalItemCount + "  " + lastVisibleItem + VISIBLE_THRESHOLD );
+        Log.i(TAG, "subscribe: " + totalItemCount + "  " + lastVisibleItem );
         pageNumber++;
         adapter.startLoading();
         paginator.onNext(pageNumber);

@@ -13,6 +13,7 @@ ext {
   rxandroid = '2.0.1'
   rxbinding = '2.0.0'
   rxjava = '2.1.0'
+  timber = '4.5.1'
 
 
   dependencies = [
@@ -31,8 +32,10 @@ ext {
       rxjava        : "io.reactivex.rxjava2:rxjava:$rxjava",
       rxandroid     : "io.reactivex.rxjava2:rxandroid:$rxandroid",
       okhttp        : "com.squareup.okhttp3:okhttp:$okhttp",
+      okhttpLogging : "com.squareup.okhttp3:logging-interceptor:$okhttp",
       glide         : "com.github.bumptech.glide:glide:$glide",
       stetho             : "com.facebook.stetho:stetho:$stetho",
+      timber        : "com.jakewharton.timber:timber:$timber",
       butterknife        : "com.jakewharton:butterknife:$butterknife",
       butterknifeCompiler: "com.jakewharton:butterknife-compiler:$butterknife",
       chuck                 : "com.readystatesoftware.chuck:library:$chuck",

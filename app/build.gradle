@@ -66,9 +66,11 @@ dependencies {
   compile dependencies.rxjava
   compile dependencies.rxandroid
   compile dependencies.okhttp
+  compile dependencies.okhttpLogging
 
   compile dependencies.glide
   //DI
+  compile dependencies.timber
   compile dependencies.butterknife
   annotationProcessor dependencies.butterknifeCompiler
 
