@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.data;
+package com.leodeleon.popmovies.data.local;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

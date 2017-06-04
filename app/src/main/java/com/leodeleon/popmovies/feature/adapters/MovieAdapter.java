@@ -1,7 +1,5 @@
-package com.leodeleon.popmovies.adapters;
+package com.leodeleon.popmovies.feature.adapters;
 
-import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.leodeleon.popmovies.R;
-import com.leodeleon.popmovies.feature.DetailsActivity;
+import com.leodeleon.popmovies.feature.view.DetailFragment;
 import com.leodeleon.popmovies.feature.MainActivity;
 import com.leodeleon.popmovies.model.Movie;
 import com.leodeleon.popmovies.util.GlideHelper;
@@ -77,10 +75,7 @@ public class MovieAdapter extends LoaderAdapter {
 
     private void goToDetailActivity() {
       MainActivity activity = (MainActivity) itemView.getContext();
-      Intent intent = new Intent(activity, DetailsActivity.class);
-      intent.putExtra(DetailsActivity.MOVIE, movie);
-      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, mCardView, "cardview");
-      activity.startActivity(intent, options.toBundle());
+      activity.addFragment(DetailFragment.newInstance(movie));
     }
   }
 }

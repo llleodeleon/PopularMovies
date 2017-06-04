@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.data;
+package com.leodeleon.popmovies.data.remote;
 
 import com.leodeleon.popmovies.model.MovieDetail;
 import com.leodeleon.popmovies.model.MovieResponse;

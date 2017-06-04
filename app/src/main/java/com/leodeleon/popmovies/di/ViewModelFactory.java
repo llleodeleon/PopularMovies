@@ -3,7 +3,9 @@ package com.leodeleon.popmovies.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.v4.util.ArrayMap;
-import com.leodeleon.popmovies.feature.MoviesViewModel;
+import com.leodeleon.popmovies.di.component.ViewModelSubComponent;
+import com.leodeleon.popmovies.feature.viewModel.MovieDetailsViewModel;
+import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import javax.inject.Inject;
@@ -13,9 +15,10 @@ import javax.inject.Singleton;
   private final ArrayMap<Class, Callable<? extends ViewModel>> creators;
 
   @Inject
-  ViewModelFactory(ViewModelSubComponent viewModelSubComponent) {
+  public ViewModelFactory(ViewModelSubComponent viewModelSubComponent) {
     creators = new ArrayMap<>();
     creators.put(MoviesViewModel.class, viewModelSubComponent::moviesViewModel);
+    creators.put(MovieDetailsViewModel.class, viewModelSubComponent::movieDetailsViewModel);
   }
 
   @Override

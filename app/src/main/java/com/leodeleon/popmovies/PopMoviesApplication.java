@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 import com.google.firebase.crash.FirebaseCrash;
-import com.leodeleon.popmovies.api.API;
 import com.leodeleon.popmovies.di.AppInjector;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -25,7 +24,6 @@ public class PopMoviesApplication extends Application implements HasActivityInje
   @Override
   public void onCreate() {
     super.onCreate();
-    API.initialize(this);
     AppInjector.init(this);
 
     if (BuildConfig.DEBUG) {

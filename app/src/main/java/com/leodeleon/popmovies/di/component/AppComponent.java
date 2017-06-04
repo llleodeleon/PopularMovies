@@ -1,7 +1,9 @@
-package com.leodeleon.popmovies.di;
+package com.leodeleon.popmovies.di.component;
 
 import android.app.Application;
 import com.leodeleon.popmovies.PopMoviesApplication;
+import com.leodeleon.popmovies.di.modules.ActivitiesModule;
+import com.leodeleon.popmovies.di.modules.AppModule;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;

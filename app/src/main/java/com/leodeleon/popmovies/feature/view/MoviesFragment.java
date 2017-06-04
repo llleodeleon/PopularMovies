@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.feature;
+package com.leodeleon.popmovies.feature.view;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
@@ -19,9 +19,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 import com.leodeleon.popmovies.R;
-import com.leodeleon.popmovies.adapters.LoaderAdapter;
-import com.leodeleon.popmovies.adapters.MovieAdapter;
+import com.leodeleon.popmovies.feature.adapters.LoaderAdapter;
+import com.leodeleon.popmovies.feature.adapters.MovieAdapter;
 import com.leodeleon.popmovies.di.Injectable;
+import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;

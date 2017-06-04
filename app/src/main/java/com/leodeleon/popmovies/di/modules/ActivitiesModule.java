@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.di;
+package com.leodeleon.popmovies.di.modules;
 
 import com.leodeleon.popmovies.feature.MainActivity;
 import dagger.Module;
@@ -8,5 +8,4 @@ import dagger.android.ContributesAndroidInjector;
 
   @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
   abstract MainActivity contributeMainActivity();
-
 }

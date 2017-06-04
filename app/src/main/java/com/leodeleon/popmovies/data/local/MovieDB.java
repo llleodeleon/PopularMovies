@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.data;
+package com.leodeleon.popmovies.data.local;
 
 import com.leodeleon.popmovies.model.MovieDetail;
 import io.reactivex.Completable;

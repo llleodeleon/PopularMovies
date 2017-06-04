@@ -2,8 +2,7 @@ package com.leodeleon.popmovies.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by leodeleon on 10/02/2017.
@@ -15,7 +14,7 @@ public class VideoResponse {
   private int id;
   @SerializedName("results")
   @Expose
-  private ArrayList<Video> results = null;
+  private List<Video> results = null;
 
   public int getId() {
     return id;
@@ -25,11 +24,11 @@ public class VideoResponse {
     this.id = id;
   }
 
-  public ArrayList<Video> getVideos() {
+  public List<Video> getVideos() {
     return results;
   }
 
-  public void setResults(ArrayList<Video> videos) {
+  public void setResults(List<Video> videos) {
     this.results = videos;
   }
 }

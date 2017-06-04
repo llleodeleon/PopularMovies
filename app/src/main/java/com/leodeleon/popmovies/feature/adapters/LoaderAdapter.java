@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.adapters;
+package com.leodeleon.popmovies.feature.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import com.leodeleon.popmovies.R;
  * Created by leodeleon on 09/02/2017.
  */
 
-public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewHolder, FooterViewHolder extends RecyclerView.ViewHolder>
+public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewHolder>
     extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   public static final int VIEW_TYPE_FOOTER = 3;
   public static final int VIEW_TYPE_ITEM = 2;
@@ -32,7 +32,7 @@ public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewH
     if (isAtContentPosition(position)) {
       onBindContentItemViewHolder(viewHolder, position);
     } else {
-      onBindFooterItemViewHolder((FooterViewHolder) viewHolder);
+      onBindFooterItemViewHolder(viewHolder);
     }
   }
 
@@ -70,7 +70,7 @@ public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewH
   }
 
 
-  private void onBindFooterItemViewHolder(FooterViewHolder footerViewHolder){
+  private void onBindFooterItemViewHolder(RecyclerView.ViewHolder footerViewHolder){
     footerViewHolder.itemView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
   }
 

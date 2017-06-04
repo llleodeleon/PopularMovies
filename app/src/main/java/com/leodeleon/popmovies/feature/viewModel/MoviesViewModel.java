@@ -1,4 +1,4 @@
-package com.leodeleon.popmovies.feature;
+package com.leodeleon.popmovies.feature.viewModel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -25,20 +25,18 @@ public class MoviesViewModel extends ViewModel {
   }
 
   public void loadTopRatedMovies(int page) {
-    //Disposable d2 = movieRepository.getTopRatedMovies(page).subscribe(
-    //    moviesResult -> moviesLiveData.postValue(moviesResult.getMovies()));
-    //disposable.add(d2);
+    Disposable d2 = movieRepository.getTopMovies(page).subscribe(
+        topMovies -> moviesLiveData.postValue(topMovies));
+    disposable.add(d2);
   }
 
   public void loadFavoriteMovies() {
 
   }
 
-
   public MutableLiveData<List<Movie>> getMoviesLiveData() {
     return moviesLiveData;
   }
-
 
   @Override protected void onCleared() {
     super.onCleared();

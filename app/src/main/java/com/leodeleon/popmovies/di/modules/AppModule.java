@@ -1,11 +1,13 @@
-package com.leodeleon.popmovies.di;
+package com.leodeleon.popmovies.di.modules;
 
 import android.app.Application;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import com.leodeleon.popmovies.BuildConfig;
-import com.leodeleon.popmovies.data.PopMoviesDB;
+import com.leodeleon.popmovies.data.local.PopMoviesDB;
+import com.leodeleon.popmovies.di.ViewModelFactory;
+import com.leodeleon.popmovies.di.component.ViewModelSubComponent;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;

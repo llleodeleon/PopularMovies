@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import com.leodeleon.popmovies.PopMoviesApplication;
+import com.leodeleon.popmovies.di.component.DaggerAppComponent;
+import com.leodeleon.popmovies.di.modules.AppModule;
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
