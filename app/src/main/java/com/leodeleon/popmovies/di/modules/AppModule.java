@@ -15,6 +15,7 @@ import dagger.Provides;
 import io.reactivex.subjects.PublishSubject;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
+import okhttp3.Cache;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -46,9 +47,9 @@ public class AppModule {
     return application.getApplicationContext();
   }
 
-
+  @Provides
   @Singleton
-  @Provides Retrofit provideRetrofit(Context context) {
+  OkHttpClient provideOkHttpClient() {
     Interceptor networkInterceptor = chain -> {
       Request original = chain.request();
       HttpUrl originalHttpUrl = original.url();
@@ -65,13 +66,21 @@ public class AppModule {
     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.tag("OkHttp").d(message));
     loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-    OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    int cacheSize = 10 * 1024 * 1024;
+    Cache cache = new Cache(application.getCacheDir(), cacheSize);
+
+    return new OkHttpClient.Builder()
         .addInterceptor(networkInterceptor)
         .addInterceptor(loggingInterceptor)
-        .addInterceptor(new ChuckInterceptor(context))
+        .addInterceptor(new ChuckInterceptor(application))
+        .cache(cache)
         .connectTimeout(40, TimeUnit.SECONDS)
         .readTimeout(40, TimeUnit.SECONDS)
         .build();
+  }
+
+  @Singleton
+  @Provides Retrofit provideRetrofit(OkHttpClient okHttpClient) {
 
     return new Retrofit.Builder()
         .baseUrl(BASE_URL)
