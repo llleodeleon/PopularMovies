@@ -17,7 +17,6 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.leodeleon.popmovies.R;
 import com.leodeleon.popmovies.feature.MainActivity;
 
-import static com.leodeleon.popmovies.feature.view.MoviesFragment.POSITION_FAVORITE;
 import static com.leodeleon.popmovies.feature.view.MoviesFragment.POSITION_POPULAR;
 import static com.leodeleon.popmovies.feature.view.MoviesFragment.POSITION_RATED;
 
@@ -71,15 +70,13 @@ public class MoviePagerFragment extends Fragment {
 
     @Override
     public CharSequence getPageTitle(int position) {
-      switch (position) {
-        case POSITION_POPULAR:
-          return popular;
-        case POSITION_RATED:
-          return rated;
-        case POSITION_FAVORITE:
-          return favorites;
+      if (position == POSITION_POPULAR) {
+        return popular;
+      } else if (position == POSITION_RATED) {
+        return rated;
+      } else  {
+        return favorites;
       }
-      return null;
     }
   }
 }

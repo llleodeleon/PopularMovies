@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,11 @@ import com.leodeleon.popmovies.di.Injectable;
 import com.leodeleon.popmovies.feature.adapters.LoaderAdapter;
 import com.leodeleon.popmovies.feature.adapters.MovieAdapter;
 import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel;
+import com.leodeleon.popmovies.model.Movie;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -40,26 +41,28 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
   @BindView(R.id.no_favorites) TextView mPlaceholderText;
 
 
-  @Inject ViewModelProvider.Factory viewModelFactory;
+  @Inject public ViewModelProvider.Factory viewModelFactory;
   private static final String TAG = "MoviesFragment";
 
-  public static final String POSITION = "position";
+  private static final String POSITION = "position";
   private static final String LAYOUT_MANAGER_STATE = "state";
   public static final int POSITION_POPULAR = 0;
   public static final int POSITION_RATED = 1;
   public static final int POSITION_FAVORITE = 2;
   private MovieAdapter adapter;
   private Unbinder unbinder;
-  CompositeDisposable disposables = new CompositeDisposable();
+  private CompositeDisposable disposables = new CompositeDisposable();
   private MoviesViewModel viewModel;
   private GridLayoutManager layoutManager;
 
   private PublishProcessor<Integer> paginator = PublishProcessor.create();
   private int pageNumber = 1;
   private int lastVisibleItem, totalItemCount;
-  private final int VISIBLE_THRESHOLD = 1;
-
-  int position;
+  private int position;
+  private MovieData movieData;
+  private PopMoviesData popMoviesData = new PopMoviesData();
+  private TopMoviesData topMoviesData = new TopMoviesData();
+  private FavMoviesData favMoviesData = new FavMoviesData();
 
   public static MoviesFragment newInstance(int position) {
     MoviesFragment fragment = new MoviesFragment();
@@ -69,21 +72,22 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     return fragment;
   }
 
+
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_movies, container, false);
     unbinder = ButterKnife.bind(this, view);
-    this.position = getArguments().getInt(POSITION, 0);
-
+    position = getArguments().getInt(POSITION);
+    viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
+    setMovieData();
     setRecyclerView();
     return view;
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
-    observeLiveData();
+    movieData.observeLiveData();
     subscribe();
     paginator.onNext(pageNumber);
   }
@@ -110,21 +114,19 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     super.onSaveInstanceState(outState);
   }
 
-  private void observeLiveData() {
-    viewModel.getMoviesLiveData().observe(this, movies1 -> {
-      if (position == POSITION_FAVORITE) {
-        adapter.setMovies(movies1);
-      } else {
-        adapter.addMovies(movies1);
-      }
+  private void setMovieData() {
+    if (position == POSITION_POPULAR) {
+      movieData = popMoviesData;
+    } else if (position == POSITION_RATED) {
+      movieData = topMoviesData;
+    } else if (position == POSITION_FAVORITE) {
+      movieData = favMoviesData;
+    }
+  }
 
-      if (movies1 == null || movies1.size() == 0) {
-        mPlaceholderText.setVisibility(View.VISIBLE);
-      } else {
-        mPlaceholderText.setVisibility(View.GONE);
-      }
-      mProgressBar.setVisibility(View.GONE);
-    });
+  private void setData(List<Movie> movieList) {
+    adapter.addMovies(movieList);
+    mProgressBar.setVisibility(View.GONE);
   }
 
   private void subscribe() {
@@ -137,25 +139,13 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
               position != POSITION_FAVORITE;
 
       if (shouldLoadMore) {
-        Log.i(TAG, "totalCount " + totalItemCount + "\nLastVisible " + lastVisibleItem + "\nSum " + (lastVisibleItem + VISIBLE_THRESHOLD));
         pageNumber++;
         adapter.startLoading();
         paginator.onNext(pageNumber);
       }
     });
-
-    Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> {
-      if (position == POSITION_POPULAR) {
-        viewModel.loadPopularMovies(page);
-      } else if (position == POSITION_RATED) {
-        viewModel.loadTopRatedMovies(page);
-      } else if (position == POSITION_FAVORITE) {
-        viewModel.loadFavoriteMovies();
-      }
-    });
-
+    movieData.subscribe();
     disposables.add(d1);
-    disposables.add(d2);
   }
 
   private void setRecyclerView() {
@@ -170,8 +160,55 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
           return adapter.getItemViewType(position) == LoaderAdapter.VIEW_TYPE_FOOTER ? 2 : 1;
       }
     });
+  }
 
+  interface MovieData{
+    void observeLiveData();
+    void subscribe();
+  }
 
+  class PopMoviesData implements MovieData{
+
+    @Override public void observeLiveData() {
+      viewModel.getPopMoviesLiveData().observe(MoviesFragment.this, MoviesFragment.this::setData);
+    }
+
+    @Override public void subscribe() {
+      Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadPopularMovies(page));
+      disposables.add(d2);
+    }
+  }
+
+  class TopMoviesData implements MovieData{
+
+    @Override public void observeLiveData() {
+      viewModel.getTopMoviesLiveData().observe(MoviesFragment.this, MoviesFragment.this::setData);
+    }
+
+    @Override public void subscribe() {
+      Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadTopRatedMovies(page));
+      disposables.add(d2);
+    }
+  }
+
+  class FavMoviesData implements MovieData{
+
+    @Override public void observeLiveData() {
+      viewModel.getFavMoviesLiveData().observe(MoviesFragment.this, movies1 -> {
+        adapter.setMovies(movies1);
+        if (movies1 == null || movies1.size() == 0) {
+          mPlaceholderText.setVisibility(View.VISIBLE);
+        } else {
+          mPlaceholderText.setVisibility(View.GONE);
+        }
+        mProgressBar.setVisibility(View.GONE);
+      });
+    }
+
+    @Override public void subscribe() {
+      Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadFavoriteMovies());
+      disposables.add(d2);
+    }
   }
 
 }

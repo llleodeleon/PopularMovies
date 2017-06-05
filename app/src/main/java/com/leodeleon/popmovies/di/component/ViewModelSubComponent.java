@@ -5,7 +5,9 @@ import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel;
 import dagger.Subcomponent;
 
 @Subcomponent public interface ViewModelSubComponent {
+
   MoviesViewModel moviesViewModel();
+
   MovieDetailsViewModel movieDetailsViewModel();
 
   @Subcomponent.Builder interface Builder {

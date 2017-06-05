@@ -8,9 +8,11 @@ import com.leodeleon.popmovies.BuildConfig;
 import com.leodeleon.popmovies.data.local.PopMoviesDB;
 import com.leodeleon.popmovies.di.ViewModelFactory;
 import com.leodeleon.popmovies.di.component.ViewModelSubComponent;
+import com.leodeleon.popmovies.model.Movie;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.subjects.PublishSubject;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
 import okhttp3.HttpUrl;
@@ -77,8 +79,11 @@ public class AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build();
+  }
 
-
+  @Singleton
+  @Provides PublishSubject<Movie> providesMovieSubject() {
+    return PublishSubject.create();
   }
 
   @Singleton

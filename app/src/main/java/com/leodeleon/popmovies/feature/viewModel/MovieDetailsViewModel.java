@@ -12,21 +12,22 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import timber.log.Timber;
 
+@Singleton
 public class MovieDetailsViewModel extends ViewModel {
-
 
   private final MutableLiveData<MovieDetail> detailLiveData = new MutableLiveData<>();
   private final MutableLiveData<List<String>> videoLiveData = new MutableLiveData<>();
   private final MovieRepository movieRepository;
   private final CompositeDisposable disposable = new CompositeDisposable();
-  private final PublishSubject<Movie> movieSubject = PublishSubject.create();
-
+  private final PublishSubject<Movie> movieSubject;
 
   @Inject
-  public MovieDetailsViewModel(MovieRepository repository) {
+  public MovieDetailsViewModel(MovieRepository repository, PublishSubject<Movie> subject) {
     movieRepository = repository;
+    movieSubject = subject;
   }
 
   @Override protected void onCleared() {
@@ -57,9 +58,6 @@ public class MovieDetailsViewModel extends ViewModel {
   public void removeFavorite(Movie movie) {
     movie.setIsFavorite(0);
     movieRepository.saveMovie(movie).subscribe(new MovieCompletableObserver(movie));
-  }
-  public PublishSubject<Movie> getMovieSubject() {
-    return movieSubject;
   }
 
   private class MovieCompletableObserver implements CompletableObserver {

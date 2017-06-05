@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -32,6 +33,7 @@ import com.leodeleon.popmovies.model.MovieDetail;
 import com.leodeleon.popmovies.util.GlideHelper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 import java.util.Locale;
 import javax.inject.Inject;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
@@ -53,6 +55,7 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   @BindDrawable(R.drawable.bg_gradient) Drawable gradientBackground;
   @BindString(R.string.movie_added) String added;
   @BindString(R.string.movie_removed) String removed;
+  @BindColor(R.color.colorPrimaryDark) int red;
 
   String runtime = "%dmin";
   String voting ="%1$.1f/10";
@@ -60,6 +63,7 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   TrailerAdapter adapter;
   MovieDetailsViewModel viewModel;
   @Inject ViewModelProvider.Factory viewModelFactory;
+  @Inject PublishSubject<Movie> movieSubject;
   Movie movie;
   MovieDetail movieDetail;
   CompositeDisposable disposable = new CompositeDisposable();
@@ -132,7 +136,11 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
       }
     });
 
-    Disposable d2 = viewModel.getMovieSubject().subscribe(movie1 -> Snackbar.make(mRecyclerView, movie1.isFavorite()? added : removed, Snackbar.LENGTH_SHORT).show());
+    Disposable d2 = movieSubject.subscribe(movie1 -> {
+      Snackbar snackbar = Snackbar.make(getView(), movie1.isFavorite()? added : removed, Snackbar.LENGTH_SHORT);
+      snackbar.getView().setBackgroundColor(red);
+      snackbar.show();
+    } );
 
     disposable.add(d1);
     disposable.add(d2);
