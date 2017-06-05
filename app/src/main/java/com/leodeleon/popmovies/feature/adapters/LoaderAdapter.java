@@ -65,7 +65,7 @@ public abstract class LoaderAdapter<ContentViewHolder extends RecyclerView.ViewH
   }
 
   private RecyclerView.ViewHolder onCreateFooterItemViewHolder(ViewGroup parent){
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loader_view, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_loader, parent, false);
     return new LoaderViewHolder(view);
   }
 

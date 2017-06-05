@@ -34,6 +34,18 @@ android {
   configurations.all {
     resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
   }
+  sourceSets {
+    main {
+      res.srcDirs =
+          [
+              'src/main/res/layouts/base',
+              'src/main/res/layouts/items',
+              'src/main/res/layouts/views',
+              'src/main/res/layouts',
+              'src/main/res'
+          ]
+    }
+  }
 }
 
 
@@ -101,6 +113,8 @@ dependencies {
   compile 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
   compile 'com.jpardogo.materialtabstrip:library:1.1.1'
   compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+  compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
+  compile 'org.apmem.tools:layouts:1.10@aar'
 
   compile files('libs/YouTubeAndroidPlayerApi.jar')
   testCompile 'junit:junit:4.12'

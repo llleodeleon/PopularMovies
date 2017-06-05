@@ -16,7 +16,6 @@ ext {
   timber = '4.5.1'
   constraint = '1.0.2'
 
-
   dependencies = [
       appcompat          : "com.android.support:appcompat-v7:$support",
       support            : "com.android.support:support-v4:$support",

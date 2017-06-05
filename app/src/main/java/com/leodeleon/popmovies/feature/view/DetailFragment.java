@@ -28,15 +28,19 @@ import com.leodeleon.popmovies.di.Injectable;
 import com.leodeleon.popmovies.feature.MainActivity;
 import com.leodeleon.popmovies.feature.adapters.TrailerAdapter;
 import com.leodeleon.popmovies.feature.viewModel.MovieDetailsViewModel;
+import com.leodeleon.popmovies.model.Genre;
 import com.leodeleon.popmovies.model.Movie;
 import com.leodeleon.popmovies.model.MovieDetail;
 import com.leodeleon.popmovies.util.GlideHelper;
+import com.robertlevonyan.views.chip.Chip;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import java.util.Locale;
+import java.util.function.Consumer;
 import javax.inject.Inject;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
+import org.apmem.tools.layouts.FlowLayout;
 
 public class DetailFragment extends LifecycleFragment implements Injectable {
   @BindView(R.id.scroll_view) NestedScrollView mScrollView;
@@ -50,6 +54,7 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   @BindView(R.id.runtime) TextView mRuntimeText;
   @BindView(R.id.overview) TextView mOverviewText;
   @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+  @BindView(R.id.flow_layout) FlowLayout mFlowLayout;
   @BindView(R.id.toolbar) Toolbar mToolbar;
   @BindDrawable(R.drawable.toolbar_gradient) Drawable gradientToolbar;
   @BindDrawable(R.drawable.bg_gradient) Drawable gradientBackground;
@@ -163,5 +168,12 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
 
   private void bindDetails() {
     mRuntimeText.setText(String.format(Locale.getDefault(), runtime, movieDetail.getRuntime()));
+    movieDetail.getGenres().forEach(new Consumer<Genre>() {
+      @Override public void accept(Genre genre) {
+        Chip chip = (Chip) LayoutInflater.from(getContext()).inflate(R.layout.view_chip, mFlowLayout, false);
+        chip.setChipText(genre.getName());
+        mFlowLayout.addView(chip);
+      }
+    });
   }
 }

@@ -30,7 +30,7 @@ public class MovieAdapter extends LoaderAdapter {
   private CompositeDisposable disposables = new CompositeDisposable();
 
   @Override protected RecyclerView.ViewHolder onCreateContentItemViewHolder(ViewGroup parent, int contentViewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_view, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_movie, parent, false);
     return new MovieViewHolder(view);
   }
 
