@@ -46,7 +46,7 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   @BindView(R.id.poster) ImageView mPosterView;
   @BindView(R.id.vote_average) TextView mVoteAvgText;
   @BindView(R.id.release_date) TextView mYearText;
-  @BindView(R.id.videos) TextView mVideosText;
+  @BindView(R.id.text_trailers) TextView mVideosText;
   @BindView(R.id.runtime) TextView mRuntimeText;
   @BindView(R.id.overview) TextView mOverviewText;
   @BindView(R.id.recycler_view) RecyclerView mRecyclerView;

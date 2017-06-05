@@ -4,8 +4,9 @@
   <string name="sort_popular">Most popular</string>
   <string name="popular">Popular</string>
   <string name="favorites">Favorites</string>
-  <string name="videos">Videos</string>
+  <string name="trailers">Trailers</string>
   <string name="overview">Overview</string>
+  <string name="genres">Genres</string>
   <string name="movie_added">Movie added to the favorites</string>
   <string name="movie_removed">Movie removed from the favorites</string>
   <string name="no_favorites">You don\'t have any favorites</string>

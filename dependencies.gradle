@@ -14,11 +14,13 @@ ext {
   rxbinding = '2.0.0'
   rxjava = '2.1.0'
   timber = '4.5.1'
+  constraint = '1.0.2'
 
 
   dependencies = [
       appcompat          : "com.android.support:appcompat-v7:$support",
       support            : "com.android.support:support-v4:$support",
+      constraint         : "com.android.support.constraint:constraint-layout:$constraint",
       design             : "com.android.support:design:$support",
       customTabs         : "com.android.support:customtabs:$support",
       recyclerview       : "com.android.support:recyclerview-v7:$support",

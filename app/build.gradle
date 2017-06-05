@@ -49,6 +49,7 @@ dependencies {
   //support
   compile dependencies.appcompat
   compile dependencies.support
+  compile dependencies.constraint
   compile dependencies.design
   compile dependencies.recyclerview
   compile dependencies.cardview
@@ -99,6 +100,7 @@ dependencies {
   //custom views
   compile 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
   compile 'com.jpardogo.materialtabstrip:library:1.1.1'
+  compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
   compile files('libs/YouTubeAndroidPlayerApi.jar')
   testCompile 'junit:junit:4.12'
