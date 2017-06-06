@@ -41,7 +41,7 @@ public class GlideHelper {
         .into(new SimpleTarget<GlideDrawable>() {
       @Override
       public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-        imageView.setBackground(resource);
+        imageView.setImageDrawable(resource);
       }
     });
   }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindColor;
+import butterknife.BindDimen;
 import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -37,7 +38,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import java.util.Locale;
-import java.util.function.Consumer;
 import javax.inject.Inject;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 import org.apmem.tools.layouts.FlowLayout;
@@ -61,7 +61,7 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   @BindString(R.string.movie_added) String added;
   @BindString(R.string.movie_removed) String removed;
   @BindColor(R.color.colorPrimaryDark) int red;
-
+@BindDimen(R.dimen.dp8) int margin;
   String runtime = "%dmin";
   String voting ="%1$.1f/10";
   Unbinder unbinder;
@@ -87,16 +87,22 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
     View view = inflater.inflate(R.layout.fragment_detail, container, false);
     unbinder = ButterKnife.bind(this, view);
     movie = getArguments().getParcelable(MOVIE);
+    return view;
+  }
+
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
     bindMovie();
     setRecyclerView();
     setToolbar();
-    return view;
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel.class);
-    viewModel.loadDetails(movie.getId());
+    if (savedInstanceState == null) {
+      viewModel.loadDetails(movie.getId());
+    }
     observeLiveData();
     subscribe();
   }
@@ -108,7 +114,6 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   }
 
   private void setToolbar() {
-    mBackdropView.setImageDrawable(gradientBackground);
     ((MainActivity) getActivity()).setSupportActionBar(mToolbar);
     mToolbar.setBackground(gradientToolbar);
     ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -168,12 +173,18 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
 
   private void bindDetails() {
     mRuntimeText.setText(String.format(Locale.getDefault(), runtime, movieDetail.getRuntime()));
-    movieDetail.getGenres().forEach(new Consumer<Genre>() {
-      @Override public void accept(Genre genre) {
-        Chip chip = (Chip) LayoutInflater.from(getContext()).inflate(R.layout.view_chip, mFlowLayout, false);
-        chip.setChipText(genre.getName());
-        mFlowLayout.addView(chip);
-      }
-    });
+    mFlowLayout.removeAllViews();
+    for (Genre genre: movieDetail.getGenres()) {
+      Chip chip = (Chip) LayoutInflater.from(getContext()).inflate(R.layout.view_chip, null);
+      FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(
+          FlowLayout.LayoutParams.WRAP_CONTENT,
+          FlowLayout.LayoutParams.WRAP_CONTENT
+      );
+      params.setMargins(0,0,margin,margin);
+      chip.setLayoutParams(params);
+      chip.setChipText(genre.getName());
+      mFlowLayout.addView(chip);
+
+    }
   }
 }

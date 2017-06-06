@@ -15,6 +15,7 @@ ext {
   rxjava = '2.1.0'
   timber = '4.5.1'
   constraint = '1.0.2'
+  mockito = '2.8.9'
 
   dependencies = [
       appcompat          : "com.android.support:appcompat-v7:$support",
@@ -55,6 +56,8 @@ ext {
       rxBindingsSupport     : "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding",
       rxBindingsAppCompat   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding",
       rxBindingsDesign      : "com.jakewharton.rxbinding2:rxbinding-design:$rxbinding",
-      rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding"
+      rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding",
+      mockito               :"org.mockito:mockito-core:$mockito",
+      mockitoAndroid        :"org.mockito:mockito-android:$mockito",
   ]
 }

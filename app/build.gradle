@@ -118,6 +118,8 @@ dependencies {
 
   compile files('libs/YouTubeAndroidPlayerApi.jar')
   testCompile 'junit:junit:4.12'
+  testCompile dependencies.mockito
+  androidTestCompile dependencies.mockitoAndroid
 }
 
 apply plugin: 'com.google.gms.google-services'

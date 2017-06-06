@@ -80,16 +80,22 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     unbinder = ButterKnife.bind(this, view);
     position = getArguments().getInt(POSITION);
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel.class);
+    return view;
+  }
+
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
     setMovieData();
     setRecyclerView();
-    return view;
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     movieData.observeLiveData();
     subscribe();
-    paginator.onNext(pageNumber);
+    if (savedInstanceState == null) {
+      paginator.onNext(pageNumber);
+    }
   }
 
   @Override
@@ -174,7 +180,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     }
 
     @Override public void subscribe() {
-      Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadPopularMovies(page));
+      final Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadPopularMovies(page));
       disposables.add(d2);
     }
   }
@@ -186,7 +192,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     }
 
     @Override public void subscribe() {
-      Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadTopRatedMovies(page));
+      final Disposable d2 = paginator.onBackpressureDrop().subscribe(page -> viewModel.loadTopRatedMovies(page));
       disposables.add(d2);
     }
   }
