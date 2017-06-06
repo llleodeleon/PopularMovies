@@ -1,5 +1,5 @@
 ext {
-  support = '25.3.1'
+  support = '26.0.0-beta1'
   playservices = '10.2.6'
   butterknife = '8.5.1'
   chuck = '1.0.4'

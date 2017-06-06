@@ -29,6 +29,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
 import java.util.List;
 import javax.inject.Inject;
+import timber.log.Timber;
 
 /**
  * Created by leodeleon on 11/02/2017.
@@ -57,7 +58,7 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
 
   private PublishProcessor<Integer> paginator = PublishProcessor.create();
   private int pageNumber = 1;
-  private int lastVisibleItem, totalItemCount;
+  private int lastVisibleItem, totalItemCount, visibleThreshold;
   private int position;
   private MovieData movieData;
   private PopMoviesData popMoviesData = new PopMoviesData();
@@ -139,9 +140,12 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
     Disposable d1 = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(recyclerViewScrollEvent -> {
       totalItemCount = layoutManager.getItemCount() - adapter.getFooterItemCount();
       lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+      visibleThreshold = layoutManager.getSpanCount();
+      Timber.i("totalItemCount " + totalItemCount);
+      Timber.i("lastVisibleItem " + lastVisibleItem);
       boolean shouldLoadMore = !adapter.isLoading() &&
               totalItemCount > 0 &&
-              lastVisibleItem == totalItemCount &&
+              lastVisibleItem + visibleThreshold > totalItemCount &&
               position != POSITION_FAVORITE;
 
       if (shouldLoadMore) {
