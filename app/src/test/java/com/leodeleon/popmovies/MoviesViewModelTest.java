@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +28,7 @@ public class MoviesViewModelTest {
   @Mock MovieRepository movieRepository;
   List<Movie> FULL_LIST_OF_MOVIES = Arrays.asList(new Movie(), new Movie());
   List<Movie> EMPTY_LIST_OF_MOVIES = Collections.emptyList();
-  @Mock
-  MutableLiveData<List<Movie>> movies;
+  @Mock MutableLiveData<List<Movie>> movies;
 
   @Before
   public void setup() {
@@ -42,9 +42,11 @@ public class MoviesViewModelTest {
   public void shouldLoadPopularMovies() {
     Mockito.when(movieRepository.getPopMovies(1)).thenReturn(Single.just(FULL_LIST_OF_MOVIES));
 
-    moviesViewModel.loadPopMovies(1).subscribe(movies::postValue);
+    moviesViewModel.getPopMoviesLiveData().observeForever(
+        movies1 -> Assert.assertEquals(FULL_LIST_OF_MOVIES, movies1)
+    );
 
-    Mockito.verify(movies).postValue(FULL_LIST_OF_MOVIES);
+    movieRepository.getPopMovies(1).subscribe(movies::postValue);
   }
 
   @After

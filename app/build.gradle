@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'findbugs'
 
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -33,6 +34,9 @@ android {
   }
   configurations.all {
     resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+  }
+  testOptions {
+    unitTests.returnDefaultValues = true
   }
   sourceSets {
     main {
@@ -123,3 +127,5 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply from: "${rootDir}/config/codequality-findbugs.gradle"
+apply from: "${rootDir}/config/codequality-pmd.gradle"

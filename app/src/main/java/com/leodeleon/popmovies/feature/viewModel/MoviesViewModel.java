@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.leodeleon.popmovies.data.MovieRepository;
 import com.leodeleon.popmovies.model.Movie;
-import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -31,10 +30,6 @@ public class MoviesViewModel extends ViewModel {
   public void loadPopularMovies(int page) {
     Disposable d1 = movieRepository.getPopMovies(page).subscribe(popMoviesLiveData::postValue);
     disposable.add(d1);
-  }
-
-  public Single<List<Movie>> loadPopMovies(final int page) {
-    return movieRepository.getPopMovies(page);
   }
 
   public void loadTopRatedMovies(int page) {
