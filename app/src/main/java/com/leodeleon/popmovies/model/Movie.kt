@@ -29,7 +29,7 @@ data class Movie(
     }
   }
 
-  fun isFavorite() = favorite == 1;
+  fun isFavorite() = favorite == 1
 
   override fun describeContents() = 0
 
@@ -44,3 +44,10 @@ data class Movie(
     dest.writeInt(favorite)
   }
 }
+
+data class MovieResponse(
+    var page: Int,
+    var results: List<Movie>,
+    var total_results: Int,
+    var total_pages: Int
+)

@@ -60,8 +60,8 @@ class MovieRepository @Inject constructor(factory: RepositoryFactory) {
   fun getVideoKeys(id: Int): Single<List<String>> {
     return movieAPI.getVideos(id)
         .toObservable()
-        .flatMapIterable<Video> { it.videos }
-        .flatMapSingle { video -> Single.just<String>(video.getKey()) }
+        .flatMapIterable<Video> { it.results }
+        .flatMapSingle { video -> Single.just<String>(video.key) }
         .toList()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -69,12 +69,8 @@ class MovieRepository @Inject constructor(factory: RepositoryFactory) {
   }
 
   private fun getMovies(movieResponseSingle: Single<MovieResponse>): Single<List<Movie>> {
-    return movieResponseSingle.flatMap { movieResponse -> Single.just<List<Movie>>(movieResponse.movies) }
+    return movieResponseSingle.flatMap { movieResponse -> Single.just<List<Movie>>(movieResponse.results) }
         .subscribeOn(
         Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io())
-  }
-
-  companion object {
-    private val TAG = "MovieRepository"
   }
 }
