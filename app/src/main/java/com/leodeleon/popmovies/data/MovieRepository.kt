@@ -12,14 +12,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(factory: RepositoryFactory) {
-  private val movieAPI: MovieAPI
-  private val movieDB: MovieDB
-
-  init {
-    movieAPI = factory.createMovieAPI()
-    movieDB = factory.createMovieDB()
-  }
+class MovieRepository @Inject
+constructor(factory: RepositoryFactory) {
+  private val movieAPI: MovieAPI = factory.createMovieAPI()
+  private val movieDB: MovieDB = factory.createMovieDB()
 
   fun getPopMovies(page: Int): Single<List<Movie>> {
     return getMovies(movieAPI.getPopularMovies(page))
