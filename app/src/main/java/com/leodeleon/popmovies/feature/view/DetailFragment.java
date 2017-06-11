@@ -162,11 +162,11 @@ public class DetailFragment extends LifecycleFragment implements Injectable {
   }
 
   private void bindMovie() {
-    GlideHelper.Companion.loadBackdrop(getContext(), movie.getBackdropPath(), mBackdropView);
-    GlideHelper.Companion.loadPoster(getContext(), movie.getPosterPath(), mPosterView);
+    GlideHelper.Companion.loadBackdrop(getContext(), movie.getBackdrop_path(), mBackdropView);
+    GlideHelper.Companion.loadPoster(getContext(), movie.getPoster_path(), mPosterView);
     mCollapsingToolbar.setTitle(movie.getTitle());
-    mVoteAvgText.setText(String.format(Locale.getDefault(), voting, movie.getVoteAverage()));
-    mYearText.setText(movie.getReleaseDate());
+    mVoteAvgText.setText(String.format(Locale.getDefault(), voting, movie.getVote_average()));
+    mYearText.setText(movie.getRelease_date());
     mOverviewText.setText(movie.getOverview());
     mFloatingButton.setSelected(movie.isFavorite());
   }

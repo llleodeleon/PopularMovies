@@ -51,12 +51,12 @@ public class MovieDetailsViewModel extends ViewModel {
   }
 
   public void addFavorite(Movie movie) {
-    movie.setIsFavorite(1);
+    movie.setFavorite(1);
     movieRepository.saveMovie(movie).subscribe(new MovieCompletableObserver(movie));
   }
 
   public void removeFavorite(Movie movie) {
-    movie.setIsFavorite(0);
+    movie.setFavorite(0);
     movieRepository.saveMovie(movie).subscribe(new MovieCompletableObserver(movie));
   }
 

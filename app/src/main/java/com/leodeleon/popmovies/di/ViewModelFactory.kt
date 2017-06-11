@@ -10,6 +10,7 @@ import java.util.concurrent.Callable
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("UNCHECKED_CAST")
 @Singleton class ViewModelFactory @Inject
 constructor(viewModelSubComponent: ViewModelSubComponent) : ViewModelProvider.Factory {
   private val creators: ArrayMap<Class<*>, Callable<out ViewModel>> = ArrayMap()

@@ -76,7 +76,7 @@ public class MovieAdapter extends LoaderAdapter {
 
     public void bindView(Movie movie) {
       this.movie = movie;
-      GlideHelper.Companion.loadPoster(itemView.getContext(), this.movie.getPosterPath(), mPosterImage);
+      GlideHelper.Companion.loadPoster(itemView.getContext(), this.movie.getPoster_path(), mPosterImage);
       Disposable d1 = RxView.clicks(mCardView).subscribe(o -> goToDetailActivity());
       disposables.add(d1);
     }

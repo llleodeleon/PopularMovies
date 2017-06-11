@@ -64,7 +64,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void bindView(final String videoId) {
       this.videoId = videoId;
-      GlideHelper.loadThumbnail(itemView.getContext(), videoId, mThumbnailView);
+      GlideHelper.Companion.loadThumbnail(itemView.getContext(), videoId, mThumbnailView);
     }
 
     @Override
