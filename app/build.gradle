@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
 apply plugin: 'findbugs'
+apply plugin: 'kotlin-android-extensions'
 
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -40,18 +41,26 @@ android {
   }
   sourceSets {
     main {
-      res.srcDirs =
-          [
-              'src/main/res/layouts/base',
-              'src/main/res/layouts/items',
-              'src/main/res/layouts/views',
-              'src/main/res/layouts',
-              'src/main/res'
-          ]
+      java{
+        srcDirs += 'src/main/kotlin'
+      }
+      res{
+        srcDirs =
+            [
+                'src/main/res/layouts/base',
+                'src/main/res/layouts/items',
+                'src/main/res/layouts/views',
+                'src/main/res/layouts',
+                'src/main/res'
+            ]
+      }
     }
   }
 }
 
+kapt {
+  generateStubs = true
+}
 
 
 dependencies {
@@ -61,6 +70,9 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
+
+  compile dependencies.kotlin
+  testCompile dependencies.kotlin
 
   //support
   compile dependencies.appcompat
@@ -89,20 +101,20 @@ dependencies {
   //DI
   compile dependencies.timber
   compile dependencies.butterknife
-  annotationProcessor dependencies.butterknifeCompiler
+  kapt dependencies.butterknifeCompiler
 
   compile dependencies.dagger
   compile dependencies.daggerAndroid
   compile dependencies.daggerAndroidSupport
-  annotationProcessor dependencies.daggerCompiler
-  annotationProcessor dependencies.daggerAndroidProcessor
+  kapt dependencies.daggerCompiler
+  kapt dependencies.daggerAndroidProcessor
 
   compile dependencies.lifecycle
-  annotationProcessor dependencies.lifecycleCompiler
+  kapt dependencies.lifecycleCompiler
 
   compile dependencies.room
   compile dependencies.roomRxJava
-  annotationProcessor dependencies.roomCompiler
+  kapt dependencies.roomCompiler
 
   debugCompile dependencies.chuck
   releaseCompile dependencies.chuckNoOp
@@ -113,6 +125,11 @@ dependencies {
   compile dependencies.rxBindingsAppCompat
   compile dependencies.rxBindingsRecycler
 
+  testCompile dependencies.mockito
+  androidTestCompile dependencies.mockitoAndroid
+  testCompile 'junit:junit:4.12'
+
+
   //custom views
   compile 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
   compile 'com.jpardogo.materialtabstrip:library:1.1.1'
@@ -121,11 +138,13 @@ dependencies {
   compile 'org.apmem.tools:layouts:1.10@aar'
 
   compile files('libs/YouTubeAndroidPlayerApi.jar')
-  testCompile 'junit:junit:4.12'
-  testCompile dependencies.mockito
-  androidTestCompile dependencies.mockitoAndroid
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
 apply from: "${rootDir}/config/codequality-findbugs.gradle"
 apply from: "${rootDir}/config/codequality-pmd.gradle"
+repositories {
+  mavenCentral()
+}

@@ -69,10 +69,4 @@ google-services.json
 ehthumbs.db
 Thumbs.db
 
-buck-out
-.buckd
-.okbuck
-.buckconfig.local
-**/BUCK
-
 buildSrc/bintray.properties
