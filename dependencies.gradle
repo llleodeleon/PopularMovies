@@ -17,6 +17,7 @@ ext {
   timber = '4.5.1'
   constraint = '1.0.2'
   mockito = '2.8.9'
+  moshi = '1.5.0'
 
   dependencies = [
       appcompat          : "com.android.support:appcompat-v7:$support",
@@ -31,6 +32,7 @@ ext {
       gson          : "com.google.code.gson:gson:$gson",
       retrofit      : "com.squareup.retrofit2:retrofit:$retrofit",
       retrofitGson  : "com.squareup.retrofit2:converter-gson:$retrofit",
+      retrofitMoshi  : "com.squareup.retrofit2:converter-moshi:$retrofit",
       retrofitRxJava: "com.squareup.retrofit2:adapter-rxjava2:$retrofit",
       rxjava        : "io.reactivex.rxjava2:rxjava:$rxjava",
       rxandroid     : "io.reactivex.rxjava2:rxandroid:$rxandroid",
@@ -61,5 +63,6 @@ ext {
       rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding",
       mockito               :"org.mockito:mockito-core:$mockito",
       mockitoAndroid        :"org.mockito:mockito-android:$mockito",
+      moshi        :"com.squareup.moshi:moshi:$moshi"
   ]
 }

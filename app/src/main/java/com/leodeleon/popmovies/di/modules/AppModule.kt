@@ -9,25 +9,21 @@ import com.leodeleon.popmovies.data.local.PopMoviesDB
 import com.leodeleon.popmovies.di.ViewModelFactory
 import com.leodeleon.popmovies.di.component.ViewModelSubComponent
 import com.leodeleon.popmovies.model.Movie
+import com.leodeleon.popmovies.util.Constants.BASE_URL
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 import okhttp3.Cache
-import okhttp3.HttpUrl
-import okhttp3.Interceptor
+import okhttp3.Interceptor.Chain
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
-
-import com.leodeleon.popmovies.util.Constants.BASE_URL
-import okhttp3.Interceptor.Chain
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module(subcomponents = arrayOf(ViewModelSubComponent::class))
 class AppModule(internal val application: Application) {
@@ -83,7 +79,7 @@ class AppModule(internal val application: Application) {
     return Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
   }

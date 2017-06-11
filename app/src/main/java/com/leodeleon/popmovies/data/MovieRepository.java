@@ -5,13 +5,11 @@ import com.leodeleon.popmovies.data.remote.MovieAPI;
 import com.leodeleon.popmovies.model.Movie;
 import com.leodeleon.popmovies.model.MovieDetail;
 import com.leodeleon.popmovies.model.MovieResponse;
-import com.leodeleon.popmovies.model.Video;
 import com.leodeleon.popmovies.model.VideoResponse;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
@@ -67,11 +65,7 @@ public class MovieRepository {
     return movieAPI.getVideos(id)
         .toObservable()
         .flatMapIterable(VideoResponse::getVideos)
-        .flatMapSingle(new Function<Video, SingleSource<String>>() {
-          @Override public SingleSource<String> apply(@NonNull Video video) throws Exception {
-            return Single.just(video.getKey());
-          }
-        })
+        .flatMapSingle(video -> Single.just(video.getKey()))
         .toList()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -79,10 +73,11 @@ public class MovieRepository {
   }
 
   private Single<List<Movie>> getMovies(Single<MovieResponse> movieResponseSingle) {
-    return movieResponseSingle.flatMap(new Function<MovieResponse, SingleSource<List<Movie>>>() {
-      @Override public SingleSource<List<Movie>> apply(@NonNull MovieResponse movieResponse) throws Exception {
-        return Single.just(movieResponse.getMovies());
-      }
-    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+    return movieResponseSingle.flatMap(
+        (Function<MovieResponse, SingleSource<List<Movie>>>) movieResponse ->
+            Single.just(movieResponse.getMovies()))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(Schedulers.io());
   }
 }

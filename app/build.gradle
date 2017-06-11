@@ -89,8 +89,10 @@ dependencies {
   //networking
 
   compile dependencies.gson
+  compile dependencies.moshi
   compile dependencies.retrofit
   compile dependencies.retrofitGson
+  compile dependencies.retrofitMoshi
   compile dependencies.retrofitRxJava
   compile dependencies.rxjava
   compile dependencies.rxandroid

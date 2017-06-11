@@ -29,7 +29,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
 import java.util.List;
 import javax.inject.Inject;
-import timber.log.Timber;
 
 /**
  * Created by leodeleon on 11/02/2017.
@@ -141,8 +140,6 @@ public class MoviesFragment extends LifecycleFragment implements Injectable {
       totalItemCount = layoutManager.getItemCount() - adapter.getFooterItemCount();
       lastVisibleItem = layoutManager.findLastVisibleItemPosition();
       visibleThreshold = layoutManager.getSpanCount();
-      Timber.i("totalItemCount " + totalItemCount);
-      Timber.i("lastVisibleItem " + lastVisibleItem);
       boolean shouldLoadMore = !adapter.isLoading() &&
               totalItemCount > 0 &&
               lastVisibleItem + visibleThreshold > totalItemCount &&
