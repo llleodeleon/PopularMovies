@@ -28,19 +28,22 @@ import javax.inject.Inject
 class MoviesFragment : BaseFragment(), Injectable {
 
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-  private var adapter = MovieAdapter()
   private lateinit var viewModel: MoviesViewModel
   private lateinit var layoutManager: GridLayoutManager
+  private lateinit var movieData: MovieData
+
+  private val adapter = MovieAdapter()
   private val paginator = PublishProcessor.create<Int>()
+  private val popMoviesData = PopMoviesData()
+  private val topMoviesData = TopMoviesData()
+  private val favMoviesData = FavMoviesData()
+
   private var pageNumber = 1
   private var lastVisibleItem: Int = 0
   private var totalItemCount: Int = 0
   private var visibleThreshold: Int = 0
   private var position: Int = 0
-  private lateinit var movieData: MovieData
-  private val popMoviesData = PopMoviesData()
-  private val topMoviesData = TopMoviesData()
-  private val favMoviesData = FavMoviesData()
+
 
   companion object {
     private val POSITION = "position"
@@ -189,7 +192,7 @@ class MoviesFragment : BaseFragment(), Injectable {
           Observer<List<Movie>> { movies1 ->
             movies1?.let {
               this@MoviesFragment.setData(it)
-              text_placeholder.visibility = if (it.size == 0) View.VISIBLE else View.GONE
+              text_placeholder.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
           }
       )
