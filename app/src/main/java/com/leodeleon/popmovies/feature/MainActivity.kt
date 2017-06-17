@@ -18,14 +18,16 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
   @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-  lateinit internal var mainFragment: MoviePagerFragment
+  private val mainFragment: MoviePagerFragment = MoviePagerFragment()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    mainFragment = supportFragmentManager.findFragmentById(R.id.fragment_pager) as MoviePagerFragment
-  }
 
+    supportFragmentManager.beginTransaction()
+        .add(R.id.container, mainFragment)
+        .commit()
+  }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when (item.itemId) {
