@@ -10,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.leodeleon.popmovies.R
 import com.leodeleon.popmovies.di.Injectable
@@ -18,10 +17,11 @@ import com.leodeleon.popmovies.feature.MainActivity
 import com.leodeleon.popmovies.feature.adapters.MoviesAdapter
 import com.leodeleon.popmovies.feature.common.AdapterConstants
 import com.leodeleon.popmovies.feature.common.BaseFragment
+import com.leodeleon.popmovies.feature.common.ScrollListener
 import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.util.inflate
-import io.reactivex.functions.Consumer
+import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import kotlinx.android.synthetic.main.fragment_movies.progress_bar
 import kotlinx.android.synthetic.main.fragment_movies.recycler_view
@@ -33,17 +33,14 @@ class MoviesFragment : BaseFragment(), Injectable {
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: MoviesViewModel
   private lateinit var layoutManager: GridLayoutManager
-  private lateinit var movieData: MovieData
-
+  private lateinit var scrollListener: ScrollListener
   private lateinit var adapter: MoviesAdapter
+
   private val paginator = PublishProcessor.create<Int>()
-  private val popMoviesData = PopMoviesData()
-  private val topMoviesData = TopMoviesData()
-  private val favMoviesData = FavMoviesData()
 
   private var pageNumber = 1
   private var position: Int = 0
-
+  private lateinit var moviesData: MoviesData
 
   companion object {
     private val POSITION = "position"
@@ -72,7 +69,7 @@ class MoviesFragment : BaseFragment(), Injectable {
     super.onViewCreated(view, savedInstanceState)
     layoutManager = recycler_view.layoutManager as GridLayoutManager
     progress_bar.visibility = View.VISIBLE
-    setMovieData()
+    setMoviesData()
     setRecyclerView()
   }
 
@@ -81,8 +78,9 @@ class MoviesFragment : BaseFragment(), Injectable {
 
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel::class.java)
 
-    movieData.observeLiveData()
-    movieData.subscribe()
+
+    moviesData.observe(viewModel)
+    disposable.add(moviesData.subscribe(paginator))
 
     subscribe()
     if (savedInstanceState == null) {
@@ -103,28 +101,26 @@ class MoviesFragment : BaseFragment(), Injectable {
     super.onSaveInstanceState(outState)
   }
 
-  private fun setMovieData() {
-    when (position) {
-      POSITION_POPULAR -> movieData = popMoviesData
-      POSITION_RATED -> movieData = topMoviesData
-      POSITION_FAVORITE -> movieData = favMoviesData
-    }
-  }
-
   private fun setData(movieList: List<Movie>) {
     adapter.addMovies(movieList)
     progress_bar.visibility = View.GONE
   }
 
   private fun subscribe() {
-    val d1 = RxRecyclerView.scrollEvents(recycler_view).subscribe(ScrollListener())
+    val d1 = RxRecyclerView
+        .scrollEvents(recycler_view)
+        .subscribe({
+          scrollListener.loadMore()
+        })
     disposable.add(d1)
   }
 
   private fun setRecyclerView() {
     adapter = MoviesAdapter {
-        (activity as MainActivity).addFragment(DetailFragment.newInstance(it))
+      (activity as MainActivity).addFragment(DetailFragment.newInstance(it))
     }
+
+    scrollListener = ScrollListener(layoutManager) { paginator.onNext(pageNumber++) }
 
     recycler_view.itemAnimator = DefaultItemAnimator()
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -136,49 +132,35 @@ class MoviesFragment : BaseFragment(), Injectable {
 
   }
 
-  internal interface MovieData {
-    fun observeLiveData()
-    fun subscribe()
-  }
-
-  internal inner class PopMoviesData : MovieData {
-
-    override fun observeLiveData() {
-      viewModel.popMoviesLiveData.observe(this@MoviesFragment,
+  fun setMoviesData() {
+    val observePop = { viewModel: MoviesViewModel ->
+      viewModel.popMoviesLiveData.observe(this,
           Observer<List<Movie>> { movies ->
             movies?.let {
-              this@MoviesFragment.setData(it)
+              setData(it)
             }
           })
     }
 
-    override fun subscribe() {
-      val d2 = paginator.onBackpressureDrop().subscribe { page -> viewModel.loadPopularMovies(page) }
-      disposable.add(d2)
-    }
-  }
-
-  internal inner class TopMoviesData : MovieData {
-
-    override fun observeLiveData() {
-      viewModel.topMoviesLiveData.observe(this@MoviesFragment, Observer<List<Movie>> { movies ->
-        movies?.let {
-          this@MoviesFragment.setData(it)
-        }
-
-      })
+    val subscribePop = { processor: PublishProcessor<Int> ->
+      processor.onBackpressureDrop().subscribe { page -> viewModel.loadPopularMovies(page) }
     }
 
-    override fun subscribe() {
-      val d2 = paginator.onBackpressureDrop().subscribe { page -> viewModel.loadTopRatedMovies(page) }
-      disposable.add(d2)
+    val observeTop = { viewModel: MoviesViewModel ->
+      viewModel.topMoviesLiveData.observe(this,
+          Observer<List<Movie>> { movies ->
+            movies?.let {
+              setData(it)
+            }
+          })
     }
-  }
 
-  internal inner class FavMoviesData : MovieData {
+    val subscribeTop = { processor: PublishProcessor<Int> ->
+      processor.onBackpressureDrop().subscribe { page -> viewModel.loadTopRatedMovies(page) }
+    }
 
-    override fun observeLiveData() {
-      viewModel.favMoviesLiveData.observe(this@MoviesFragment,
+    val observeFav = { viewModel: MoviesViewModel ->
+      viewModel.favMoviesLiveData.observe(this,
           Observer<List<Movie>> { movies1 ->
             movies1?.let {
               adapter.setMovies(it)
@@ -189,45 +171,24 @@ class MoviesFragment : BaseFragment(), Injectable {
       )
     }
 
-    override fun subscribe() {
-      val d2 = paginator.onBackpressureDrop().subscribe { _ -> viewModel.loadFavoriteMovies() }
-      disposable.add(d2)
+    val subscribeFav = { processor: PublishProcessor<Int> ->
+      processor.onBackpressureDrop().subscribe { page -> viewModel.loadFavoriteMovies() }
+    }
+
+
+    when (position) {
+      POSITION_POPULAR -> moviesData = MoviesData(observePop, subscribePop)
+      POSITION_RATED -> moviesData = MoviesData(observeTop, subscribeTop)
+      POSITION_FAVORITE -> moviesData = MoviesData(observeFav, subscribeFav)
     }
   }
 
-  inner class ScrollListener : Consumer<RecyclerViewScrollEvent> {
-
-    private var previousTotal = 0
-    private var loading = true
-    private var visibleThreshold = 2
-    private var firstVisibleItem = 0
-    private var visibleItemCount = 0
-    private var totalItemCount = 0
-
-    override fun accept(event: RecyclerViewScrollEvent?) {
-      event?.let {
-        if (it.dy() > 0) {
-          visibleItemCount = layoutManager.childCount
-          totalItemCount = layoutManager.itemCount
-          firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
-
-          if (loading) {
-            if (totalItemCount > previousTotal) {
-              loading = false
-              previousTotal = totalItemCount
-            }
-          }
-          if (!loading &&
-              (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            pageNumber++
-            paginator.onNext(pageNumber)
-            loading = true
-          }
-        }
-      }
-
+  class MoviesData(val observer: (MoviesViewModel) -> Unit, val subscriber: (PublishProcessor<Int>) -> Disposable){
+    fun observe(viewModel: MoviesViewModel) {
+      observer.invoke(viewModel)
     }
 
+    fun subscribe(processor: PublishProcessor<Int>) = subscriber.invoke(processor)
 
   }
 
