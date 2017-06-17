@@ -1,6 +1,5 @@
 package com.leodeleon.popmovies.feature.view
 
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
@@ -14,6 +13,7 @@ import com.leodeleon.popmovies.R
 import com.leodeleon.popmovies.di.Injectable
 import com.leodeleon.popmovies.feature.MainActivity
 import com.leodeleon.popmovies.feature.adapters.TrailerAdapter
+import com.leodeleon.popmovies.feature.common.BaseFragment
 import com.leodeleon.popmovies.feature.viewModel.MovieDetailsViewModel
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.model.MovieDetail
@@ -21,7 +21,6 @@ import com.leodeleon.popmovies.util.GlideHelper
 import com.leodeleon.popmovies.util.inflate
 import com.leodeleon.popmovies.util.snack
 import com.robertlevonyan.views.chip.Chip
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_detail.backdrop
 import kotlinx.android.synthetic.main.fragment_detail.collapsing_toolbar
@@ -39,7 +38,7 @@ import org.apmem.tools.layouts.FlowLayout
 import java.util.Locale
 import javax.inject.Inject
 
-class DetailFragment : LifecycleFragment(), Injectable {
+class DetailFragment : BaseFragment(), Injectable {
 
   @Inject lateinit internal var viewModelFactory: ViewModelProvider.Factory
   @Inject lateinit internal var movieSubject: PublishSubject<Movie>
@@ -48,7 +47,6 @@ class DetailFragment : LifecycleFragment(), Injectable {
   private lateinit var movie: Movie
 
   private val adapter = TrailerAdapter()
-  private val disposable = CompositeDisposable()
 
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = container?.inflate(R.layout.fragment_detail, false)
@@ -69,11 +67,6 @@ class DetailFragment : LifecycleFragment(), Injectable {
     savedInstanceState?: viewModel.loadDetails(movie.id)
     observeLiveData()
     subscribe()
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    disposable.clear()
   }
 
   private fun setToolbar() {

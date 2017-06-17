@@ -14,6 +14,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.leodeleon.popmovies.R
 import com.leodeleon.popmovies.di.Injectable
+import com.leodeleon.popmovies.feature.MainActivity
 import com.leodeleon.popmovies.feature.adapters.MoviesAdapter
 import com.leodeleon.popmovies.feature.common.AdapterConstants
 import com.leodeleon.popmovies.feature.common.BaseFragment
@@ -34,7 +35,7 @@ class MoviesFragment : BaseFragment(), Injectable {
   private lateinit var layoutManager: GridLayoutManager
   private lateinit var movieData: MovieData
 
-  private val adapter = MoviesAdapter()
+  private lateinit var adapter: MoviesAdapter
   private val paginator = PublishProcessor.create<Int>()
   private val popMoviesData = PopMoviesData()
   private val topMoviesData = TopMoviesData()
@@ -121,6 +122,10 @@ class MoviesFragment : BaseFragment(), Injectable {
   }
 
   private fun setRecyclerView() {
+    adapter = MoviesAdapter{
+        (activity as MainActivity).addFragment(DetailFragment.newInstance(it))
+    }
+
     recycler_view.itemAnimator = DefaultItemAnimator()
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
