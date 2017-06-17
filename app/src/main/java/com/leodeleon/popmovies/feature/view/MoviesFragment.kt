@@ -122,7 +122,7 @@ class MoviesFragment : BaseFragment(), Injectable {
   }
 
   private fun setRecyclerView() {
-    adapter = MoviesAdapter{
+    adapter = MoviesAdapter {
         (activity as MainActivity).addFragment(DetailFragment.newInstance(it))
     }
 

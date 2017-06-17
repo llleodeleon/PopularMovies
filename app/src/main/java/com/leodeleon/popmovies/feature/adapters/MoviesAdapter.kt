@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.Adapter
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.ViewGroup
-import com.leodeleon.popmovies.feature.adapters.LoadingViewTypeAdapter.LoadingViewHolder
 import com.leodeleon.popmovies.feature.common.AdapterConstants
 import com.leodeleon.popmovies.feature.common.ViewType
 import com.leodeleon.popmovies.feature.common.ViewTypeAdapter
@@ -35,9 +34,6 @@ class MoviesAdapter(onClick: (Movie) -> Unit ) : Adapter<ViewHolder>() {
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     viewTypeAdapters.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
-    if (holder is LoadingViewHolder) {
-      return
-    }
   }
 
   override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {

@@ -16,7 +16,6 @@
     android:clipChildren="true"
     android:clipToPadding="true"
     android:orientation="vertical"
-    android:clickable="true"
     android:transitionName="cardview"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="false"
