@@ -12,7 +12,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-      android:id="@+id/thumbnail"
+      android:id="@+id/image_thumbnail"
       android:layout_width="220dp"
       android:layout_height="124dp"
       android:transitionName="youtube"
