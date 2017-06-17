@@ -83,7 +83,7 @@ public class MovieAdapter extends LoaderAdapter {
 
     private void goToDetailActivity() {
       MainActivity activity = (MainActivity) itemView.getContext();
-      activity.addFragment(DetailFragment.newInstance(movie), mCardView, TRANSITION_MOVIE);
+      activity.addFragment(DetailFragment.Companion.newInstance(movie), mCardView, TRANSITION_MOVIE);
     }
   }
 }

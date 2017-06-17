@@ -82,6 +82,7 @@ class MoviesFragment : BaseFragment(), Injectable {
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel::class.java)
 
     movieData.observeLiveData()
+    movieData.subscribe()
 
     subscribe()
     if (savedInstanceState == null) {
@@ -131,7 +132,6 @@ class MoviesFragment : BaseFragment(), Injectable {
         paginator.onNext(pageNumber)
       }
     }
-    movieData.subscribe()
     disposable.add(d1)
   }
 
@@ -191,7 +191,8 @@ class MoviesFragment : BaseFragment(), Injectable {
       viewModel.favMoviesLiveData.observe(this@MoviesFragment,
           Observer<List<Movie>> { movies1 ->
             movies1?.let {
-              this@MoviesFragment.setData(it)
+              adapter.setMovies(it)
+              progress_bar.visibility = View.GONE
               text_placeholder.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
           }
