@@ -29,9 +29,7 @@ ext {
       cardview           : "com.android.support:cardview-v7:$support",
       firebase      : "com.google.firebase:firebase-core:$playservices",
       firebaseCrash : "com.google.firebase:firebase-crash:$playservices",
-      gson          : "com.google.code.gson:gson:$gson",
       retrofit      : "com.squareup.retrofit2:retrofit:$retrofit",
-      retrofitGson  : "com.squareup.retrofit2:converter-gson:$retrofit",
       retrofitMoshi  : "com.squareup.retrofit2:converter-moshi:$retrofit",
       retrofitRxJava: "com.squareup.retrofit2:adapter-rxjava2:$retrofit",
       rxjava        : "io.reactivex.rxjava2:rxjava:$rxjava",
@@ -56,13 +54,13 @@ ext {
       room                  : "android.arch.persistence.room:runtime:$arch",
       roomRxJava            : "android.arch.persistence.room:rxjava2:$arch",
       roomCompiler          : "android.arch.persistence.room:compiler:$arch",
-      rxBindings            : "com.jakewharton.rxbinding2:rxbinding:$rxbinding",
-      rxBindingsSupport     : "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding",
-      rxBindingsAppCompat   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding",
-      rxBindingsDesign      : "com.jakewharton.rxbinding2:rxbinding-design:$rxbinding",
-      rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding",
-      mockito               :"org.mockito:mockito-core:$mockito",
-      mockitoAndroid        :"org.mockito:mockito-android:$mockito",
-      moshi        :"com.squareup.moshi:moshi:$moshi"
+      rxBindings            : "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding",
+      rxBindingsSupport     : "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$rxbinding",
+      rxBindingsAppCompat   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxbinding",
+      rxBindingsDesign      : "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxbinding",
+      rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxbinding",
+      mockito               : "org.mockito:mockito-core:$mockito",
+      mockitoAndroid        : "org.mockito:mockito-android:$mockito",
+      moshi                 : "com.squareup.moshi:moshi:$moshi"
   ]
 }

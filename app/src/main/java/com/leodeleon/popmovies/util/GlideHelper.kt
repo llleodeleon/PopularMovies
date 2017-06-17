@@ -16,33 +16,33 @@ import com.leodeleon.popmovies.util.Constants.YOUTUBE_IMG_URL
  */
 
 class GlideHelper {
-companion object {
-  fun loadThumbnail(context: Context, videoId: String, imageView: ImageView) {
-    Glide.with(context)
-        .load(String.format(YOUTUBE_IMG_URL, videoId))
-        .centerCrop()
-        .into(imageView)
-  }
+  companion object {
+    fun loadThumbnail(context: Context, videoId: String, imageView: ImageView) {
+      Glide.with(context)
+          .load(String.format(YOUTUBE_IMG_URL, videoId))
+          .centerCrop()
+          .into(imageView)
+    }
 
-  fun loadPoster(context: Context, posterPath: String, imageView: ImageView) {
-    Glide.with(context)
-        .load(String.format(MOVIES_IMG_URL, "w342", posterPath))
-        .centerCrop()
-        .dontAnimate()
-        .skipMemoryCache(true)
-        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-        .into(imageView)
-  }
+    fun loadPoster(context: Context, posterPath: String, imageView: ImageView) {
+      Glide.with(context)
+          .load(String.format(MOVIES_IMG_URL, "w342", posterPath))
+          .centerCrop()
+          .dontAnimate()
+          .skipMemoryCache(true)
+          .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+          .into(imageView)
+    }
 
-  fun loadBackdrop(context: Context, backdropPath: String, imageView: ImageView) {
-    Glide.with(context)
-        .load(String.format(MOVIES_IMG_URL, "w780", backdropPath))
-        .centerCrop()
-        .into(object : SimpleTarget<GlideDrawable>() {
-          override fun onResourceReady(resource: GlideDrawable, glideAnimation: GlideAnimation<in GlideDrawable>) {
-            imageView.setImageDrawable(resource)
-          }
-        })
+    fun loadBackdrop(context: Context, backdropPath: String, imageView: ImageView) {
+      Glide.with(context)
+          .load(String.format(MOVIES_IMG_URL, "w780", backdropPath))
+          .centerCrop()
+          .into(object : SimpleTarget<GlideDrawable>() {
+            override fun onResourceReady(resource: GlideDrawable, glideAnimation: GlideAnimation<in GlideDrawable>) {
+              imageView.setImageDrawable(resource)
+            }
+          })
+    }
   }
-}
 }

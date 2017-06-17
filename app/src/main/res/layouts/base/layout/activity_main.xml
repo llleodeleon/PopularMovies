@@ -13,16 +13,6 @@
       android:id="@+id/container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      >
-
-    <fragment
-        android:id="@+id/fragment_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.leodeleon.popmovies.feature.view.MoviePagerFragment"
-        tools:layout="@layout/fragment_pager"
-        />
-
-  </FrameLayout>
+      />
 
 </android.support.design.widget.CoordinatorLayout>
