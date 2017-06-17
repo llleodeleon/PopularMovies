@@ -3,6 +3,8 @@ package com.leodeleon.popmovies.model
 import android.arch.persistence.room.Entity
 import android.os.Parcel
 import android.os.Parcelable
+import com.leodeleon.popmovies.feature.common.AdapterConstants
+import com.leodeleon.popmovies.feature.common.ViewType
 
 @Entity(tableName = "movies", primaryKeys = arrayOf("id"))
 data class Movie(
@@ -14,7 +16,13 @@ data class Movie(
     var release_date: String = "",
     var vote_average: Double = 0.0,
     var favorite: Int = 0
-): Parcelable {
+): ViewType, Parcelable {
+
+
+  override fun getViewType(): Int {
+    return AdapterConstants.MOVIES
+  }
+
   companion object {
     @JvmField val CREATOR: Parcelable.Creator<Movie> = object : Parcelable.Creator<Movie> {
       override fun createFromParcel(source: Parcel): Movie = Movie(source.readInt(),

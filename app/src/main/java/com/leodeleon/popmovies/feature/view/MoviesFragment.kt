@@ -10,15 +10,17 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.leodeleon.popmovies.R
 import com.leodeleon.popmovies.di.Injectable
-import com.leodeleon.popmovies.feature.adapters.LoaderAdapter
-import com.leodeleon.popmovies.feature.adapters.MovieAdapter
+import com.leodeleon.popmovies.feature.adapters.MoviesAdapter
+import com.leodeleon.popmovies.feature.common.AdapterConstants
 import com.leodeleon.popmovies.feature.common.BaseFragment
 import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.util.inflate
+import io.reactivex.functions.Consumer
 import io.reactivex.processors.PublishProcessor
 import kotlinx.android.synthetic.main.fragment_movies.progress_bar
 import kotlinx.android.synthetic.main.fragment_movies.recycler_view
@@ -32,16 +34,13 @@ class MoviesFragment : BaseFragment(), Injectable {
   private lateinit var layoutManager: GridLayoutManager
   private lateinit var movieData: MovieData
 
-  private val adapter = MovieAdapter()
+  private val adapter = MoviesAdapter()
   private val paginator = PublishProcessor.create<Int>()
   private val popMoviesData = PopMoviesData()
   private val topMoviesData = TopMoviesData()
   private val favMoviesData = FavMoviesData()
 
   private var pageNumber = 1
-  private var lastVisibleItem: Int = 0
-  private var totalItemCount: Int = 0
-  private var visibleThreshold: Int = 0
   private var position: Int = 0
 
 
@@ -117,33 +116,19 @@ class MoviesFragment : BaseFragment(), Injectable {
   }
 
   private fun subscribe() {
-    val d1 = RxRecyclerView.scrollEvents(recycler_view).subscribe { _ ->
-      totalItemCount = layoutManager.itemCount - adapter.footerItemCount
-      lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-      visibleThreshold = layoutManager.spanCount
-      val shouldLoadMore = !adapter.isLoading &&
-          totalItemCount > 0 &&
-          lastVisibleItem + visibleThreshold > totalItemCount &&
-          position != POSITION_FAVORITE
-
-      if (shouldLoadMore) {
-        pageNumber++
-        adapter.startLoading()
-        paginator.onNext(pageNumber)
-      }
-    }
+    val d1 = RxRecyclerView.scrollEvents(recycler_view).subscribe(ScrollListener())
     disposable.add(d1)
   }
 
   private fun setRecyclerView() {
-    adapter.setHasStableIds(true)
     recycler_view.itemAnimator = DefaultItemAnimator()
-    recycler_view.adapter = adapter
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
-        return if (adapter.getItemViewType(position) == LoaderAdapter.VIEW_TYPE_FOOTER) 2 else 1
+        return if (adapter.getItemViewType(position) == AdapterConstants.LOADING) 2 else 1
       }
     }
+    recycler_view.adapter = adapter
+
   }
 
   internal interface MovieData {
@@ -203,6 +188,42 @@ class MoviesFragment : BaseFragment(), Injectable {
       val d2 = paginator.onBackpressureDrop().subscribe { _ -> viewModel.loadFavoriteMovies() }
       disposable.add(d2)
     }
+  }
+
+  inner class ScrollListener : Consumer<RecyclerViewScrollEvent> {
+
+    private var previousTotal = 0
+    private var loading = true
+    private var visibleThreshold = 2
+    private var firstVisibleItem = 0
+    private var visibleItemCount = 0
+    private var totalItemCount = 0
+
+    override fun accept(event: RecyclerViewScrollEvent?) {
+      event?.let {
+        if (it.dy() > 0) {
+          visibleItemCount = layoutManager.childCount
+          totalItemCount = layoutManager.itemCount
+          firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
+
+          if (loading) {
+            if (totalItemCount > previousTotal) {
+              loading = false
+              previousTotal = totalItemCount
+            }
+          }
+          if (!loading &&
+              (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+            pageNumber++
+            paginator.onNext(pageNumber)
+            loading = true
+          }
+        }
+      }
+
+    }
+
+
   }
 
 }
