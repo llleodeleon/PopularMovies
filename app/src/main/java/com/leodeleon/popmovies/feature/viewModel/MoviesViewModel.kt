@@ -42,7 +42,7 @@ constructor(
   }
 
   private fun subscribe() {
-    val d4 = movieSubject.subscribe({ movie -> loadFavoriteMovies() },{ Timber.e(it) })
+    val d4 = movieSubject.subscribe({ _ -> loadFavoriteMovies() },{ Timber.e(it) })
     disposable.add(d4)
   }
 
