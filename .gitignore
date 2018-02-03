@@ -70,3 +70,8 @@ ehthumbs.db
 Thumbs.db
 
 buildSrc/bintray.properties
+.project
+.settings/org.eclipse.buildship.core.prefs
+app/.classpath
+app/.project
+app/.settings/org.eclipse.buildship.core.prefs

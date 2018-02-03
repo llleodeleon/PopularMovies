@@ -3,6 +3,7 @@ package com.leodeleon.popmovies.model
 import android.arch.persistence.room.Entity
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.leodeleon.popmovies.feature.common.AdapterConstants
 import com.leodeleon.popmovies.feature.common.ViewType
 
