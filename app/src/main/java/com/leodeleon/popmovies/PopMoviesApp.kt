@@ -1,28 +1,22 @@
 package com.leodeleon.popmovies
 
-import android.app.Activity
 import android.app.Application
 import android.util.Log
 import com.facebook.stetho.Stetho
 import com.google.firebase.crash.FirebaseCrash
-import com.leodeleon.popmovies.di.AppInjector
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import com.leodeleon.popmovies.di.appModule
+import org.koin.android.ext.android.startKoin
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Created by leodeleon on 08/02/2017.
  */
 
-class PopMoviesApplication : Application(), HasActivityInjector {
-
-  @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+class PopMoviesApp : Application() {
 
   override fun onCreate() {
     super.onCreate()
-    AppInjector.init(this)
+    startKoin(listOf(appModule))
 
     if (BuildConfig.DEBUG) {
       Stetho.initializeWithDefaults(this)
@@ -32,9 +26,6 @@ class PopMoviesApplication : Application(), HasActivityInjector {
     }
   }
 
-  override fun activityInjector(): AndroidInjector<Activity> {
-    return dispatchingAndroidInjector
-  }
 
   private class CrashReportingTree : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {

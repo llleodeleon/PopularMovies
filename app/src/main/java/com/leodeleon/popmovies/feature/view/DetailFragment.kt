@@ -1,8 +1,6 @@
 package com.leodeleon.popmovies.feature.view
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -10,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.RxView
 import com.leodeleon.popmovies.R
-import com.leodeleon.popmovies.di.Injectable
 import com.leodeleon.popmovies.feature.MainActivity
 import com.leodeleon.popmovies.feature.adapters.TrailerAdapter
 import com.leodeleon.popmovies.feature.common.BaseFragment
@@ -22,28 +19,18 @@ import com.leodeleon.popmovies.util.inflate
 import com.leodeleon.popmovies.util.snack
 import com.robertlevonyan.views.chip.Chip
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_detail.backdrop
-import kotlinx.android.synthetic.main.fragment_detail.collapsing_toolbar
-import kotlinx.android.synthetic.main.fragment_detail.fab
-import kotlinx.android.synthetic.main.fragment_detail.toolbar
-import kotlinx.android.synthetic.main.layout_detail.flow_layout
-import kotlinx.android.synthetic.main.layout_detail.poster
-import kotlinx.android.synthetic.main.layout_detail.recycler_view
-import kotlinx.android.synthetic.main.layout_detail.text_overview
-import kotlinx.android.synthetic.main.layout_detail.text_release_date
-import kotlinx.android.synthetic.main.layout_detail.text_runtime
-import kotlinx.android.synthetic.main.layout_detail.text_trailers
-import kotlinx.android.synthetic.main.layout_detail.text_vote_average
+import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.layout_detail.*
 import org.apmem.tools.layouts.FlowLayout
-import java.util.Locale
-import javax.inject.Inject
+import org.koin.android.architecture.ext.viewModel
+import org.koin.android.ext.android.inject
+import java.util.*
 
-class DetailFragment : BaseFragment(), Injectable {
+class DetailFragment : BaseFragment() {
 
-  @Inject lateinit internal var viewModelFactory: ViewModelProvider.Factory
-  @Inject lateinit internal var movieSubject: PublishSubject<Movie>
+  private val movieSubject: PublishSubject<Movie> by inject()
+  private val viewModel: MovieDetailsViewModel by viewModel()
 
-  private lateinit var viewModel: MovieDetailsViewModel
   private var movie: Movie? = null
 
   private val adapter = TrailerAdapter()
@@ -64,7 +51,6 @@ class DetailFragment : BaseFragment(), Injectable {
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     val movie = this.movie ?: return
-    viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel::class.java)
     savedInstanceState?: viewModel.loadDetails(movie.id)
     observeLiveData()
     subscribe()
@@ -72,7 +58,7 @@ class DetailFragment : BaseFragment(), Injectable {
 
   private fun setToolbar() {
     val ctx = context?: return
-    toolbar.background = ctx.resources.getDrawable(R.drawable.toolbar_gradient)
+    toolbar.background = ContextCompat.getDrawable(ctx, R.drawable.toolbar_gradient)
     (activity as MainActivity).setSupportActionBar(toolbar)
     (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
   }

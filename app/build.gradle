@@ -1,13 +1,15 @@
+import org.ajoberstar.grgit.Grgit
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'findbugs'
 apply plugin: 'kotlin-android-extensions'
 
-//ext {
-//  git = Grgit.open()
-//  gitVersionCode = git.log(includes: ['HEAD']).size()
-//}
+ext {
+  git = Grgit.open()
+  gitVersionCode = git.log(includes: ['HEAD']).size()
+}
 
 android {
   compileSdkVersion build_versions.target_sdk
@@ -16,7 +18,7 @@ android {
     applicationId "com.leodeleon.popmovies"
     minSdkVersion build_versions.min_sdk
     targetSdkVersion build_versions.target_sdk
-    versionCode 1//gitVersionCode
+    versionCode gitVersionCode
     versionName build_versions.version_number
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -63,9 +65,6 @@ android {
   }
 }
 
-
-
-
 dependencies {
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -77,10 +76,9 @@ dependencies {
   implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
   implementation 'com.robertlevonyan.view:MaterialChipView:1.0.1'
   implementation 'org.apmem.tools:layouts:1.10@aar'
-  implementation 'com.jakewharton:butterknife:8.5.1'
-  kapt 'com.jakewharton:butterknife-compiler:8.5.1'
 
   implementation deps.kotlin.stdlib
+  implementation deps.kotlin.koinArch
   implementation deps.support.appcompat
   implementation deps.support.v4
   implementation deps.support.constraint
@@ -92,9 +90,6 @@ dependencies {
   implementation deps.support.room
   implementation deps.support.roomRxJava
   implementation deps.google.firebaseCrash
-  implementation deps.google.dagger
-  implementation deps.google.daggerAndroid
-  implementation deps.google.daggerSupport
   implementation deps.net.moshi
   implementation deps.net.retrofit
   implementation deps.net.retrofitMoshi
@@ -114,8 +109,6 @@ dependencies {
   debugImplementation deps.debug.chuck
   releaseImplementation deps.debug.chuckNoOp
 
-  kapt deps.kapt.dagger
-  kapt deps.kapt.daggerProcessor
   kapt deps.kapt.lifecycle
   kapt deps.kapt.room
 

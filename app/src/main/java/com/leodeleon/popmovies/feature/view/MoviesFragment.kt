@@ -1,8 +1,6 @@
 package com.leodeleon.popmovies.feature.view
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.widget.DefaultItemAnimator
@@ -12,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.leodeleon.popmovies.R
-import com.leodeleon.popmovies.di.Injectable
 import com.leodeleon.popmovies.feature.MainActivity
 import com.leodeleon.popmovies.feature.adapters.MoviesAdapter
 import com.leodeleon.popmovies.feature.common.AdapterConstants
@@ -26,12 +23,11 @@ import io.reactivex.processors.PublishProcessor
 import kotlinx.android.synthetic.main.fragment_movies.progress_bar
 import kotlinx.android.synthetic.main.fragment_movies.recycler_view
 import kotlinx.android.synthetic.main.fragment_movies.text_placeholder
-import javax.inject.Inject
+import org.koin.android.architecture.ext.viewModel
 
-class MoviesFragment : BaseFragment(), Injectable {
+class MoviesFragment : BaseFragment() {
 
-  @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: MoviesViewModel
+  private val viewModel: MoviesViewModel by viewModel()
   private lateinit var layoutManager: GridLayoutManager
   private lateinit var scrollListener: ScrollListener
   private lateinit var adapter: MoviesAdapter
@@ -76,9 +72,6 @@ class MoviesFragment : BaseFragment(), Injectable {
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
 
-    viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel::class.java)
-
-
     moviesData.observe(viewModel)
     disposable.add(moviesData.subscribe(paginator))
 
@@ -109,9 +102,9 @@ class MoviesFragment : BaseFragment(), Injectable {
   private fun subscribe() {
     val d1 = RxRecyclerView
         .scrollEvents(recycler_view)
-        .subscribe({
+        .subscribe {
           scrollListener.loadMore()
-        })
+        }
     disposable.add(d1)
   }
 
@@ -172,7 +165,7 @@ class MoviesFragment : BaseFragment(), Injectable {
     }
 
     val subscribeFav = { processor: PublishProcessor<Int> ->
-      processor.onBackpressureDrop().subscribe { page -> viewModel.loadFavoriteMovies() }
+      processor.onBackpressureDrop().subscribe { viewModel.loadFavoriteMovies() }
     }
 
 

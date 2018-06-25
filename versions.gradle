@@ -23,7 +23,6 @@ versions.rxbinding = '2.0.0'
 versions.rxkotlin = '2.1.0'
 versions.arch = '1.1.0'
 versions.bindingAdapter = '2.2.0'
-versions.dagger = '2.15'
 versions.canary = '1.5.3'
 versions.playServices = '11.2.0'
 versions.lottie = '2.2.5'
@@ -39,6 +38,7 @@ versions.timber = '4.7.0'
 versions.moshi = '1.6.0'
 versions.stetho = '1.5.0'
 versions.chuck = '1.1.0'
+versions.koin = '0.9.3'
 def deps = [:]
 
 def build_versions = [:]
@@ -72,9 +72,6 @@ deps.support = support
 
 def google = [:]
 google.services = "com.google.gms:google-services:$versions.googleServices"
-google.dagger = "com.google.dagger:dagger:$versions.dagger"
-google.daggerAndroid = "com.google.dagger:dagger-android:$versions.dagger"
-google.daggerSupport = "com.google.dagger:dagger-android-support:$versions.dagger"
 google.firebase = "com.google.firebase:firebase-core:$versions.playServices"
 google.firebaseCrash = "com.google.firebase:firebase-crash:$versions.playServices"
 google.gpsLocation = "com.google.android.gms:play-services-location:$versions.playServices"
@@ -89,6 +86,9 @@ kotlin.ktx = "androidx.core:core-ktx:$versions.ktx"
 kotlin.kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
 kotlin.coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
 kotlin.coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+kotlin.koin = "org.koin:koin-core:$versions.koin"
+kotlin.koinAndroid = "org.koin:koin-android:$versions.koin"
+kotlin.koinArch = "org.koin:koin-android-architecture:$versions.koin"
 deps.kotlin = kotlin
 
 def net = [:]
@@ -154,8 +154,6 @@ deps.debug = debug
 
 def kapt = [:]
 kapt.glide = "com.github.bumptech.glide:compiler:$versions.glide"
-kapt.dagger = "com.google.dagger:dagger-compiler:$versions.dagger"
-kapt.daggerProcessor = "com.google.dagger:dagger-android-processor:$versions.dagger"
 kapt.lifecycle = "android.arch.lifecycle:compiler:$versions.arch"
 kapt.room = "android.arch.persistence.room:compiler:$versions.arch"
 deps.kapt = kapt

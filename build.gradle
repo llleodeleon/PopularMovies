@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath deps.android_gradle_plugin
         classpath deps.kotlin.plugin
-//        classpath deps.grgit
+        classpath deps.grgit
         classpath deps.google.services
     }
 }
