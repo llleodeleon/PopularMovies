@@ -44,17 +44,17 @@ class DetailFragment : BaseFragment(), Injectable {
   @Inject lateinit internal var movieSubject: PublishSubject<Movie>
 
   private lateinit var viewModel: MovieDetailsViewModel
-  private lateinit var movie: Movie
+  private var movie: Movie? = null
 
   private val adapter = TrailerAdapter()
 
-  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = container?.inflate(R.layout.fragment_detail, false)
-    movie = arguments.getParcelable<Movie>(MOVIE)
+    movie = arguments?.getParcelable<Movie>(MOVIE)
     return view
   }
 
-  override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     bindMovie()
     setRecyclerView()
@@ -63,6 +63,7 @@ class DetailFragment : BaseFragment(), Injectable {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
+    val movie = this.movie ?: return
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieDetailsViewModel::class.java)
     savedInstanceState?: viewModel.loadDetails(movie.id)
     observeLiveData()
@@ -70,7 +71,8 @@ class DetailFragment : BaseFragment(), Injectable {
   }
 
   private fun setToolbar() {
-    toolbar.background = context.resources.getDrawable(R.drawable.toolbar_gradient)
+    val ctx = context?: return
+    toolbar.background = ctx.resources.getDrawable(R.drawable.toolbar_gradient)
     (activity as MainActivity).setSupportActionBar(toolbar)
     (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
   }
@@ -94,6 +96,8 @@ class DetailFragment : BaseFragment(), Injectable {
   }
 
   private fun subscribe() {
+    val movie = this.movie ?: return
+    val ctx = context?: return
     val d1 = RxView.clicks(fab).subscribe { _ ->
       val isSelected = !fab.isSelected
       fab.isSelected = isSelected
@@ -105,10 +109,10 @@ class DetailFragment : BaseFragment(), Injectable {
     }
 
     val d2 = movieSubject.subscribe { movie1 ->
-      val added = context.getString(R.string.movie_added)
-      val removed = context.getString(R.string.movie_removed)
+      val added = ctx.getString(R.string.movie_added)
+      val removed = ctx.getString(R.string.movie_removed)
       val string = if (movie1.isFavorite()) added else removed
-      val color = ContextCompat.getColor(context,R.color.colorPrimaryDark)
+      val color = ContextCompat.getColor(ctx,R.color.colorPrimaryDark)
       view?.snack(string){ getView().setBackgroundColor(color) }
     }
 
@@ -122,9 +126,10 @@ class DetailFragment : BaseFragment(), Injectable {
 
   private fun bindMovie() {
     val voting = "%1$.1f/10"
-
-    GlideHelper.loadBackdrop(context, movie.backdrop_path, backdrop)
-    GlideHelper.loadPoster(context, movie.poster_path, poster)
+    val ctx = context?: return
+    val movie = this.movie ?: return
+    GlideHelper.loadBackdrop(ctx, movie.backdrop_path, backdrop)
+    GlideHelper.loadPoster(ctx, movie.poster_path, poster)
     collapsing_toolbar.title = movie.title
     text_vote_average.text =  String.format(Locale.getDefault(), voting, movie.vote_average)
     text_release_date.text = movie.release_date.substring(0, 4)
@@ -134,9 +139,11 @@ class DetailFragment : BaseFragment(), Injectable {
 
   private fun bindDetails(movieDetail: MovieDetail) {
     val runtime = "%dmin"
+    val ctx = context?: return
+
     text_runtime.text = String.format(Locale.getDefault(), runtime, movieDetail.runtime)
     flow_layout.removeAllViews()
-     val margin = context.resources.getDimension(R.dimen.dp8).toInt()
+     val margin = ctx.resources.getDimension(R.dimen.dp8).toInt()
 
     for ((_, name) in movieDetail.genres) {
       val chip = flow_layout?.inflate(R.layout.view_chip, false) as Chip

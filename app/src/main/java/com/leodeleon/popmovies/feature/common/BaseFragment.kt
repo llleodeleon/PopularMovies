@@ -1,9 +1,9 @@
 package com.leodeleon.popmovies.feature.common
 
-import android.arch.lifecycle.LifecycleFragment
+import android.support.v4.app.Fragment
 import io.reactivex.disposables.CompositeDisposable
 
-open class BaseFragment : LifecycleFragment() {
+open class BaseFragment : Fragment() {
 
   protected var disposable = CompositeDisposable()
 

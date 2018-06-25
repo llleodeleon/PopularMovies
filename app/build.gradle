@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'findbugs'
 apply plugin: 'kotlin-android-extensions'
 
@@ -58,9 +59,9 @@ android {
   }
 }
 
-kapt {
-  generateStubs = true
-}
+//kapt {
+//  generateStubs = true
+//}
 
 
 dependencies {

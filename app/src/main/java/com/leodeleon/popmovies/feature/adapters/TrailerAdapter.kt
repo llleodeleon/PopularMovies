@@ -49,7 +49,7 @@ class TrailerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     return videoKeys.size
   }
 
-  override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
+  override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
     super.onDetachedFromRecyclerView(recyclerView)
     disposable.clear()
   }
