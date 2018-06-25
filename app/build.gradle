@@ -4,17 +4,21 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'findbugs'
 apply plugin: 'kotlin-android-extensions'
 
+//ext {
+//  git = Grgit.open()
+//  gitVersionCode = git.log(includes: ['HEAD']).size()
+//}
+
 android {
-  compileSdkVersion rootProject.ext.androidCompileSdkVersion
-  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+  compileSdkVersion build_versions.target_sdk
+  buildToolsVersion build_versions.build_tools
   defaultConfig {
     applicationId "com.leodeleon.popmovies"
-    minSdkVersion rootProject.ext.androidMinSdkVersion
-    targetSdkVersion rootProject.ext.androidTargetSdkVersion
-    versionCode 1
-    versionName "1.0"
+    minSdkVersion build_versions.min_sdk
+    targetSdkVersion build_versions.target_sdk
+    versionCode 1//gitVersionCode
+    versionName build_versions.version_number
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    vectorDrawables.useSupportLibrary = true
   }
   signingConfigs {
     release
@@ -59,88 +63,69 @@ android {
   }
 }
 
-//kapt {
-//  generateStubs = true
-//}
+
 
 
 dependencies {
-  Map<String, String> dependencies = rootProject.ext.dependencies;
 
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+  //TODO: REMOVE THOSE
+  implementation 'com.jpardogo.materialtabstrip:library:1.1.1'
+  implementation 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
+  implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+  implementation 'com.robertlevonyan.view:MaterialChipView:1.0.1'
+  implementation 'org.apmem.tools:layouts:1.10@aar'
+  implementation 'com.jakewharton:butterknife:8.5.1'
+  kapt 'com.jakewharton:butterknife-compiler:8.5.1'
+
+  implementation deps.kotlin.stdlib
+  implementation deps.support.appcompat
+  implementation deps.support.v4
+  implementation deps.support.constraint
+  implementation deps.support.design
+  implementation deps.support.cardview
+  implementation deps.support.customTabs
+  implementation deps.support.lifecycle
+  implementation deps.support.lifecycleExtensions
+  implementation deps.support.room
+  implementation deps.support.roomRxJava
+  implementation deps.google.firebaseCrash
+  implementation deps.google.dagger
+  implementation deps.google.daggerAndroid
+  implementation deps.google.daggerSupport
+  implementation deps.net.moshi
+  implementation deps.net.retrofit
+  implementation deps.net.retrofitMoshi
+  implementation deps.net.retrofitRxJava
+  implementation deps.net.okhttp
+  implementation deps.net.okhttpLogging
+  implementation deps.net.glide
+  implementation deps.rx.rxjava
+  implementation deps.rx.rxandroid
+  implementation deps.rx.rxbinding
+  implementation deps.rx.rxbindingSupport
+  implementation deps.rx.rxbindingDesign
+  implementation deps.rx.rxbindingAppCompat
+  implementation deps.rx.rxbindingRecycler
+  implementation deps.debug.timber
+  implementation deps.debug.stetho
+  debugImplementation deps.debug.chuck
+  releaseImplementation deps.debug.chuckNoOp
+
+  kapt deps.kapt.dagger
+  kapt deps.kapt.daggerProcessor
+  kapt deps.kapt.lifecycle
+  kapt deps.kapt.room
+
+  testImplementation deps.kotlin.stdlib
+  testImplementation deps.test.mockito
+  testImplementation deps.test.junit
+  androidTestImplementation deps.test.mockitoAndroid
+  androidTestImplementation (deps.test.espresso) {
     exclude group: 'com.android.support', module: 'support-annotations'
-  })
-
-  compile dependencies.kotlin
-  testCompile dependencies.kotlin
-
-  //support
-  compile dependencies.appcompat
-  compile dependencies.support
-  compile dependencies.constraint
-  compile dependencies.design
-  compile dependencies.recyclerview
-  compile dependencies.cardview
-  compile dependencies.customTabs
-
-  //firebase
-  compile dependencies.firebaseCrash
-
-  //networking
-
-  compile dependencies.moshi
-  compile dependencies.retrofit
-  compile dependencies.retrofitMoshi
-  compile dependencies.retrofitRxJava
-  compile dependencies.rxjava
-  compile dependencies.rxandroid
-  compile dependencies.okhttp
-  compile dependencies.okhttpLogging
-  compile dependencies.stetho
-  compile dependencies.glide
-  //DI
-  compile dependencies.timber
-  compile dependencies.butterknife
-  kapt dependencies.butterknifeCompiler
-
-  compile dependencies.dagger
-  compile dependencies.daggerAndroid
-  compile dependencies.daggerAndroidSupport
-  kapt dependencies.daggerCompiler
-  kapt dependencies.daggerAndroidProcessor
-
-  compile dependencies.lifecycle
-  kapt dependencies.lifecycleCompiler
-
-  compile dependencies.room
-  compile dependencies.roomRxJava
-  kapt dependencies.roomCompiler
-
-  debugCompile dependencies.chuck
-  releaseCompile dependencies.chuckNoOp
-
-  compile dependencies.rxBindings
-  compile dependencies.rxBindingsSupport
-  compile dependencies.rxBindingsDesign
-  compile dependencies.rxBindingsAppCompat
-  compile dependencies.rxBindingsRecycler
-
-  testCompile dependencies.mockito
-  androidTestCompile dependencies.mockitoAndroid
-  testCompile 'junit:junit:4.12'
-
-
-  //custom views
-  compile 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
-  compile 'com.jpardogo.materialtabstrip:library:1.1.1'
-  compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
-  compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-  compile 'org.apmem.tools:layouts:1.10@aar'
-
-  compile files('libs/YouTubeAndroidPlayerApi.jar')
-
-
+  }
 }
 
 apply plugin: 'com.google.gms.google-services'

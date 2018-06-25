@@ -1,33 +1,23 @@
-apply from: 'dependencies.gradle'
-
 buildscript {
+    apply from: 'versions.gradle'
 
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta01'
-        classpath 'com.google.gms:google-services:3.1.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41'
+        classpath deps.android_gradle_plugin
+        classpath deps.kotlin.plugin
+//        classpath deps.grgit
+        classpath deps.google.services
     }
 }
 
 allprojects {
-    repositories {
-        jcenter()
-        maven { url "https://jitpack.io" }
-        google()
-    }
+    addRepos(repositories)
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext {
-    androidCompileSdkVersion = 27
-    androidBuildToolsVersion = '27.0.3'
-    androidMinSdkVersion = 21
-    androidTargetSdkVersion = 27
-}

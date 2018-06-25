@@ -9,59 +9,43 @@ versions.googleServices = "3.1.0"
 versions.ktx = "0.3"
 versions.plugin = "3.2.0-beta01"
 versions.constraint = "1.1.0"
-versions.lottie = "2.5.4"
-versions.answers = '1.4.2'
-versions.crashlytics = '2.9.4'
-versions.configvars = '2.1.0'
 versions.glide = '4.7.1'
-versions.gson = '2.8.0'
 versions.okhttp = '3.10.0'
 versions.okhttpDownloader = '1.1.0'
 versions.retrofit = '2.3.0'
-versions.shpbacon = '2.1.2'
 versions.junit = '4.12'
-versions.mockito = '2.8.47'
-versions.mockk = '1.7.12'
+versions.mockito = '2.18.3'
 versions.mockitoKotlin = '1.5.0'
-versions.hamcrest = '2.0.0.0'
 versions.espresso = '3.0.1'
-versions.componentkit = '2.0.1'
 versions.rxandroid = '2.0.0'
 versions.rxjava = '2.1.0'
 versions.rxbinding = '2.0.0'
-versions.rxPermisisons = '0.9.5'
-versions.rxLocation = '2.1'
 versions.rxkotlin = '2.1.0'
 versions.arch = '1.1.0'
 versions.bindingAdapter = '2.2.0'
 versions.dagger = '2.15'
 versions.canary = '1.5.3'
-versions.gpsService = '11.2.0'
+versions.playServices = '11.2.0'
 versions.lottie = '2.2.5'
-versions.firebasejobsched = '0.8.1'
-versions.cryptoKid = '3.0.0'
 versions.ktx = '0.3'
-versions.ucrop = '2.2.1'
-versions.gravitySnapHelper = '1.5'
 versions.hyperion = '0.9.21'
-versions.viewAnimator = '1.0.5'
 versions.kotlinPleaseAnimate = '1.0.0'
 versions.photoView = '2.1.3'
-versions.segment = '4.1.3'
-versions.segmentFirebase = '1.1.0'
 versions.coroutines = '0.22.5'
 versions.blockCanary = '1.5.0'
-versions.buildTimeTracker = '0.11.0'
 versions.grGit = '1.4.1'
 versions.facebook = "4,5"
-versions.sircharles = "1.0.9"
+versions.timber = '4.7.0'
+versions.moshi = '1.6.0'
+versions.stetho = '1.5.0'
+versions.chuck = '1.1.0'
 def deps = [:]
 
 def build_versions = [:]
 build_versions.min_sdk = 21
 build_versions.target_sdk = 27
 build_versions.build_tools = "27.0.3"
-build_versions.version_number = "2.0.6"
+build_versions.version_number = "1.0.0"
 ext.build_versions = build_versions
 
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.plugin"
@@ -76,20 +60,25 @@ support.v4 = "com.android.support:support-v4:$versions.support"
 support.design = "com.android.support:design:$versions.support"
 support.cardview = "com.android.support:cardview-v7:$versions.support"
 support.constraint = "com.android.support.constraint:constraint-layout:$versions.constraint"
+support.customTabs = "com.android.support:customtabs:$versions.support"
 support.appcompat = "com.android.support:appcompat-v7:$versions.support"
+support.lifecycle = "android.arch.lifecycle:runtime:$versions.arch"
+support.room = "android.arch.persistence.room:runtime:$versions.arch"
+support.roomRxJava = "android.arch.persistence.room:rxjava2:$versions.arch"
+support.lifecycleExtensions = "android.arch.lifecycle:extensions:$versions.arch"
 support.emoji = "com.android.support:support-emoji-bundled:$versions.support"
 support.emojiAppcompat = "com.android.support:support-emoji-appcompat:$versions.support"
-support.lifecycle = "android.arch.lifecycle:runtime:$versions.arch"
-support.lifecycleExtensions = "android.arch.lifecycle:extensions:$versions.arch"
 deps.support = support
 
 def google = [:]
 google.services = "com.google.gms:google-services:$versions.googleServices"
-google.gpsAnalytics = "com.google.android.gms:play-services-analytics:$versions.gpsService"
-google.gpsLocation = "com.google.android.gms:play-services-location:$versions.gpsService"
 google.dagger = "com.google.dagger:dagger:$versions.dagger"
 google.daggerAndroid = "com.google.dagger:dagger-android:$versions.dagger"
 google.daggerSupport = "com.google.dagger:dagger-android-support:$versions.dagger"
+google.firebase = "com.google.firebase:firebase-core:$versions.playServices"
+google.firebaseCrash = "com.google.firebase:firebase-crash:$versions.playServices"
+google.gpsLocation = "com.google.android.gms:play-services-location:$versions.playServices"
+google.gpsAnalytics = "com.google.android.gms:play-services-analytics:$versions.playServices"
 google.firebasejobsched = "com.firebase:firebase-jobdispatcher:$versions.firebasejobsched"
 deps.google = google
 
@@ -102,22 +91,17 @@ kotlin.coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.cor
 kotlin.coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
 deps.kotlin = kotlin
 
-def shape = [:]
-shape.configvars = "dk.shape:configvars:$versions.configvars"
-shape.shpbacon = "dk.shape.library:SHPBacon:$versions.shpbacon"
-shape.cryptoKid = "dk.shape.cryptokid:cryptokid:$versions.cryptoKid"
-shape.sircharles = "dk.shape.library:SirCharles:$versions.sircharles"
-deps.shape = shape
-
 def net = [:]
 net.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 net.retrofitGson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 net.retrofitRxJava = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
-net.gson = "com.google.code.gson:gson:$versions.gson"
+net.retrofitMoshi = "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+net.moshi = "com.squareup.moshi:moshi:$versions.moshi"
 net.glide = "com.github.bumptech.glide:glide:$versions.glide"
 net.glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:$versions.glide"
 net.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 net.okhttpLogging = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
+net.gson = "com.google.code.gson:gson:$versions.gson"
 deps.net = net
 
 def rx = [:]
@@ -125,6 +109,10 @@ rx.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"
 rx.rxandroid = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
 rx.rxkotlin = "io.reactivex.rxjava2:rxkotlin:$versions.rxkotlin"
 rx.rxbinding = "com.jakewharton.rxbinding2:rxbinding-kotlin:$versions.rxbinding"
+rx.rxbindingSupport = "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$versions.rxbinding"
+rx.rxbindingAppCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$versions.rxbinding"
+rx.rxbindingDesign = "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$versions.rxbinding"
+rx.rxbindingRecycler = "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$versions.rxbinding"
 rx.rxPermissions = "com.tbruyelle.rxpermissions2:rxpermissions:${versions.rxPermisisons}@aar"
 rx.rxLocation = "pl.charmas.android:android-reactive-location2:${versions.rxLocation}@aar"
 deps.rx = rx
@@ -147,6 +135,10 @@ track.segmentFirebase = "com.segment.analytics.android.integrations:firebase:$ve
 deps.track = track
 
 def debug = [:]
+debug.timber = "com.jakewharton.timber:timber:$versions.timber"
+debug.stetho = "com.facebook.stetho:stetho:$versions.stetho"
+debug.chuck = "com.readystatesoftware.chuck:library:$versions.chuck"
+debug.chuckNoOp = "com.readystatesoftware.chuck:library-no-op:$versions.chuck"
 debug.leakCanary = "com.squareup.leakcanary:leakcanary-android:$versions.canary"
 debug.blockCanary = "com.github.markzhai:blockcanary-android:$versions.blockCanary"
 debug.leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$versions.canary"
@@ -160,13 +152,13 @@ debug.hyperionDisk = "com.willowtreeapps.hyperion:hyperion-disk:$versions.hyperi
 debug.hyperionShared = "com.willowtreeapps.hyperion:hyperion-shared-preferences:$versions.hyperion"
 deps.debug = debug
 
-def annotation = [:]
-annotation.glide = "com.github.bumptech.glide:compiler:$versions.glide"
-annotation.dagger = "com.google.dagger:dagger-compiler:$versions.dagger"
-annotation.daggerProcessor = "com.google.dagger:dagger-android-processor:$versions.dagger"
-annotation.lifecycle = "android.arch.lifecycle:compiler:$versions.arch"
-annotation.configvars = "dk.shape:configvars-annotationprocessor:$versions.configvars"
-deps.annotation = annotation
+def kapt = [:]
+kapt.glide = "com.github.bumptech.glide:compiler:$versions.glide"
+kapt.dagger = "com.google.dagger:dagger-compiler:$versions.dagger"
+kapt.daggerProcessor = "com.google.dagger:dagger-android-processor:$versions.dagger"
+kapt.lifecycle = "android.arch.lifecycle:compiler:$versions.arch"
+kapt.room = "android.arch.persistence.room:compiler:$versions.arch"
+deps.kapt = kapt
 
 def test = [:]
 test.junit = "junit:junit:$versions.junit"
@@ -174,27 +166,17 @@ test.espresso = "com.android.support.test.espresso:espresso-core:$versions.espre
 test.kotlinTest = "org.jetbrains.kotlin:kotlin-test:$versions.kotlin"
 test.hamcrest = "org.hamcrest:hamcrest-junit:$versions.hamcrest"
 test.mockito = "org.mockito:mockito-core:$versions.mockito"
+test.mockitoAndroid = "org.mockito:mockito-android:$versions.mockito"
 test.mockk = "io.mockk:mockk:$versions.mockito"
 test.mockitoKotlin = "com.nhaarman:mockito-kotlin:$versions.mockitoKotlin"
 deps.test = test
-
 
 ext.deps = deps
 
 def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
-    handler.mavenLocal()
-
-    handler.maven { url "../../../SHPAndroidLibraries/repository/releases" }
     handler.maven { url "https://jitpack.io" }
-    handler.maven {
-        url "http://artifactory.shape.dk:8081/artifactory/libs-release-local"
-        credentials {
-            username = "$shape_consumer_username"
-            password = "$shape_consumer_password"
-        }
-    }
 }
 ext.addRepos = this.&addRepos
 
