@@ -1,14 +1,15 @@
 apply from: 'dependencies.gradle'
 
 buildscript {
+
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
+        classpath 'com.android.tools.build:gradle:3.2.0-beta01'
         classpath 'com.google.gms:google-services:3.1.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3-2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41'
     }
 }
 
@@ -25,8 +26,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    androidCompileSdkVersion = 25
-    androidBuildToolsVersion = '25.0.3'
-    androidMinSdkVersion = 16
-    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 27
+    androidBuildToolsVersion = '27.0.3'
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 27
 }
