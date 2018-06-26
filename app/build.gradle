@@ -61,14 +61,11 @@ dependencies {
   implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
   //TODO: REMOVE THOSE
-  implementation 'com.jpardogo.materialtabstrip:library:1.1.1'
   implementation 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
-//  implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
-//  implementation 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-//  implementation 'org.apmem.tools:layouts:1.10@aar'
 
   implementation deps.kotlin.stdlib
   implementation deps.kotlin.koinArch
+  implementation deps.kotlin.ktx
   implementation deps.support.appcompat
   implementation deps.support.v4
   implementation deps.support.constraint

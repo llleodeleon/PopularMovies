@@ -11,20 +11,36 @@
     android:name="com.leodeleon.popmovies.feature.view.PopMoviesFragment"
     android:label="PopMoviesFragment"
     tools:layout="@layout/fragment_movies"
-
     >
-
+    <action
+      android:id="@+id/details"
+      app:destination="@id/movieDetails" />
   </fragment>
   <fragment
     android:id="@+id/topMovies"
     android:name="com.leodeleon.popmovies.feature.view.TopMoviesFragment"
     android:label="TopMoviesFragment"
     tools:layout="@layout/fragment_movies"
-    />
+    >
+    <action
+      android:id="@+id/details"
+      app:destination="@id/movieDetails" />
+  </fragment>
   <fragment
     android:id="@+id/favMovies"
     android:name="com.leodeleon.popmovies.feature.view.FavMoviesFragment"
     android:label="FavMoviesFragment"
     tools:layout="@layout/fragment_movies"
-    />
+    >
+    <action
+      android:id="@+id/details"
+      app:destination="@id/movieDetails" />
+  </fragment>
+  <fragment
+    android:id="@+id/movieDetails"
+    android:name="com.leodeleon.popmovies.feature.view.DetailFragment"
+    android:label="DetailFragment"
+    tools:layout="@layout/fragment_detail"
+    >
+  </fragment>
 </navigation>

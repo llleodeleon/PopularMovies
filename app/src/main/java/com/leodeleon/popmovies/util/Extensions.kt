@@ -2,6 +2,7 @@ package com.leodeleon.popmovies.util
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import android.os.Parcelable
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -27,3 +28,5 @@ inline fun < reified T> Fragment.observe(data: LiveData<T>, crossinline onNull: 
     }
   })
 }
+
+inline fun <reified T: Parcelable> Fragment.getParcelableArg(key: String): T? = arguments?.getParcelable(key)

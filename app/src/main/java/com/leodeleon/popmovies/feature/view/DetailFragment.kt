@@ -15,14 +15,11 @@ import com.leodeleon.popmovies.feature.common.BaseFragment
 import com.leodeleon.popmovies.feature.viewModel.MovieDetailsViewModel
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.model.MovieDetail
-import com.leodeleon.popmovies.util.GlideHelper
-import com.leodeleon.popmovies.util.inflate
-import com.leodeleon.popmovies.util.snack
-//import com.robertlevonyan.views.chip.Chip
+import com.leodeleon.popmovies.util.*
+import com.leodeleon.popmovies.util.Constants.EXTRA_MOVIE
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.layout_detail.*
-//import org.apmem.tools.layouts.FlowLayout
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -38,7 +35,7 @@ class DetailFragment : BaseFragment() {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = container?.inflate(R.layout.fragment_detail, false)
-    movie = arguments?.getParcelable<Movie>(MOVIE)
+    movie = getParcelableArg(EXTRA_MOVIE)
     return view
   }
 
@@ -135,15 +132,4 @@ class DetailFragment : BaseFragment() {
       }
   }
 
-  companion object {
-    val MOVIE = "MOVIE"
-
-    fun newInstance(movie: Movie): DetailFragment {
-      val args = Bundle()
-      val fragment = DetailFragment()
-      args.putParcelable(MOVIE, movie)
-      fragment.arguments = args
-      return fragment
-    }
-  }
 }

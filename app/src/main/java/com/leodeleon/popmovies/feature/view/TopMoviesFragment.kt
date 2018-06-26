@@ -7,6 +7,8 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.leodeleon.popmovies.R
 import com.leodeleon.popmovies.feature.adapters.MoviesAdapter
@@ -16,6 +18,8 @@ import com.leodeleon.popmovies.feature.common.ScrollListener
 import com.leodeleon.popmovies.feature.viewModel.PopMoviesViewModel
 import com.leodeleon.popmovies.feature.viewModel.TopMoviesViewModel
 import com.leodeleon.popmovies.model.Movie
+import com.leodeleon.popmovies.util.Constants
+import com.leodeleon.popmovies.util.Constants.EXTRA_MOVIE
 import com.leodeleon.popmovies.util.Constants.LAYOUT_MANAGER_STATE
 import com.leodeleon.popmovies.util.inflate
 import com.leodeleon.popmovies.util.observe
@@ -87,8 +91,8 @@ class TopMoviesFragment : BaseFragment() {
   }
 
   private fun setRecyclerView() {
-    adapter = MoviesAdapter {
-      //(activity as MainActivity).addFragment(DetailFragment.newInstance(it))
+    adapter = MoviesAdapter { view, movie ->
+			Navigation.findNavController(view).navigate(R.id.details, bundleOf(EXTRA_MOVIE to movie))
     }
 
     scrollListener = ScrollListener(layoutManager) { paginator.onNext(pageNumber++) }

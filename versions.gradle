@@ -6,6 +6,7 @@ versions.navigation = "1.0.0-alpha02"
 versions.lifecycle = "1.1.1"
 versions.support = "28.0.0-alpha1"
 versions.googleServices = "3.1.0"
+versions.jetpack = "1.0.0-alpha1"
 versions.ktx = "0.3"
 versions.plugin = "3.2.0-beta01"
 versions.constraint = "1.1.0"
@@ -39,7 +40,6 @@ versions.moshi = '1.6.0'
 versions.stetho = '1.5.0'
 versions.chuck = '1.1.0'
 versions.koin = '0.9.3'
-versions.material = '1.0.0-alpha01'
 def deps = [:]
 
 def build_versions = [:]
@@ -80,7 +80,7 @@ google.firebaseCrash = "com.google.firebase:firebase-crash:$versions.playService
 google.gpsLocation = "com.google.android.gms:play-services-location:$versions.playServices"
 google.gpsAnalytics = "com.google.android.gms:play-services-analytics:$versions.playServices"
 google.firebasejobsched = "com.firebase:firebase-jobdispatcher:$versions.firebasejobsched"
-google.material = "com.google.android.material:material$versions.material"
+google.material = "com.google.android.material:material$versions.jetpack"
 deps.google = google
 
 def kotlin = [:]

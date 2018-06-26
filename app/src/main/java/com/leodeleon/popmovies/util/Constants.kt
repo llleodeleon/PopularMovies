@@ -10,4 +10,5 @@ object Constants {
   const val YOUTUBE_IMG_URL = "https://img.youtube.com/vi/%s/hqdefault.jpg"
   const val MOVIES_IMG_URL = "https://image.tmdb.org/t/p/%s/%s"
   const val LAYOUT_MANAGER_STATE = "state"
+  const val EXTRA_MOVIE = "MOVIE"
 }

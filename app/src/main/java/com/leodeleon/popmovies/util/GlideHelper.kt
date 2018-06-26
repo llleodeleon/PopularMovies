@@ -26,6 +26,7 @@ class GlideHelper {
       Glide.with(context)
           .load(String.format(YOUTUBE_IMG_URL, videoId))
               .apply(options)
+					.transition(DrawableTransitionOptions.withCrossFade())
           .into(imageView)
     }
 
@@ -49,11 +50,8 @@ class GlideHelper {
       Glide.with(context)
           .load(String.format(MOVIES_IMG_URL, "w780", backdropPath))
           .apply(options)
-          .into(object : SimpleTarget<Drawable>() {
-              override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                  imageView.setImageDrawable(resource)
-              }
-          })
+          .transition(DrawableTransitionOptions.withCrossFade())
+          .into(imageView)
     }
   }
 }

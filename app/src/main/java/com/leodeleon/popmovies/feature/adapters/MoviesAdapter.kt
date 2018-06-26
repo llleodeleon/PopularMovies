@@ -4,6 +4,7 @@ import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.Adapter
 import android.support.v7.widget.RecyclerView.ViewHolder
+import android.view.View
 import android.view.ViewGroup
 import com.leodeleon.popmovies.feature.common.AdapterConstants
 import com.leodeleon.popmovies.feature.common.ViewType
@@ -11,7 +12,7 @@ import com.leodeleon.popmovies.feature.common.ViewTypeAdapter
 import com.leodeleon.popmovies.model.Movie
 import io.reactivex.disposables.CompositeDisposable
 
-class MoviesAdapter(onClick: (Movie) -> Unit ) : Adapter<ViewHolder>() {
+class MoviesAdapter(onClick: (View, Movie) -> Unit ) : Adapter<ViewHolder>() {
 
   private var items: ArrayList<ViewType>
   private var viewTypeAdapters = SparseArrayCompat<ViewTypeAdapter>()
