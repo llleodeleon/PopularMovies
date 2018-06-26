@@ -100,7 +100,7 @@ class FavMoviesFragment : BaseFragment() {
 
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
-        return if (adapter.getItemViewType(position) == AdapterConstants.LOADING) 2 else 1
+        return if (adapter.getItemViewType(position) == AdapterConstants.LOADING) 3 else 1
       }
     }
     recycler_view.adapter = adapter

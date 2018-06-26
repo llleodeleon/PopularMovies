@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.leodeleon.popmovies.R
+import com.leodeleon.popmovies.util.listen
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -22,8 +23,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    val host = nav_host as NavHostFragment
-    NavigationUI.setupWithNavController(bottom_bar, host.navController)
+    NavigationUI.setupWithNavController(bottom_bar, controller)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
