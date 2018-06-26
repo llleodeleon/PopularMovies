@@ -6,8 +6,10 @@ import com.leodeleon.popmovies.data.MovieRepository
 import com.leodeleon.popmovies.data.local.MovieDB
 import com.leodeleon.popmovies.data.local.PopMoviesDB
 import com.leodeleon.popmovies.data.remote.MovieAPI
+import com.leodeleon.popmovies.feature.viewModel.FavMoviesViewModel
 import com.leodeleon.popmovies.feature.viewModel.MovieDetailsViewModel
-import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel
+import com.leodeleon.popmovies.feature.viewModel.PopMoviesViewModel
+import com.leodeleon.popmovies.feature.viewModel.TopMoviesViewModel
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.util.Constants
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -26,7 +28,9 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 val appModule = applicationContext {
-    viewModel { MoviesViewModel(get(),get()) }
+    viewModel { PopMoviesViewModel(get()) }
+    viewModel { TopMoviesViewModel(get()) }
+    viewModel { FavMoviesViewModel(get(),get()) }
     viewModel { MovieDetailsViewModel(get(), get()) }
 
     bean { MovieRepository(get(), get()) }

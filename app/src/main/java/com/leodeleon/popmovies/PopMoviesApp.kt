@@ -5,6 +5,7 @@ import android.util.Log
 import com.facebook.stetho.Stetho
 import com.google.firebase.crash.FirebaseCrash
 import com.leodeleon.popmovies.di.appModule
+import io.reactivex.plugins.RxJavaPlugins
 import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
@@ -17,6 +18,9 @@ class PopMoviesApp : Application() {
   override fun onCreate() {
     super.onCreate()
     startKoin(listOf(appModule))
+    RxJavaPlugins.setErrorHandler {
+      Timber.e(it)
+    }
 
     if (BuildConfig.DEBUG) {
       Stetho.initializeWithDefaults(this)

@@ -4,46 +4,25 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.leodeleon.popmovies.R
-import com.leodeleon.popmovies.feature.view.MoviePagerFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-
-  private val mainFragment: MoviePagerFragment = MoviePagerFragment()
+  lateinit var host: NavHostFragment
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    supportFragmentManager.beginTransaction()
-        .add(R.id.container, mainFragment)
-        .commit()
+    val host = nav_host as NavHostFragment
+    NavigationUI.setupWithNavController(bottom_bar, host.navController)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    when (item.itemId) {
-      android.R.id.home -> {
-        onBackPressed()
-        return true
-      }
-    }
-    return super.onOptionsItemSelected(item)
-  }
-
-  override fun onBackPressed() {
-    if (supportFragmentManager.backStackEntryCount == 0) {
-      super.onBackPressed()
-    } else {
-      supportFragmentManager.popBackStackImmediate()
-    }
-  }
-
-  fun addFragment(fragment: Fragment) {
-    supportFragmentManager.beginTransaction()
-        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-        .add(R.id.container, fragment)
-        .addToBackStack(fragment.toString())
-        .commit()
+    val result = super.onOptionsItemSelected(item)
+    return NavigationUI.onNavDestinationSelected(item, host.navController) || result
   }
 }

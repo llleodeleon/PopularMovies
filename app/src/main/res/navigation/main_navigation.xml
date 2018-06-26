@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigation">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main_navigation"
+  app:startDestination="@id/popMovies">
 
+
+  <fragment
+    android:id="@+id/popMovies"
+    android:name="com.leodeleon.popmovies.feature.view.PopMoviesFragment"
+    android:label="PopMoviesFragment"
+    tools:layout="@layout/fragment_movies"
+
+    >
+
+  </fragment>
+  <fragment
+    android:id="@+id/topMovies"
+    android:name="com.leodeleon.popmovies.feature.view.TopMoviesFragment"
+    android:label="TopMoviesFragment"
+    tools:layout="@layout/fragment_movies"
+    />
+  <fragment
+    android:id="@+id/favMovies"
+    android:name="com.leodeleon.popmovies.feature.view.FavMoviesFragment"
+    android:label="FavMoviesFragment"
+    tools:layout="@layout/fragment_movies"
+    />
 </navigation>

@@ -5,10 +5,10 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BaseFragment : Fragment() {
 
-  protected var disposable = CompositeDisposable()
+  protected var subscriptions = CompositeDisposable()
 
-  override fun onPause() {
-    super.onPause()
-    disposable.clear()
+  override fun onDestroy() {
+    super.onDestroy()
+    subscriptions.dispose()
   }
 }

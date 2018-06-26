@@ -103,8 +103,8 @@ class DetailFragment : BaseFragment() {
       view?.snack(string){ view.setBackgroundColor(color) }
     }
 
-    disposable.add(d1)
-    disposable.add(d2)
+    subscriptions.add(d1)
+    subscriptions.add(d2)
   }
 
   private fun setRecyclerView() {

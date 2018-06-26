@@ -2,7 +2,7 @@ package com.leodeleon.popmovies;
 
 import android.arch.lifecycle.MutableLiveData;
 import com.leodeleon.popmovies.data.MovieRepository;
-import com.leodeleon.popmovies.feature.viewModel.MoviesViewModel;
+import com.leodeleon.popmovies.feature.viewModel.PopMoviesViewModel;
 import com.leodeleon.popmovies.model.Movie;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
@@ -24,7 +24,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class MoviesViewModelTest {
 
-  MoviesViewModel moviesViewModel;
+  PopMoviesViewModel moviesViewModel;
   @Mock MovieRepository movieRepository;
   List<Movie> FULL_LIST_OF_MOVIES = Arrays.asList(new Movie(), new Movie());
   List<Movie> EMPTY_LIST_OF_MOVIES = Collections.emptyList();
@@ -35,7 +35,7 @@ public class MoviesViewModelTest {
     RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
     RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
 
-    moviesViewModel = new MoviesViewModel(movieRepository, PublishSubject.create());
+    moviesViewModel = new PopMoviesViewModel(movieRepository, PublishSubject.create());
   }
 
   @Test

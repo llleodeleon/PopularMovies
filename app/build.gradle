@@ -91,6 +91,7 @@ dependencies {
   implementation deps.net.glide
   implementation deps.rx.rxjava
   implementation deps.rx.rxandroid
+  implementation deps.rx.rxkotlin
   implementation deps.rx.rxbinding
   implementation deps.rx.rxbindingSupport
   implementation deps.rx.rxbindingDesign

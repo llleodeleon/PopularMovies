@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:id="@id/popMovies"
+    android:icon="@drawable/icon_movies"
+    android:title="Popular" />
+  <item
+    android:id="@id/topMovies"
+    android:icon="@drawable/icon_rated"
+    android:title="Top rated" />
+  <item
+    android:id="@id/favMovies"
+    android:icon="@drawable/icon_favorite"
+    android:title="Favorites" />
+</menu>
