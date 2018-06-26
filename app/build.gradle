@@ -51,16 +51,6 @@ android {
       java{
         srcDirs += 'src/main/kotlin'
       }
-      res{
-        srcDirs =
-            [
-                'src/main/res/layouts/base',
-                'src/main/res/layouts/items',
-                'src/main/res/layouts/views',
-                'src/main/res/layouts',
-                'src/main/res'
-            ]
-      }
     }
   }
 }
@@ -73,9 +63,9 @@ dependencies {
   //TODO: REMOVE THOSE
   implementation 'com.jpardogo.materialtabstrip:library:1.1.1'
   implementation 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
-  implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
-  implementation 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-  implementation 'org.apmem.tools:layouts:1.10@aar'
+//  implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+//  implementation 'com.robertlevonyan.view:MaterialChipView:1.0.1'
+//  implementation 'org.apmem.tools:layouts:1.10@aar'
 
   implementation deps.kotlin.stdlib
   implementation deps.kotlin.koinArch
@@ -89,6 +79,8 @@ dependencies {
   implementation deps.support.lifecycleExtensions
   implementation deps.support.room
   implementation deps.support.roomRxJava
+  implementation deps.support.navigation
+  implementation deps.support.navigationFragment
   implementation deps.google.firebaseCrash
   implementation deps.net.moshi
   implementation deps.net.retrofit

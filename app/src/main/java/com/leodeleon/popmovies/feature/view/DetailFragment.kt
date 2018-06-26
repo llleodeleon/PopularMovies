@@ -2,6 +2,7 @@ package com.leodeleon.popmovies.feature.view
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.design.chip.Chip
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +18,11 @@ import com.leodeleon.popmovies.model.MovieDetail
 import com.leodeleon.popmovies.util.GlideHelper
 import com.leodeleon.popmovies.util.inflate
 import com.leodeleon.popmovies.util.snack
-import com.robertlevonyan.views.chip.Chip
+//import com.robertlevonyan.views.chip.Chip
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.layout_detail.*
-import org.apmem.tools.layouts.FlowLayout
+//import org.apmem.tools.layouts.FlowLayout
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -99,7 +100,7 @@ class DetailFragment : BaseFragment() {
       val removed = ctx.getString(R.string.movie_removed)
       val string = if (movie1.isFavorite()) added else removed
       val color = ContextCompat.getColor(ctx,R.color.colorPrimaryDark)
-      view?.snack(string){ getView().setBackgroundColor(color) }
+      view?.snack(string){ view.setBackgroundColor(color) }
     }
 
     disposable.add(d1)
@@ -125,23 +126,13 @@ class DetailFragment : BaseFragment() {
 
   private fun bindDetails(movieDetail: MovieDetail) {
     val runtime = "%dmin"
-    val ctx = context?: return
-
     text_runtime.text = String.format(Locale.getDefault(), runtime, movieDetail.runtime)
-    flow_layout.removeAllViews()
-     val margin = ctx.resources.getDimension(R.dimen.dp8).toInt()
-
-    for ((_, name) in movieDetail.genres) {
-      val chip = flow_layout?.inflate(R.layout.view_chip, false) as Chip
-      val params = FlowLayout.LayoutParams(
-          FlowLayout.LayoutParams.WRAP_CONTENT,
-          FlowLayout.LayoutParams.WRAP_CONTENT
-      )
-      params.setMargins(0, 0, margin, margin)
-      chip.layoutParams = params
-      chip.chipText = name
-      flow_layout.addView(chip)
-    }
+      chip_group.removeAllViews()
+      movieDetail.genres.map {
+          val chip = chip_group.inflate(R.layout.view_chip, false) as Chip
+        chip.chipText = it.name
+          chip_group.addView(chip)
+      }
   }
 
   companion object {
