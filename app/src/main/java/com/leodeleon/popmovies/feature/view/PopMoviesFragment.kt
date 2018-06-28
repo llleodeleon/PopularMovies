@@ -1,6 +1,7 @@
 package com.leodeleon.popmovies.feature.view
 
 import android.arch.lifecycle.Observer
+import android.arch.paging.PagedList
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.widget.DefaultItemAnimator
@@ -35,12 +36,14 @@ class PopMoviesFragment : BaseFragment() {
 
   private val viewModel: PopMoviesViewModel by viewModel()
   private lateinit var layoutManager: GridLayoutManager
-  private lateinit var scrollListener: ScrollListener
-  private lateinit var adapter: MoviesAdapter
+  //private lateinit var scrollListener: ScrollListener
+  private val adapter = MoviesAdapter { view, movie ->
+    Navigation.findNavController(view).navigate(R.id.details, bundleOf(EXTRA_MOVIE to movie))
+  }
 
-  private val paginator = PublishProcessor.create<Int>()
+  //private val paginator = PublishProcessor.create<Int>()
 
-  private var pageNumber = 1
+  //private var pageNumber = 1
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = container?.inflate(R.layout.fragment_movies, false)
@@ -51,6 +54,7 @@ class PopMoviesFragment : BaseFragment() {
     super.onViewCreated(view, savedInstanceState)
     layoutManager = recycler_view.layoutManager as GridLayoutManager
     progress_bar.visibility = View.VISIBLE
+    viewModel.loadPopularMovies()
     setMoviesData()
     setRecyclerView()
   }
@@ -58,9 +62,10 @@ class PopMoviesFragment : BaseFragment() {
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     subscribe()
-    if (savedInstanceState == null) {
-      paginator.onNext(pageNumber)
-    }
+
+//    if (savedInstanceState == null) {
+//      paginator.onNext(pageNumber)
+//    }
   }
 
   override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -76,25 +81,24 @@ class PopMoviesFragment : BaseFragment() {
     super.onSaveInstanceState(outState)
   }
 
-  private fun setData(movieList: List<Movie>) {
-    adapter.addMovies(movieList)
+  private fun setData(movieList: PagedList<Movie>) {
+//    adapter.addMovies(movieList)
+    adapter.submitList(movieList)
     progress_bar.visibility = View.GONE
   }
 
   private fun subscribe() {
-    RxRecyclerView
-        .scrollEvents(recycler_view)
-        .subscribe {
-          scrollListener.loadMore()
-        }.addTo(subscriptions)
+//    RxRecyclerView
+//        .scrollEvents(recycler_view)
+//        .subscribe {
+//          scrollListener.loadMore()
+//        }.addTo(subscriptions)
   }
 
   private fun setRecyclerView() {
-    adapter = MoviesAdapter {view, movie ->
-        Navigation.findNavController(view).navigate(R.id.details, bundleOf(EXTRA_MOVIE to movie))
-    }
 
-    scrollListener = ScrollListener(layoutManager) { paginator.onNext(pageNumber++) }
+
+//    scrollListener = ScrollListener(layoutManager) { paginator.onNext(pageNumber++) }
 
     recycler_view.itemAnimator = DefaultItemAnimator()
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -112,8 +116,8 @@ class PopMoviesFragment : BaseFragment() {
       setData(it)
     }
 
-    paginator.onBackpressureDrop()
-        .subscribe { page -> viewModel.loadPopularMovies(page) }
-        .addTo(subscriptions)
+//    paginator.onBackpressureDrop()
+//        .subscribe { page -> viewModel.loadPopularMovies(page) }
+//        .addTo(subscriptions)
   }
 }

@@ -1,21 +1,38 @@
 package com.leodeleon.popmovies.data
 
+import android.arch.paging.PagedList
+import android.arch.paging.RxPagedListBuilder
+import com.leodeleon.popmovies.MoviesDataSourceFactory
 import com.leodeleon.popmovies.data.local.MovieDB
 import com.leodeleon.popmovies.data.remote.MovieAPI
+import com.leodeleon.popmovies.feature.adapters.MoviesBoundaryCallback
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.model.MovieDetail
 import com.leodeleon.popmovies.model.MovieResponse
 import com.leodeleon.popmovies.model.Video
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.toSingle
 import io.reactivex.schedulers.Schedulers
 
 class MovieRepository
-constructor(val movieAPI: MovieAPI, val movieDB: MovieDB) {
+constructor(val movieAPI: MovieAPI, val movieDB: MovieDB,val  factory: MoviesDataSourceFactory) {
 
-  fun getPopMovies(page: Int): Single<List<Movie>> {
-    return getMovies(movieAPI.getPopularMovies(page))
+  fun getPopMovies(subscriptions: CompositeDisposable): Observable<PagedList<Movie>> {
+    val config = PagedList.Config.Builder()
+        .setPageSize(20)
+        .setEnablePlaceholders(false)
+        .setInitialLoadSizeHint(20)
+        .build()
+
+    return RxPagedListBuilder(factory, config)
+        .setInitialLoadKey(1)
+        .setFetchScheduler(Schedulers.io())
+        .setNotifyScheduler(AndroidSchedulers.mainThread())
+         .buildObservable()
   }
 
   fun getTopMovies(page: Int): Single<List<Movie>> {

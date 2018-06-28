@@ -26,6 +26,7 @@ import com.leodeleon.popmovies.util.observe
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_movies.progress_bar
 import kotlinx.android.synthetic.main.fragment_movies.recycler_view
 import org.koin.android.architecture.ext.viewModel
@@ -34,7 +35,6 @@ class FavMoviesFragment : BaseFragment() {
 
   private val viewModel: FavMoviesViewModel by viewModel()
   private lateinit var layoutManager: GridLayoutManager
-  private lateinit var scrollListener: ScrollListener
   private lateinit var adapter: MoviesAdapter
 
   private val paginator = PublishProcessor.create<Int>()
@@ -56,8 +56,6 @@ class FavMoviesFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-
-    subscribe()
     if (savedInstanceState == null) {
       paginator.onNext(pageNumber)
     }
@@ -81,22 +79,10 @@ class FavMoviesFragment : BaseFragment() {
     progress_bar.visibility = View.GONE
   }
 
-  private fun subscribe() {
-   RxRecyclerView
-        .scrollEvents(recycler_view)
-        .subscribe {
-          scrollListener.loadMore()
-        }
-				.addTo(subscriptions)
-  }
-
   private fun setRecyclerView() {
     adapter = MoviesAdapter { view, movie ->
       Navigation.findNavController(view).navigate(R.id.details, bundleOf(Constants.EXTRA_MOVIE to movie))
     }
-
-    scrollListener = ScrollListener(layoutManager) { paginator.onNext(pageNumber++) }
-
 
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
       override fun getSpanSize(position: Int): Int {
@@ -113,7 +99,9 @@ class FavMoviesFragment : BaseFragment() {
 		}
 
 		paginator.onBackpressureDrop()
-				.subscribe { viewModel.loadFavoriteMovies() }
+				.subscribeBy {
+          viewModel.loadFavoriteMovies()
+        }
 				.addTo(subscriptions)
   }
 

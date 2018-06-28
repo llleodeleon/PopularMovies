@@ -2,6 +2,9 @@ package com.leodeleon.popmovies.feature.viewModel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.arch.paging.LivePagedListBuilder
+import android.arch.paging.PagedList
+import android.arch.paging.RxPagedListBuilder
 import com.leodeleon.popmovies.data.MovieRepository
 import com.leodeleon.popmovies.model.Movie
 import io.reactivex.disposables.CompositeDisposable
@@ -15,12 +18,13 @@ class PopMoviesViewModel
 constructor(
     private val movieRepository: MovieRepository
 ) : BaseViewModel() {
-  val popMoviesLiveData = MutableLiveData<List<Movie>>()
+  val popMoviesLiveData = MutableLiveData<PagedList<Movie>>()
 
-  fun loadPopularMovies(page: Int) {
-    movieRepository.getPopMovies(page)
-        .subscribeBy{ popMoviesLiveData.value = it }
+  fun loadPopularMovies() {
+     movieRepository.getPopMovies(subscriptions)
+        .subscribeBy{
+          popMoviesLiveData.value = it
+        }
         .addTo(subscriptions)
   }
-
 }

@@ -22,9 +22,10 @@ class MovieViewTypeAdapter(val onClick: (View,Movie) -> Unit) : ViewTypeAdapter 
     holder.bindView(item as Movie, onClick)
   }
 
-  inner class MovieViewHolder(itemView: View): ViewHolder(itemView) {
+  class MovieViewHolder(itemView: View): ViewHolder(itemView) {
 
-    fun bindView(movie: Movie, onClick: (View,Movie) -> Unit) = with(itemView) {
+    fun bindView(movie: Movie?, onClick: (View,Movie) -> Unit) = with(itemView) {
+      movie?: return@with
       GlideHelper.loadPoster(context, movie.poster_path, poster)
       setOnClickListener {
         onClick(itemView, movie)

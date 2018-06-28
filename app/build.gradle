@@ -75,7 +75,9 @@ dependencies {
   implementation deps.support.lifecycle
   implementation deps.support.lifecycleExtensions
   implementation deps.support.room
-  implementation deps.support.roomRxJava
+  implementation deps.support.paging
+  implementation deps.support.pagingRx
+  implementation deps.support.roomRx
   implementation deps.support.navigation
   implementation deps.support.navigationFragment
   implementation deps.google.firebaseCrash

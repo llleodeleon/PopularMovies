@@ -14,7 +14,7 @@ open class BaseViewModel: ViewModel(){
 
 	override fun onCleared() {
 		super.onCleared()
-		subscriptions.dispose()
+		subscriptions.clear()
 	}
 
 }

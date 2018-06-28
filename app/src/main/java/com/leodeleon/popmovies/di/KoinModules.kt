@@ -2,7 +2,9 @@ package com.leodeleon.popmovies.di
 
 import android.arch.persistence.room.Room
 import com.leodeleon.popmovies.BuildConfig
+import com.leodeleon.popmovies.MoviesDataSourceFactory
 import com.leodeleon.popmovies.data.MovieRepository
+import com.leodeleon.popmovies.data.MoviesDataSource
 import com.leodeleon.popmovies.data.local.MovieDB
 import com.leodeleon.popmovies.data.local.PopMoviesDB
 import com.leodeleon.popmovies.data.remote.MovieAPI
@@ -33,13 +35,15 @@ val appModule = applicationContext {
     viewModel { FavMoviesViewModel(get(),get()) }
     viewModel { MovieDetailsViewModel(get(), get()) }
 
-    bean { MovieRepository(get(), get()) }
+    bean { MovieRepository(get(), get(), get()) }
 
     bean { createWebService<MovieAPI.MovieService>(get()) }
 
     bean { MovieAPI(get()) }
 
     bean { MovieDB(get()) }
+
+    bean { MoviesDataSourceFactory(get()) }
 
     bean { PublishSubject.create<Movie>() }
 
