@@ -30,7 +30,8 @@ class GlideHelper {
           .into(imageView)
     }
 
-    fun loadPoster(context: Context, posterPath: String, imageView: ImageView) {
+    fun loadPoster(context: Context, posterPath: String?, imageView: ImageView) {
+      posterPath?: return
         val options = RequestOptions().apply{
             centerCrop()
             skipMemoryCache(true)
