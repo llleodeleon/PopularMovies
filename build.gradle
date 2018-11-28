@@ -2,11 +2,11 @@ apply from: 'dependencies.gradle'
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha6'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.google.gms:google-services:3.1.0'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3-2'
     }
@@ -14,9 +14,10 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
-        google()
+
     }
 }
 
@@ -25,8 +26,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    androidCompileSdkVersion = 25
-    androidBuildToolsVersion = '25.0.3'
+    androidCompileSdkVersion = 27
+    androidBuildToolsVersion = '27.0.3'
     androidMinSdkVersion = 16
-    androidTargetSdkVersion = 25
+    androidTargetSdkVersion = 27
 }

@@ -22,13 +22,13 @@ class MoviePagerFragment : Fragment() {
     private val PAGE_GOUNT = 3
   }
 
-  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return container?.inflate(R.layout.fragment_pager, false)
   }
 
-  override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    adapter = PagerAdapter(fragmentManager)
+    adapter = PagerAdapter(fragmentManager!!)
     viewpager.offscreenPageLimit = PAGE_GOUNT - 1
     viewpager.adapter = adapter
     tabs.setViewPager(viewpager)
@@ -47,9 +47,9 @@ class MoviePagerFragment : Fragment() {
 
     override fun getPageTitle(position: Int): CharSequence {
       return when (position) {
-        MoviesFragment.POSITION_POPULAR -> context.getString(R.string.popular)
-        MoviesFragment.POSITION_RATED -> context.getString(R.string.sort_rated)
-        else -> context.getString(R.string.favorites)
+        MoviesFragment.POSITION_POPULAR -> context!!.getString(R.string.popular)
+        MoviesFragment.POSITION_RATED -> context!!.getString(R.string.sort_rated)
+        else -> context!!.getString(R.string.favorites)
       }
     }
   }

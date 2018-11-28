@@ -59,13 +59,13 @@ class MoviesFragment : BaseFragment(), Injectable {
   }
 
 
-  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     val view = container?.inflate(R.layout.fragment_movies, false)
-    position = arguments.getInt(POSITION)
+    position = arguments!!.getInt(POSITION)
     return view
   }
 
-  override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     layoutManager = recycler_view.layoutManager as GridLayoutManager
     progress_bar.visibility = View.VISIBLE
@@ -96,7 +96,7 @@ class MoviesFragment : BaseFragment(), Injectable {
     }
   }
 
-  override fun onSaveInstanceState(outState: Bundle?) {
+  override fun onSaveInstanceState(outState: Bundle) {
     outState?.putParcelable(LAYOUT_MANAGER_STATE, layoutManager.onSaveInstanceState())
     super.onSaveInstanceState(outState)
   }
@@ -109,9 +109,9 @@ class MoviesFragment : BaseFragment(), Injectable {
   private fun subscribe() {
     val d1 = RxRecyclerView
         .scrollEvents(recycler_view)
-        .subscribe({
+        .subscribe {
           scrollListener.loadMore()
-        })
+        }
     disposable.add(d1)
   }
 

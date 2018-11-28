@@ -1,0 +1,120 @@
+ext.deps = [:]
+ext.build_versions = [
+        plugin: '3.1.4',
+        kotlin: '1.3.10',
+        gms: '4.2.0',
+        compile_sdk : 28,
+        target_sdk : 28,
+        min_sdk : 21,
+        build_tools : '28.0.3',
+        java: JavaVersion.VERSION_1_8
+]
+
+def versions = [
+        //support
+        support          : '28.0.0',
+        constraint       : '1.1.3',
+        arch             : '1.0.0-alpha1',
+        dagger           : '2.11-rc2',
+        //net
+        glide            : '4.8.0',
+        retrofit         : '2.5.0',
+        okhttp           : '3.12.0',
+        //other
+        rxjava           : '2.2.4',
+        bindingCollection: '2.2.0',
+        butterknife      : '8.5.1',
+        rxbinding        : '2.0.0',
+        //debug
+        leakcanary       : '1.6.2',
+        hyperion         : '0.9.24',
+        stetho           : '1.5.0',
+        mockito          : '2.8.9',
+]
+
+deps.support = [
+        appcompat   : "com.android.support:appcompat-v7:$versions.support",
+        design      : "com.android.support:design:$versions.support",
+        cardview    : "com.android.support:cardview-v7:$versions.support",
+        v4          : "com.android.support:support-v4:$versions.support",
+        recycler    : "com.android.support:recyclerview-v7:$versions.support",
+        constraint  : "com.android.support.constraint:constraint-layout:$versions.constraint",
+        multidex    : "com.android.support:multidex:1.0.3",
+        annotations : "com.android.support:support-annotations:$versions.support"
+]
+deps.google = [
+        firebase : "com.google.firebase:firebase-core:16.0.5",
+        dagger   : "com.google.dagger:dagger:$versions.dagger",
+        gson     : "com.google.code.gson:gson:2.8.5"
+]
+deps.arch = [
+        lifecycle : "android.arch.lifecycle:extensions:$versions.arch",
+
+]
+deps.rx = [
+        rxjava     : "io.reactivex.rxjava2:rxjava:2.2.0",
+        rxandroid  : "io.reactivex.rxjava2:rxandroid:2.2.0",
+        rxBindings            : "com.jakewharton.rxbinding2:rxbinding-kotlin:$versions.rxbinding",
+        rxBindingsSupport     : "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$versions.rxbinding",
+        rxBindingsAppCompat   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$versions.rxbinding",
+        rxBindingsDesign      : "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$versions.rxbinding",
+        rxBindingsRecycler    : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$versions.rxbinding",
+]
+deps.net = [
+        glide       : "com.github.bumptech.glide:glide:$versions.glide",
+        retrofit    : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        retrofitGson: "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        retrofitMoshi: "com.squareup.retrofit2:converter-moshi:$versions.retrofit",
+        retrofitRx : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
+        okhttp      : "com.squareup.okhttp3:okhttp:$versions.okhttp",
+        okhttpLogging : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
+
+]
+deps.androidx = [
+        ktx: "androidx.core:core-ktx:0.3"
+]
+deps.kotlin = [
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$build_versions.kotlin"
+]
+deps.utils = [
+        timber        : "com.jakewharton.timber:timber:4.5.1",
+        bindingAdapter : "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$versions.bindingCollection",
+        bindingRecycler: "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$versions.bindingCollection"
+]
+deps.debug = [
+        leakcanary     : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
+        leakcanaryNoOp : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
+        hyperion       : "com.willowtreeapps.hyperion:hyperion-core:$versions.hyperion",
+        hyperAttr      : "com.willowtreeapps.hyperion:hyperion-attr:$versions.hyperion",
+        hyperMeasure   : "com.willowtreeapps.hyperion:hyperion-measurement:$versions.hyperion",
+        hyperCrash     : "com.willowtreeapps.hyperion:hyperion-crash:$versions.hyperion",
+        stetho         : "2com.facebook.stetho:stetho:$versions.stetho",
+        stethoOkHttp   : "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
+]
+deps.track = [
+        crashlytics: "com.crashlytics.sdk.android:crashlytics:2.9.6@aar"
+]
+deps.kapt = [
+        databinding: "com.android.databinding:compiler:${build_versions.plugin}",
+        glide      : "com.github.bumptech.glide:compiler:$versions.glide",
+        lifecycle  : "android.arch.lifecycle:compiler:$versions.arch",
+        dagger     : "com.google.dagger:dagger-compiler:$versions.dagger",
+        daggerAndroid: "com.google.dagger:dagger-android-processor:$versions.dagger",
+        butterknife: "com.jakewharton:butterknife-compiler:$versions.butterknife",
+]
+deps.test = [
+        espresso: "com.android.support.test.espresso:espresso-core:3.0.2",
+        junit   : "junit:junit:4.12",
+        runner  : "com.android.support.test:runner:1.0.2",
+        mockito : "org.mockito:mockito-core:$versions.mockito",
+        mockitoAndroid: "org.mockito:mockito-android:$versions.mockito",
+]
+
+def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.mavenLocal()
+    handler.maven { url "https://jitpack.io" }
+}
+
+ext.addRepos = this.&addRepos

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -143,8 +143,8 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-apply from: "${rootDir}/config/codequality-findbugs.gradle"
-apply from: "${rootDir}/config/codequality-pmd.gradle"
+//apply from: "${rootDir}/config/codequality-findbugs.gradle"
+//apply from: "${rootDir}/config/codequality-pmd.gradle"
 repositories {
   mavenCentral()
 }

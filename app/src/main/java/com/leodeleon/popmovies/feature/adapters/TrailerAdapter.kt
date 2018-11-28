@@ -49,7 +49,7 @@ class TrailerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     return videoKeys.size
   }
 
-  override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
+  override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
     super.onDetachedFromRecyclerView(recyclerView)
     disposable.clear()
   }
@@ -61,7 +61,7 @@ class TrailerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun bindView(videoId: String) {
       this.videoId = videoId
       GlideHelper.loadThumbnail(itemView.context, videoId, itemView.image_thumbnail )
-      val d1 = RxView.clicks(itemView).subscribe({
+      val d1 = RxView.clicks(itemView).subscribe {
         val activity = itemView.context as MainActivity
         val result = YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(activity)
         if (result == YouTubeInitializationResult.SUCCESS) {
@@ -70,7 +70,7 @@ class TrailerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
           openCustomTab(activity)
         }
 
-      })
+      }
       disposable.add(d1)
     }
 

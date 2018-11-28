@@ -36,7 +36,7 @@ class MoviesAdapter(onClick: (Movie) -> Unit ) : Adapter<ViewHolder>() {
     viewTypeAdapters.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
   }
 
-  override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
+  override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
     super.onDetachedFromRecyclerView(recyclerView)
     disposable.clear()
   }
