@@ -15,6 +15,11 @@ android {
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+      }
+    }
   }
   signingConfigs {
     release
@@ -39,6 +44,9 @@ android {
   }
   testOptions {
     unitTests.returnDefaultValues = true
+  }
+  androidExtensions {
+    experimental = true
   }
   sourceSets {
     main {
@@ -117,8 +125,8 @@ dependencies {
   implementation deps.arch.roomRx
   kapt deps.kapt.room
 
-  debugCompile dependencies.chuck
-  releaseCompile dependencies.chuckNoOp
+  debugImplementation dependencies.chuck
+  releaseImplementation dependencies.chuckNoOp
 
   implementation dependencies.rxBindings
   implementation dependencies.rxBindingsSupport
