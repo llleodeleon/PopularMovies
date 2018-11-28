@@ -72,73 +72,51 @@ kapt {
   generateStubs = true
 }
 
-
 dependencies {
-  Map<String, String> dependencies = rootProject.ext.dependencies;
-
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  androidTestImplementation(deps.test.espresso, {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-
+  implementation files('libs/YouTubeAndroidPlayerApi.jar')
   implementation deps.kotlin.stdlib
-  testImplementation deps.kotlin.stdlib
-
   //support
-  implementation dependencies.appcompat
-  implementation dependencies.support
-  implementation dependencies.constraint
-  implementation dependencies.design
-  implementation dependencies.recyclerview
-  implementation dependencies.cardview
-  implementation dependencies.customTabs
-
+  implementation deps.support.appcompat
+  implementation deps.support.v4
+  implementation deps.support.constraint
+  implementation deps.support.design
+  implementation deps.support.recycler
+  implementation deps.support.cardview
+  implementation deps.support.customtabs
   //firebase
   implementation deps.google.firebase
-  implementation (deps.track.crashlytics) { transitive = true }
-
-  //networking
-
-  implementation dependencies.moshi
-  implementation dependencies.retrofit
-  implementation dependencies.retrofitMoshi
-  implementation dependencies.retrofitRxJava
-  implementation dependencies.rxjava
-  implementation dependencies.rxandroid
-  implementation dependencies.okhttp
-  implementation dependencies.okhttpLogging
-  implementation dependencies.stetho
-  implementation dependencies.glide
-  //DI
-  implementation dependencies.timber
-
-  implementation dependencies.dagger
-  implementation dependencies.daggerAndroid
-  implementation dependencies.daggerAndroidSupport
-  kapt dependencies.daggerCompiler
-  kapt dependencies.daggerAndroidProcessor
-
+  implementation deps.google.dagger
+  implementation deps.google.daggerAndroid
+  implementation deps.google.daggerAndroidSupport
+  kapt deps.kapt.dagger
+  kapt deps.kapt.daggerAndroid
   implementation deps.arch.lifecycle
   kapt deps.kapt.lifecycle
-
   implementation deps.arch.room
   implementation deps.arch.roomRx
   kapt deps.kapt.room
-
-  debugImplementation dependencies.chuck
-  releaseImplementation dependencies.chuckNoOp
-
-  implementation dependencies.rxBindings
-  implementation dependencies.rxBindingsSupport
-  implementation dependencies.rxBindingsDesign
-  implementation dependencies.rxBindingsAppCompat
-  implementation dependencies.rxBindingsRecycler
-
-  testImplementation deps.test.mockito
-  androidTestImplementation deps.test.mockitoAndroid
-  testImplementation deps.test.junit
-
-
+  //networking
+  implementation deps.net.moshi
+  implementation deps.net.retrofit
+  implementation deps.net.retrofitMoshi
+  implementation deps.net.retrofitRx
+  implementation deps.net.okhttp
+  implementation deps.net.okhttpLogging
+  implementation deps.net.glide
+  implementation deps.net.tmdb
+  kapt deps.kapt.glide
+  //rx
+  implementation deps.rx.rxjava
+  implementation deps.rx.rxandroid
+  implementation deps.rx.rxBindings
+  implementation deps.rx.rxBindingsSupport
+  implementation deps.rx.rxBindingsDesign
+  implementation deps.rx.rxBindingsAppCompat
+  implementation deps.rx.rxBindingsRecycler
+  implementation deps.util.timber
+  implementation deps.debug.stetho
+  implementation (deps.track.crashlytics) { transitive = true }
   //custom views
   implementation 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
   implementation 'com.jpardogo.materialtabstrip:library:1.1.1'
@@ -146,9 +124,13 @@ dependencies {
   implementation 'com.robertlevonyan.view:MaterialChipView:1.0.1'
   implementation 'org.apmem.tools:layouts:1.10@aar'
 
-  implementation files('libs/YouTubeAndroidPlayerApi.jar')
-
-
+  testImplementation deps.kotlin.stdlib
+  testImplementation deps.test.mockito
+  androidTestImplementation deps.test.mockitoAndroid
+  testImplementation deps.test.junit
+  androidTestImplementation(deps.test.espresso, {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
 }
 
 apply plugin: 'com.google.gms.google-services'

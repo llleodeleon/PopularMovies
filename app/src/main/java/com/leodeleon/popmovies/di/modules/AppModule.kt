@@ -10,7 +10,6 @@ import com.leodeleon.popmovies.di.ViewModelFactory
 import com.leodeleon.popmovies.di.component.ViewModelSubComponent
 import com.leodeleon.popmovies.model.Movie
 import com.leodeleon.popmovies.util.Constants.BASE_URL
-import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import io.reactivex.subjects.PublishSubject
@@ -65,7 +64,6 @@ class AppModule(internal val application: Application) {
     return OkHttpClient.Builder()
         .addInterceptor(networkInterceptor)
         .addInterceptor(loggingInterceptor)
-        .addInterceptor(ChuckInterceptor(application))
         .cache(cache)
         .connectTimeout(40, TimeUnit.SECONDS)
         .readTimeout(40, TimeUnit.SECONDS)
