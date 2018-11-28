@@ -76,55 +76,55 @@ dependencies {
   testImplementation deps.kotlin.stdlib
 
   //support
-  compile dependencies.appcompat
-  compile dependencies.support
-  compile dependencies.constraint
-  compile dependencies.design
-  compile dependencies.recyclerview
-  compile dependencies.cardview
-  compile dependencies.customTabs
+  implementation dependencies.appcompat
+  implementation dependencies.support
+  implementation dependencies.constraint
+  implementation dependencies.design
+  implementation dependencies.recyclerview
+  implementation dependencies.cardview
+  implementation dependencies.customTabs
 
   //firebase
-  compile dependencies.firebaseCrash
+  implementation dependencies.firebaseCrash
 
   //networking
 
-  compile dependencies.moshi
-  compile dependencies.retrofit
-  compile dependencies.retrofitMoshi
-  compile dependencies.retrofitRxJava
-  compile dependencies.rxjava
-  compile dependencies.rxandroid
-  compile dependencies.okhttp
-  compile dependencies.okhttpLogging
-  compile dependencies.stetho
-  compile dependencies.glide
+  implementation dependencies.moshi
+  implementation dependencies.retrofit
+  implementation dependencies.retrofitMoshi
+  implementation dependencies.retrofitRxJava
+  implementation dependencies.rxjava
+  implementation dependencies.rxandroid
+  implementation dependencies.okhttp
+  implementation dependencies.okhttpLogging
+  implementation dependencies.stetho
+  implementation dependencies.glide
   //DI
-  compile dependencies.timber
-  compile dependencies.butterknife
+  implementation dependencies.timber
+  implementation dependencies.butterknife
   kapt dependencies.butterknifeCompiler
 
-  compile dependencies.dagger
-  compile dependencies.daggerAndroid
-  compile dependencies.daggerAndroidSupport
+  implementation dependencies.dagger
+  implementation dependencies.daggerAndroid
+  implementation dependencies.daggerAndroidSupport
   kapt dependencies.daggerCompiler
   kapt dependencies.daggerAndroidProcessor
 
-  compile dependencies.lifecycle
-  kapt dependencies.lifecycleCompiler
+  implementation deps.arch.lifecycle
+  kapt deps.kapt.lifecycle
 
-  compile dependencies.room
-  compile dependencies.roomRxJava
-  kapt dependencies.roomCompiler
+  implementation deps.arch.room
+  implementation deps.arch.roomRx
+  kapt deps.kapt.room
 
   debugCompile dependencies.chuck
   releaseCompile dependencies.chuckNoOp
 
-  compile dependencies.rxBindings
-  compile dependencies.rxBindingsSupport
-  compile dependencies.rxBindingsDesign
-  compile dependencies.rxBindingsAppCompat
-  compile dependencies.rxBindingsRecycler
+  implementation dependencies.rxBindings
+  implementation dependencies.rxBindingsSupport
+  implementation dependencies.rxBindingsDesign
+  implementation dependencies.rxBindingsAppCompat
+  implementation dependencies.rxBindingsRecycler
 
   testImplementation deps.test.mockito
   androidTestImplementation deps.test.mockitoAndroid
