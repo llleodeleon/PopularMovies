@@ -7,11 +7,11 @@ ext {
   room = '1.1.1-rc1'
   glide = '3.7.0'
   gson = '2.8.0'
-  kotlin = '1.1.2-4'
+//  kotlin = '1.1.2-4'
   okhttp = '3.7.0'
   retrofit = '2.2.0'
   stetho = '1.5.0'
-  dagger = '2.11-rc2'
+  dagger = '2.15'
   rxandroid = '2.0.1'
   rxbinding = '2.0.0'
   rxjava = '2.1.0'
@@ -38,7 +38,7 @@ ext {
       okhttp        : "com.squareup.okhttp3:okhttp:$okhttp",
       okhttpLogging : "com.squareup.okhttp3:logging-interceptor:$okhttp",
       glide         : "com.github.bumptech.glide:glide:$glide",
-      kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin",
+//      kotlin         : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin",
       stetho             : "com.facebook.stetho:stetho:$stetho",
       timber        : "com.jakewharton.timber:timber:$timber",
       butterknife        : "com.jakewharton:butterknife:$butterknife",
