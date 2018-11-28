@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 //apply plugin: 'findbugs'
 apply plugin: 'kotlin-android-extensions'
 
@@ -93,7 +94,8 @@ dependencies {
   implementation dependencies.customTabs
 
   //firebase
-  implementation dependencies.firebaseCrash
+  implementation deps.google.firebase
+  implementation (deps.track.crashlytics) { transitive = true }
 
   //networking
 
@@ -109,8 +111,6 @@ dependencies {
   implementation dependencies.glide
   //DI
   implementation dependencies.timber
-  implementation dependencies.butterknife
-  kapt dependencies.butterknifeCompiler
 
   implementation dependencies.dagger
   implementation dependencies.daggerAndroid

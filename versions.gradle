@@ -24,7 +24,6 @@ def versions = [
         //other
         rxjava           : '2.2.4',
         bindingCollection: '2.2.0',
-        butterknife      : '8.5.1',
         rxbinding        : '2.0.0',
         //debug
         leakcanary       : '1.6.2',
@@ -44,7 +43,7 @@ deps.support = [
         annotations : "com.android.support:support-annotations:$versions.support"
 ]
 deps.google = [
-        firebase : "com.google.firebase:firebase-core:16.0.5",
+        firebase : "com.google.firebase:firebase-core:16.0.4",
         dagger   : "com.google.dagger:dagger:$versions.dagger",
         gson     : "com.google.code.gson:gson:2.8.5"
 ]
@@ -52,7 +51,6 @@ deps.arch = [
         lifecycle : "android.arch.lifecycle:extensions:$versions.arch",
         room      : "android.arch.persistence.room:runtime:$versions.room",
         roomRx    : "android.arch.persistence.room:rxjava2:$versions.room",
-
 ]
 deps.rx = [
         rxjava     : "io.reactivex.rxjava2:rxjava:2.2.0",
@@ -71,7 +69,6 @@ deps.net = [
         retrofitRx : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
         okhttp      : "com.squareup.okhttp3:okhttp:$versions.okhttp",
         okhttpLogging : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
-
 ]
 deps.androidx = [
         ktx: "androidx.core:core-ktx:0.3"
@@ -104,7 +101,6 @@ deps.kapt = [
         room       : "android.arch.persistence.room:compiler:$versions.room",
         dagger     : "com.google.dagger:dagger-compiler:$versions.dagger",
         daggerAndroid: "com.google.dagger:dagger-android-processor:$versions.dagger",
-        butterknife: "com.jakewharton:butterknife-compiler:$versions.butterknife",
 ]
 deps.test = [
         espresso: "com.android.support.test.espresso:espresso-core:3.0.2",

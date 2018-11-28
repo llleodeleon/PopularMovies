@@ -3,8 +3,8 @@ package com.leodeleon.popmovies
 import android.app.Activity
 import android.app.Application
 import android.util.Log
+import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
-import com.google.firebase.crash.FirebaseCrash
 import com.leodeleon.popmovies.di.AppInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -42,13 +42,13 @@ class PopMoviesApplication : Application(), HasActivityInjector {
         return
       }
 
-      FirebaseCrash.log(message)
+      Crashlytics.log(message)
 
       if (t != null) {
         if (priority == Log.ERROR) {
-          FirebaseCrash.report(t)
+          Crashlytics.logException(t)
         } else if (priority == Log.WARN) {
-          FirebaseCrash.report(t)
+          Crashlytics.logException(t)
         }
       }
     }

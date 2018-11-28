@@ -5,30 +5,22 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$build_versions.plugin"
         classpath "com.google.gms:google-services:$build_versions.gms"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$build_versions.kotlin"
+        classpath "io.fabric.tools:gradle:1.26.1"
     }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://jitpack.io" }
-
-    }
+    addRepos(repositories)
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    androidCompileSdkVersion = 27
-    androidBuildToolsVersion = '27.0.3'
-    androidMinSdkVersion = 16
-    androidTargetSdkVersion = 27
 }
