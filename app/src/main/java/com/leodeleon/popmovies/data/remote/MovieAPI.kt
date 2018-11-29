@@ -9,12 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-class MovieAPI(retrofit: Retrofit) {
-  private val movieService: MovieService
-
-  init {
-    movieService = retrofit.create(MovieService::class.java)
-  }
+class MovieAPI(val movieService: MovieService) {
 
   fun getPopularMovies(page: Int): Single<MovieResponse> {
     return movieService.getPopularMovies(page)
@@ -33,7 +28,7 @@ class MovieAPI(retrofit: Retrofit) {
   }
 
 
-  internal interface MovieService {
+  interface MovieService {
     @GET("movie/popular") fun getPopularMovies(@Query("page") page: Int): Single<MovieResponse>
 
     @GET("movie/top_rated") fun getTopRatedMovies(@Query("page") page: Int): Single<MovieResponse>

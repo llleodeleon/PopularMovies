@@ -11,11 +11,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class MovieDetailsViewModel @Inject
+class MovieDetailsViewModel
 constructor(
     private val movieRepository: MovieRepository,
     private val movieSubject: PublishSubject<Movie>

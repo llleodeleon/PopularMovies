@@ -1,79 +1,37 @@
 package com.leodeleon.popmovies.feature
 
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.transition.AutoTransition
-import android.transition.Fade
 import android.view.MenuItem
-import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.leodeleon.popmovies.R
-import com.leodeleon.popmovies.feature.view.MoviePagerFragment
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-import javax.inject.Inject
+import com.leodeleon.popmovies.util.listen
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
-  @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-  private val mainFragment: MoviePagerFragment = MoviePagerFragment()
+class MainActivity : AppCompatActivity() {
+  lateinit var host: NavHostFragment
+  private val controller: NavController by lazy {
+    Navigation.findNavController(this, R.id.nav_host)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    supportFragmentManager.beginTransaction()
-        .add(R.id.container, mainFragment)
-        .commit()
+    NavigationUI.setupWithNavController(bottom_bar, controller)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    when (item.itemId) {
-      android.R.id.home -> {
-        onBackPressed()
-        return true
-      }
-    }
-    return super.onOptionsItemSelected(item)
+    val result = super.onOptionsItemSelected(item)
+    return NavigationUI.onNavDestinationSelected(item, controller) || result
   }
 
-  override fun onBackPressed() {
-    if (supportFragmentManager.backStackEntryCount == 0) {
-      super.onBackPressed()
-    } else {
-      supportFragmentManager.popBackStackImmediate()
-    }
-  }
-
-  override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-    return dispatchingAndroidInjector
-  }
-
-
-  fun addFragment(fragment: Fragment, sharedElement: View, transitionName: String) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      mainFragment.sharedElementEnterTransition = AutoTransition()
-      mainFragment.sharedElementReturnTransition = AutoTransition()
-      fragment.enterTransition = Fade()
-      fragment.exitTransition = Fade()
-      fragment.sharedElementEnterTransition = AutoTransition()
-      fragment.sharedElementReturnTransition = AutoTransition()
-    }
-
-    supportFragmentManager.beginTransaction()
-        .addSharedElement(sharedElement, transitionName)
-        .add(R.id.container, fragment)
-        .addToBackStack(fragment.toString())
-        .commit()
-  }
-
-  fun addFragment(fragment: Fragment) {
-    supportFragmentManager.beginTransaction()
-        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-        .add(R.id.container, fragment)
-        .addToBackStack(fragment.toString())
-        .commit()
+  override fun onSupportNavigateUp(): Boolean {
+    return controller.navigateUp()
   }
 }

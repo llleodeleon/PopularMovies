@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<com.robertlevonyan.views.chip.Chip-->
+    <!--android:id="@+id/view_chip"-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--app:chipText="Comedy"-->
+    <!--app:backgroundColor="@color/colorPrimary"-->
+    <!--app:textColor="@color/white"-->
+    <!--/>-->
+<android.support.design.chip.Chip
+  android:id="@+id/view_chip"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_height="wrap_content"
+  android:layout_width="wrap_content"
+  app:chipBackgroundColor="@color/colorPrimary"
+  android:paddingStart="8dp"
+  android:paddingEnd="8dp"
+  tools:chipText="Comedy"
+  android:textAppearance="@style/Chip"
+  />

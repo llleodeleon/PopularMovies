@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:layout_editor_absoluteX="0dp"
+  tools:layout_editor_absoluteY="25dp">
+
+  <android.support.design.card.MaterialCardView
+    android:id="@+id/cardview"
+    android:layout_width="160dp"
+    android:layout_height="240dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="24dp"
+    android:transitionName="cardview"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+      android:id="@+id/poster"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
+      tools:src="@tools:sample/backgrounds/scenic"
+      />
+  </android.support.design.card.MaterialCardView>
+
+  <TextView
+    android:id="@+id/text_vote_average"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
+    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
+    android:textColor="@color/white"
+    app:layout_constraintBottom_toBottomOf="@+id/cardview"
+    app:layout_constraintHorizontal_bias="0.533"
+    app:layout_constraintLeft_toRightOf="@+id/cardview"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="9.8/10" />
+
+  <TextView
+    android:id="@+id/text_release_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+    app:layout_constraintBottom_toBottomOf="@+id/cardview"
+    app:layout_constraintLeft_toRightOf="@+id/cardview"
+    tools:text="2015" />
+
+  <TextView
+    android:id="@+id/text_runtime"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/text_release_date"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+    app:layout_constraintBottom_toTopOf="@+id/text_release_date"
+    app:layout_constraintLeft_toRightOf="@+id/cardview"
+    tools:text="120min" />
+
+  <TextView
+    android:id="@+id/text_trailers"
+    style="@style/Subtitle"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:text="@string/trailers"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cardview" />
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_view"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/text_trailers"
+    tools:listitem="@layout/view_trailer" />
+
+  <TextView
+    android:id="@+id/label_overview"
+    style="@style/Subtitle"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:text="@string/overview"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/recycler_view" />
+
+  <TextView
+    android:id="@+id/text_overview"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:text="@sample/lorem_ipsum"
+    tools:lines="5"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/label_overview" />
+
+  <TextView
+    android:id="@+id/text_genres"
+    style="@style/Subtitle"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:text="@string/genres"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/text_overview" />
+
+  <android.support.design.chip.ChipGroup
+    android:id="@+id/chip_group"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="48dp"
+    app:chipSpacing="8dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/text_genres"
+    />
+
+</android.support.constraint.ConstraintLayout>

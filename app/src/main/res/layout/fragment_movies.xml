@@ -12,8 +12,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:listitem="@layout/view_movie"
-    app:spanCount="2"
+    app:spanCount="3"
     app:layoutManager="android.support.v7.widget.GridLayoutManager"
+    android:clipToPadding="false"
+    android:paddingTop="8dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
     />
 
   <ProgressBar

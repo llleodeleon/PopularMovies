@@ -22,7 +22,7 @@
         app:expandedTitleGravity="bottom"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         app:maxLines="3"
-        app:title="@string/lorem_ipsum"
+        tools:title="@sample/lorem_ipsum"
         >
       <ImageView
           android:id="@+id/backdrop"
@@ -31,7 +31,7 @@
           android:scaleType="centerCrop"
           android:adjustViewBounds="true"
           android:foreground="@drawable/bg_gradient"
-          tools:src="@drawable/youtube"
+          tools:src="@tools:sample/backgrounds/scenic"
           />
       <android.support.v7.widget.Toolbar
           android:id="@+id/toolbar"
