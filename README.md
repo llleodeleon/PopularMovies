@@ -1,6 +1,6 @@
-#Pop Movies
+# Pop Movies
 
-##Project Overview
+## Project Overview
 Most of us can relate to kicking back on the couch and enjoying a movieDetail with friends and family.
 This app allow users to discover the most popular movies playing. 
 
@@ -8,7 +8,7 @@ This app allow users to discover the most popular movies playing.
 ![Screenshot 2](screenshot-2.png)
 ![Screenshot 3](screenshot-3.png)
 
-##This app does:
+## This app does:
 
 * Present the user with a grid arrangement of movieDetail posters upon launch.
 * Allow your user to change sort order via a setting:
@@ -20,13 +20,13 @@ This app allow users to discover the most popular movies playing.
 	* user rating (called vote_average in the api)
 	* release date
 
-##How to build
+## How to build
 This app utilises the following API's: 
 
 * [The Movie DB] (https://developers.themoviedb.org/3/getting-started)
 * [Youtube Data v3](https://developers.google.com/youtube/v3/)
 
-Create the API keys in both services and put them in you local **gradle.properties** file:
+Create the API keys in both services and put them in your local **gradle.properties** file:
 
 Windows: C:\Users\\**YOUR-USERNAME**\\.gradle\gradle.properties
 
